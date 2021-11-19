@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { css } from "styled-components";
+import { css, createGlobalStyle } from "styled-components";
 import './components.css';
 import {getHouseDetails} from "./HouseDetails.js"
 import {BirthLagna} from  "./BirthLagna.js"
@@ -22,7 +22,8 @@ class Chart extends React.Component {
       moonProps: props.moonProps,
       ketuProps: props.ketuProps,
       saturnProps: props.saturnProps,
-      ascProps: props.ascProps,      
+      ascProps: props.ascProps,
+      housesProps: props.housesProps,       
     };
     this.handler = this.handler.bind(this);
     this.handlerBirthLagna = this.handlerBirthLagna.bind(this);
@@ -33,11 +34,11 @@ class Chart extends React.Component {
     })
   }
 
-  handlerBirthLagna(date, asc, planetData) {
-    console.log("date, asc planets: ", date, asc, planetData);
+  handlerBirthLagna(date, planetData) {
+    console.log("date, asc planets: ", date, planetData);
+
     this.setState({
         date: date,
-        asc: asc,
         sunProps: {"name": "Sun", "angle": planetData[1]+"deg"},
         moonProps: {"name": "Moon", "angle": planetData[2]+"deg"},
         mercuryProps: {"name": "Mercury", "angle": planetData[3]+"deg"},
@@ -47,8 +48,7 @@ class Chart extends React.Component {
         saturnProps: {"name": "Saturn", "angle": planetData[7]+"deg"},
         rahuProps: {"name": "Rahu", "angle": planetData[11]+"deg"},
         ketuProps: {"name": "Ketu", "angle": planetData[12]+"deg"},
-        ascProps: {"name": "ASC", "angle": planetData[13]+"deg"},
-
+        ascProps: {"name": "ASC", "angle": planetData[13]},
     })
   } 
   render() {
@@ -71,7 +71,7 @@ class Chart extends React.Component {
         <div className="chart">
           <OverlapGroupChart>
             <Zodiac style={{ backgroundImage: `url(${zodiac})` }}></Zodiac>
-            <Houses handler = {this.handler} data = {housesProps} />
+            <Houses handler = {this.handler} angle={this.state.ascProps.angle} data = {this.state.housesProps} />
             <Asc {...this.state.ascProps}/>
             <Planets>
               <OverlapGroup13>
@@ -112,7 +112,7 @@ export const ValignTextMiddle = css`
 export const RobotoNormalWhite176px = css`
   color: var(--white);
   font-family: var(--font-family-roboto);
-  font-size: 18px; //var(--font-size-m2);
+  font-size: 20px;//var(--font-size-m2);
   font-weight: 400;
   font-style: normal;
 `;
@@ -120,7 +120,7 @@ export const RobotoNormalWhite176px = css`
 export const RobotoNormalWhite131px = css`
   color: var(--white);
   font-family: var(--font-family-roboto);
-  font-size: 12px; //var(--font-size-xs);
+  font-size: 12px; var(--font-size-xs);
   font-weight: 400;
   font-style: normal;
 `;
@@ -206,7 +206,7 @@ class Houses extends React.Component {
         <OverlapGroup12>
           {this.props.data.map((props) => {
             return (
-            <HouseV2 handler = {this.props.handler} {...props}/>)
+            <HouseV2 angle={this.props.angle} handler = {this.props.handler} {...props}/>)
           })}
           </OverlapGroup12>
           </HousesStyle>);
@@ -232,10 +232,10 @@ const OverlapGroup12 = styled.div`
 
 class HouseV2 extends React.Component {
   render() {
-    const { handler, attrib1, value1, attrib2, value2, attrib3, value3, className } = this.props;
+    const { angle, handler, attrib1, value1, attrib2, value2, attrib3, value3, className } = this.props;
 
     return (
-      <HouseStyle handler= {handler} className={`house ${className}`}>
+      <HouseStyle handler= {handler}  angle={angle} className={`house ${className}`}>
         <OverlapGroupHouseAtrib  onClick= {() => handler(className) } className="overlap-group">
           <Attrib3 className="attrib3">
             {attrib3 + ":" + value3}
@@ -269,54 +269,53 @@ const HouseStyle = styled.div`
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
-  //transform: rotate(0deg);
+  //transform: rotate(30deg);
   transform: unset;
 
   &.house.house1 {
-    transform: rotate(0deg) translate(-400px);
+    transform:   rotate(${props => props.angle ? (props.angle + 0) + "deg": "0deg"}) rotate(0deg)  translate(-400px);
   }
   &.house.house2 {
-    transform: rotate(30deg) translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 30) + "deg": "0deg"})  translateX(-400px);
   }
   &.house.house3 {
-    transform: rotate(60deg) translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 60) + "deg": "0deg"}) translateX(-400px);
   }
   &.house.house4 {
-    transform: rotate(90deg) translateX(-400px);
-  }
-
-  &.house.house11 {
-    transform: rotate(-60deg) translateX(-400px);
-  }
-
-  &.house.house10 {
-    transform: rotate(-90deg) translateX(-400px);
-  }
-
-  &.house.house9 {
-    transform: rotate(-120deg) translateX(-400px);
-  }
-
-  &.house.house8 {
-    transform: rotate(-150deg) translateX(-400px);
-  }
-
-  &.house.house7 {
-    transform: rotate(180deg) translateX(-400px);
-  }
-
-  &.house.house6 {
-    transform: rotate(150deg) translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 90) + "deg": "0deg"}) translateX(-400px);
   }
 
   &.house.house5 {
-    transform: rotate(120deg) translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 120) + "deg": "0deg"}) translateX(-400px);
+  }
+
+  &.house.house6 {
+    transform:  rotate(${props => props.angle ? (props.angle + 150) + "deg": "0deg"}) translateX(-400px);
   }
 
 
+  &.house.house7 {
+    transform:  rotate(${props => props.angle ? (props.angle + 180) + "deg": "0deg"}) translateX(-400px);
+  }
+
+  &.house.house8 {
+    transform:  rotate(${props => props.angle ? (props.angle  -150) + "deg": "0deg"}) translateX(-400px);
+  }
+
+  &.house.house9 {
+    transform:  rotate(${props => props.angle ? (props.angle -120) + "deg": "0deg"}) translateX(-400px);
+  }
+
+  &.house.house10 {
+    transform:  rotate(${props => props.angle ? (props.angle - 90) + "deg": "0deg"}) translateX(-400px);
+  }
+
+  &.house.house11 {
+    transform:  rotate(${props => props.angle ? (props.angle - 60) + "deg": "0deg"}) translateX(-400px);
+  }
 
   &.house.house12 {
-    transform: rotate(-30deg) translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle - 30) + "deg": "0deg"}) translateX(-400px);
   }
 `;
 
@@ -409,7 +408,7 @@ const Asc1 = styled.div`
   border-radius: 38.89px;
   overflow: hidden;
   opacity: 0.7;
-  transform: rotate(${props => props.angle ? props.angle: "0deg"}) translate(300px);
+  transform: rotate(${props => props.angle ? props.angle +"deg": "0deg"}) translate(-300px);
   //transform: rotate(${props => "0deg"}) translate(-300px);
 
 `;
@@ -436,7 +435,7 @@ const Planet = styled.div`
   //align-items: flex-end;
   //min-width: 642px;
   //transform: rotate(0deg);
-  transform: rotate(${props => props.angle ? props.angle: "0deg"});
+  transform: rotate(${props => props.angle ? props.angle : "0deg"});
 `;
 
 class Sun extends React.Component {
@@ -947,7 +946,7 @@ const HouseDetailContainer = styled.div`
 
 const SidePanel = styled.div`
   font-family: var(--font-family-roboto);
-  font-size: 18px; //var(--font-size-m2);
+  font-size: var(--font-size-m2);
   width: 100%;
   height: 100%;
   overflow-y: auto;
@@ -1160,8 +1159,7 @@ const saturnData = {
 
 const ascData = {
   name: "ASC",
-  angle: "0deg",
-
+  angle: 180,
 };
 
 

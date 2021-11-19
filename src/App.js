@@ -2,6 +2,8 @@ import React from 'react';
 //import logo from './logo.svg';
 import './App.css';
 import {Chart, chartData} from './components.js'
+
+
 class App extends React.Component {
 
   componentDidMount() {

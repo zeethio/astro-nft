@@ -37,15 +37,15 @@ class BirthLagna extends React.Component {
         //planetPosition1 = calPlanetPosition2( 1964, 6, 25, 20, 0, 16, 82 );        
         planetPosition = calPlanetPosition2( year, month, day, hours, minutes, longitude, latitude );        
 
-        this.props.handler(0, date, planetPosition)
+        this.props.handler(date, planetPosition)
 
     }    
     componentDidMount() {
       console.log('componentDidMount() lifecycle');
-      const script = document.createElement("script");
-      script.src="https://maps.googleapis.com/maps/api/js?&v=3.exp&libraries=geometry,drawing,places";
-      script.async = true;
-      document.body.appendChild(script);      
+      //const script = document.createElement("script");
+      //script.src="https://maps.googleapis.com/maps/api/js?&v=3.exp&libraries=geometry,drawing,places";
+      //script.async = true;
+      //document.body.appendChild(script);      
     }
     render() {
       return (
