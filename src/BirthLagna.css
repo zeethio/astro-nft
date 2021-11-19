@@ -1,0 +1,10 @@
+.BirthLagna {
+    display: flex;
+    padding: 2px 2px;
+    margin: 8px;    
+  }
+  
+  .CustomDatePicker {
+    color: white;
+    background: rgba(231, 230, 226, 0.1)
+  }
