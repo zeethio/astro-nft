@@ -237,15 +237,16 @@ class HouseV2 extends React.Component {
     return (
       <HouseStyle handler= {handler}  angle={angle} className={`house ${className}`}>
         <OverlapGroupHouseAtrib  onClick= {() => handler(className) } className="overlap-group">
-          <Attrib3 className="attrib3">
-            {attrib3 + ":" + value3}
-          </Attrib3>
+          <Attrib1 className="attrib1">
+            {attrib1}
+          </Attrib1>
+
           <Attrib2 className="attrib2">
             {attrib2 + ":" + value2}
           </Attrib2>
-          <Attrib1 className="attrib1">
-            {attrib1 + ":" + value1}
-          </Attrib1>
+          <Attrib3 className="attrib3">
+            {attrib3 + ":" + value3}
+          </Attrib3>
           {/*
           <Zone
             className="zone-1"
@@ -330,9 +331,18 @@ const OverlapGroupPlanet = styled.div`
 const OverlapGroupHouseAtrib = styled.div`
   ${RobotoNormalWhite176px}
   width: 150px;
-  height: 120px;
+  height: 80px;
   position: relative;
   z-index: 2;
+  border:  2px solid palevioletred;
+  border-radius: 10px;
+  flex-flow: column wrap;
+  flex-grow: 0;
+  justify-content: space-between;
+  padding: 1em;
+  overflow-x: hidden;
+  overflow-y: hidden;
+
   &:hover {
     background: rgba(144, 144, 144, 0.1);
   }
@@ -342,8 +352,8 @@ const OverlapGroupHouseAtrib = styled.div`
 const Attrib3 = styled.div`
   ${ValignTextMiddle}
   position: relative;
-  width: 106px;
-  height: 37px;
+  //width: 106px;
+  //height: 37px;
   /*top: 5px;
   left: 80px;*/
   //transform: rotate(-90.0deg);
@@ -353,9 +363,10 @@ const Attrib3 = styled.div`
 
 const Attrib2 = styled.div`
   ${ValignTextMiddle}
+  font-size: 18px;//var(--font-size-s);
   position: relative;
-  width: 106px;
-  height: 37px;
+  //width: 106px;
+  //height: 37px;
   /*top: 5px;
   left: 50px; */
   //transform: rotate(-90.0deg);
@@ -365,9 +376,15 @@ const Attrib2 = styled.div`
 
 const Attrib1 = styled.div`
   ${ValignTextMiddle}
+  font-family: var(--font-family-roboto);
+  color: rgb(190, 190, 0); 
+  font-size: 20px;//var(--font-size-s);
+  font-weight: 600;
+  font-style: normal;
+
   position: relative;
-  width: 106px;
-  height: 47px;
+  //width: 106px;
+  //height: 47px;
   /*top: 5px;
   left: 20px;*/
   //transform: rotate(-90deg);
@@ -961,7 +978,7 @@ const SidePanel = styled.div`
 `;
 
 const house1Data = {
-    attrib1: "Self-esteem",
+    attrib1: "House-1",
     attrib2: "Charisma",
     attrib3: "Confidence",
     value1: 5,
@@ -972,7 +989,7 @@ const house1Data = {
 };
 
 const house2Data = {
-    attrib1: "Wealth",
+    attrib1: "House-2",
     attrib3: "Inheritance",
     attrib2: "Speech",
     value1: 5,
@@ -983,9 +1000,9 @@ const house2Data = {
 };
 
 const house3Data = {
-    attrib3: "Skills",
-    attrib2: "Journeys",
-    attrib1: "Siblings",
+  attrib1: "House-3",
+  attrib2: "Journeys",
+  attrib3: "Skills",
     value1: 5,
     value2: 3,
     value3: 1,
@@ -994,9 +1011,10 @@ const house3Data = {
 };
 
 const house4Data = {
-    attrib3: "Home",
+    attrib1: "House-4",
     attrib2: "Education",
-    attrib1: "Emotions",
+    attrib3: "Home",
+
     value1: 5,
     value2: 3,
     value3: 1,
@@ -1005,8 +1023,8 @@ const house4Data = {
 };
 
 const house5Data = {
-    attrib1: "Children",
-    attrib3: "Devotion",
+    attrib1: "House-5",
+    attrib3: "Children",
     attrib2: "Recreation",
     value1: 5,
     value2: 3,
@@ -1016,10 +1034,10 @@ const house5Data = {
 };
 
 const house6Data = {
-    attrib1: "Litigations",
+    attrib1: "House-6",
     attrib2: "Enemies",
     attrib3: "Diseases",
-    value1: 5,
+    value1: "",
     value2: 3,
     value3: 1,
 
@@ -1027,14 +1045,18 @@ const house6Data = {
 };
 
 const house7Data = {
-    attrib1: "Longevity",
-    attrib2: "Respect",
+    attrib1: "House-7",
+    attrib2: "Longevity",
     attrib3: "Passion",
     className: "house7",
+    value1: "",
+    value2: 3,
+    value3: 1,
+
 };
 
 const house8Data = {
-    attrib1: "Longevity",
+    attrib1: "House-8",
     attrib3: "Inheritance",
     attrib2: "Suffering",
     value1: 5,
@@ -1045,8 +1067,8 @@ const house8Data = {
 };
 
 const house9Data = {
-    attrib1: "Career",
-    attrib2: "Luck",
+    attrib1: "House-9",
+    attrib2: "Career",
     attrib3: "Prosperity",
     value1: 5,
     value2: 3,
@@ -1056,7 +1078,7 @@ const house9Data = {
 };
 
 const house10Data = {
-    attrib2: "Profession",
+    attrib1: "House-10",
     attrib2: "Fame",
     attrib3: "Power",
     value1: 5,
@@ -1067,8 +1089,8 @@ const house10Data = {
 };
 
 const house11Data = {
-    attrib1: "Friends",
-    attrib3: "Hopes",
+    attrib1: "House-11",
+    attrib3: "Friends",
     attrib2: "Earnings",
     value1: 5,
     value2: 3,
@@ -1078,9 +1100,9 @@ const house11Data = {
 };
 
 const house12Data = {
+    attrib1: "House-12",
     attrib3: "Expenses",
     attrib2: "Pleasures",
-    attrib1: "Spirituality",
     value1: 5,
     value2: 3,
     value3: 1,

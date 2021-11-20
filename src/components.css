@@ -20,9 +20,9 @@
     height: 1024px;
     width: 480px;
     align-items: center;
-    padding: 0 0px;
+    padding: 1em;
     width: 100%;
-    flex-grow: 1;
+    flex-grow: 0;
   }
 
   @import url("https://fonts.googleapis.com/css?family=Roboto:400");
