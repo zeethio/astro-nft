@@ -6,6 +6,7 @@ import {getHouseDetails, HousesIntro} from "./HouseDetails.js"
 import {BirthLagna} from  "./BirthLagna.js"
 import parse from "html-react-parser";
 
+const HOUSE_POS = "400px"
 class Chart extends React.Component {
 
   constructor(props) {
@@ -48,7 +49,7 @@ class Chart extends React.Component {
         saturnProps: {"name": "Saturn", "angle": planetData[7]+"deg"},
         rahuProps: {"name": "Rahu", "angle": planetData[11]+"deg"},
         ketuProps: {"name": "Ketu", "angle": planetData[12]+"deg"},
-        ascProps: {"name": "ASC", "angle": planetData[13]},
+        ascProps: {"name": "ASC", "angle": planetData[13] - 90},
     })
   } 
   render() {
@@ -274,49 +275,49 @@ const HouseStyle = styled.div`
   transform: unset;
 
   &.house.house1 {
-    transform:   rotate(${props => props.angle ? (props.angle + 0) + "deg": "0deg"}) rotate(0deg)  translate(-400px);
+    transform:   rotate(${props => props.angle ? (props.angle + 0) + "deg": "0deg"}) rotate(0deg)  translate(400px);
   }
   &.house.house2 {
-    transform:  rotate(${props => props.angle ? (props.angle + 30) + "deg": "0deg"})  translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 30) + "deg": "30deg"})  translateX(400px);
   }
   &.house.house3 {
-    transform:  rotate(${props => props.angle ? (props.angle + 60) + "deg": "0deg"}) translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 60) + "deg": "60deg"}) translateX(400px);
   }
   &.house.house4 {
-    transform:  rotate(${props => props.angle ? (props.angle + 90) + "deg": "0deg"}) translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 90) + "deg": "90deg"}) translateX(400px);
   }
 
   &.house.house5 {
-    transform:  rotate(${props => props.angle ? (props.angle + 120) + "deg": "0deg"}) translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 120) + "deg": "120deg"}) translateX(400px);
   }
 
   &.house.house6 {
-    transform:  rotate(${props => props.angle ? (props.angle + 150) + "deg": "0deg"}) translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 150) + "deg": "150deg"}) translateX(400px);
   }
 
 
   &.house.house7 {
-    transform:  rotate(${props => props.angle ? (props.angle + 180) + "deg": "0deg"}) translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 180) + "deg": "180deg"}) translateX(400px);
   }
 
   &.house.house8 {
-    transform:  rotate(${props => props.angle ? (props.angle  -150) + "deg": "0deg"}) translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle  -150) + "deg": "-150deg"}) translateX(400px);
   }
 
   &.house.house9 {
-    transform:  rotate(${props => props.angle ? (props.angle -120) + "deg": "0deg"}) translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle -120) + "deg": "-120deg"}) translateX(400px);
   }
 
   &.house.house10 {
-    transform:  rotate(${props => props.angle ? (props.angle - 90) + "deg": "0deg"}) translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle - 90) + "deg": "-90deg"}) translateX(400px);
   }
 
   &.house.house11 {
-    transform:  rotate(${props => props.angle ? (props.angle - 60) + "deg": "0deg"}) translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle - 60) + "deg": "-60deg"}) translateX(400px);
   }
 
   &.house.house12 {
-    transform:  rotate(${props => props.angle ? (props.angle - 30) + "deg": "0deg"}) translateX(-400px);
+    transform:  rotate(${props => props.angle ? (props.angle - 30) + "deg": "-30deg"}) translateX(400px);
   }
 `;
 
@@ -346,7 +347,7 @@ const OverlapGroupHouseAtrib = styled.div`
   &:hover {
     background: rgba(144, 144, 144, 0.1);
   }
-  transform: rotate(-90.0deg);
+  transform: rotate(90.0deg);
 `;
 
 const Attrib3 = styled.div`
@@ -425,7 +426,7 @@ const Asc1 = styled.div`
   border-radius: 38.89px;
   overflow: hidden;
   opacity: 0.7;
-  transform: rotate(${props => props.angle ? props.angle +"deg": "0deg"}) translate(-300px);
+  transform: rotate(${props => props.angle ? props.angle +"deg": "0deg"}) translate(300px);
   //transform: rotate(${props => "0deg"}) translate(-300px);
 
 `;
@@ -1181,7 +1182,7 @@ const saturnData = {
 
 const ascData = {
   name: "ASC",
-  angle: 180,
+  angle: 0,
 };
 
 
