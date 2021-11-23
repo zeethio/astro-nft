@@ -1,10 +1,28 @@
 .BirthLagna {
     display: flex;
     padding: 2px 2px;
-    margin: 8px;    
+    margin: 8px;
+    align-items: center;    
   }
   
+  .BirthLagnaBody {
+    align-items: center;    
+  }
   .CustomDatePicker {
     color: white;
     background: rgba(231, 230, 226, 0.5)
+  }
+
+  .GoogleMapContainer {
+    height: 40vh;
+    margin: 10px 50px;
+    filter: drop-shadow(-1px 5px 3px #ccc);
+  }
+
+  .TimezoneWrapper {
+    font-size: 24px;
+    margin-top: 15px;
+    background-color: darkslateblue;
+    color: darkslategray;
+    text-align: center;
   }

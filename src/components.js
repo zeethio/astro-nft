@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { css, createGlobalStyle } from "styled-components";
 import './components.css';
-import {getHouseDetails} from "./HouseDetails.js"
+import {getHouseDetails, HousesIntro} from "./HouseDetails.js"
 import {BirthLagna} from  "./BirthLagna.js"
-
+import parse from "html-react-parser";
 
 class Chart extends React.Component {
 
@@ -12,7 +12,7 @@ class Chart extends React.Component {
     super(props);
     this.state = {
       date: new Date(), 
-      houseDetail:"Select a Sign",
+      houseDetail: HousesIntro,
       sunProps: props.sunProps,
       mercuryProps: props.mercuryProps,
       venusProps: props.venusProps,
@@ -84,7 +84,7 @@ class Chart extends React.Component {
                
                 <Rahu {...this.state.rahuProps} />
                 <Mars {...this.state.marsProps} />
-                <Jupiter {...jupiterProps} />
+                <Jupiter {...this.state.jupiterProps} />
                 <Moon {...this.state.moonProps} />
                 <Ketu {...this.state.ketuProps} />
                 <Saturn {...this.state.saturnProps} />
@@ -95,7 +95,7 @@ class Chart extends React.Component {
         </div>
         <div className="side-panel">
           <BirthLagna handler={this.handlerBirthLagna} ></BirthLagna>
-          <HouseDetailContainer> {this.state.houseDetail}</HouseDetailContainer>
+          <HouseDetailContainer> {parse(this.state.houseDetail)}</HouseDetailContainer>
         </div>
       </div>
     );
