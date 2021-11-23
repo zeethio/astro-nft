@@ -32,6 +32,9 @@ class BirthLagna extends React.Component {
         this.togleMap = this.togleMap.bind(this);
         this.setSelectedTimezone = this.setSelectedTimezone.bind(this);
         this.updatePlanets = this.updatePlanets.bind(this);
+        this.getLatitude = this.getLatitude.bind(this);
+        this.getLongitude = this.getLongitude.bind(this);
+        this.validateInputs = this.validateInputs.bind(this);
     }
 
     togleMap(){
@@ -46,6 +49,45 @@ class BirthLagna extends React.Component {
         }
 
     }
+    
+    validateInputs(date, timeZone, latitude, longitude) {
+
+        if(date == null) {
+            console.log("Invalid Date:" + date)
+            return false; 
+        }
+        if(timeZone == 0 || timeZone.offset == undefined) {
+            console.log("Invalid timeZone:" + timeZone)
+            return false; 
+        }
+        if(latitude === null) {
+            console.log("Invalid Latitude:" + latitude);
+            //Fallthrough
+        }
+        if(longitude === null) {
+            console.log("Invalid longitude:" + longitude)
+            //Fallthrough
+        }
+        return true;
+    }
+    getLatitude(latitude) {
+        var value = 0.0;
+        try {
+            value = parseFloat(latitude);
+        } catch(error) {
+            console.log(error);
+        }
+        return value;
+    }
+    getLongitude(longitude) {
+        var value = 0.0;
+        try {
+            value = parseFloat(longitude);
+        } catch(error) {
+            console.log(error);
+        }
+        return value;
+    }    
     adjustTimeZone(date, timeZone) {
         // pickerTime localTime - Timezone offset equalent to time calculated from picker display
         // equivalent to UTC time
@@ -57,15 +99,16 @@ class BirthLagna extends React.Component {
         console.log("jstTime:" + jstTime + " jstZonedDate:" + jstZonedDate)
         return jstZonedDate;
     }
-    updatePlanets(localDate, timeZone, lat, long) {
+
+    updatePlanets(localDate, timeZone, latitude, longitude) {
         var date = this.adjustTimeZone(localDate, timeZone)
         var year = date.getFullYear();
         var month = date.getMonth();
         var day = date.getDate();
         var hours = date.getHours();
         var minutes = date.getMinutes();
-        var longitude = parseInt(this.state.longitude);
-        var latitude = parseInt(this.state.latitude);
+        var latitude = this.getLatitude(latitude);
+        var longitude = this.getLongitude(longitude);
         console.log(localDate);
         console.log(date);
         console.log("year:" + year + " month:" + month + " day:" + day + " hour:" + hours + " minutes:" + minutes + " lat:"+  latitude + " long:" + longitude);
@@ -73,35 +116,47 @@ class BirthLagna extends React.Component {
         //planetPosition1 = calPlanetPosition2( 1964, 6, 25, 20, 0, 16, 82 );    
         planetPosition = calPlanetPosition2( year, month, day, hours, minutes, longitude, latitude );        
 
-        this.props.handler(date, planetPosition)
+        this.props.handler(date, planetPosition);
     }
+    
     handlerDateTime(date) {
         console.log(date);
-        if ( date != null ) {
+        if ( this.validateInputs(date, this.state.timeZone, this.state.latitude, this.state.longitude)) {
             this.setState({
                 date: date
             })
-            this.updatePlanets(date, this.state.timeZone, this.state.latitude, this.state.longitude)
+            this.updatePlanets(date, this.state.timeZone, this.state.latitude, this.state.longitude );
         }
     } 
 
     handlerLocatoin(event){
         console.log(event.target.name + " : " + event.target.value);
+        var latitude = this.state.latitude;
+        var longitude = this.state.longitude;
+
         if(event.target.name == "longitude") {
-            this.setState({longitude: event.target.value })
+            longitude = event.target.value;
+            this.setState({longitude: longitude })
         } if(event.target.name == "latitude") {
-            this.setState({latitude: event.target.value })
+            latitude = event.target.value;
+            this.setState({latitude: latitude })
         }
-    }
+        if ( this.validateInputs(this.state.date, this.state.timeZone, latitude, longitude)) {
+            this.updatePlanets( this.state.date, this.state.timeZone, latitude, longitude );
+        }
+    }        
 
     handlerMapLocatoin(longitude, latitude, timeZone){
         console.log("longitude: " + longitude + " latitude:" + latitude +   "timeZone: " + timeZone);
-        this.setState({longitude: longitude,  latitude: latitude})
+        this.setState({longitude: longitude,  latitude: latitude, timeZone: timeZone});
     }
 
     setSelectedTimezone(timeZone) {
         console.log(timeZone);
         this.setState({timeZone: timeZone});
+        if ( this.validateInputs(this.state.date, timeZone, this.state.latitude, this.state.longitude)) {
+            this.updatePlanets(this.state.date, timeZone, this.state.latitude, this.state.longitude)
+        }        
     }
 
     componentDidMount() {
