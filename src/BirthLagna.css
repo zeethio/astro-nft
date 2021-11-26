@@ -2,7 +2,7 @@
     display: flex;
     padding: 2px 2px;
     margin: 8px;
-    align-items: center;    
+    align-items: center;
   }
   
   .BirthLagnaBody {
@@ -16,6 +16,7 @@
   .GoogleMapContainer {
     height: 40vh;
     margin: 10px 50px;
+    overflow: hidden;
     filter: drop-shadow(-1px 5px 3px #ccc);
   }
 

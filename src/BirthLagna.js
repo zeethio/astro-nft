@@ -147,8 +147,11 @@ class BirthLagna extends React.Component {
     }        
 
     handlerMapLocatoin(longitude, latitude, timeZone){
-        console.log("longitude: " + longitude + " latitude:" + latitude +   "timeZone: " + timeZone);
-        this.setState({longitude: longitude,  latitude: latitude, timeZone: timeZone});
+        console.log("longitude: " + longitude + " latitude:" + latitude );
+        this.setState({longitude: longitude,  latitude: latitude});
+        if ( this.validateInputs(this.state.date, this.state.timeZone, latitude, longitude)) {
+            this.updatePlanets( this.state.date, this.state.timeZone, latitude, longitude );
+        }        
     }
 
     setSelectedTimezone(timeZone) {
@@ -177,11 +180,13 @@ class BirthLagna extends React.Component {
                         <Input value={this.state.longitude} name="longitude" placeholder="Longitude" onChange={this.handlerLocatoin} />                    
                         <Button onClick= {this.togleMap}>Google Map</Button>
                         </div>
+                    <div>
                         {useMap && 
                             <div className="GoogleMapContainer">
                                 <GoogleMapWrapper onChangeLocation = {this.handlerMapLocatoin}/>
                             </div>
                         }
+                    </div>  
                     </div>
                 </div>
             </div>

@@ -119,9 +119,9 @@ export const RobotoNormalWhite176px = css`
 `;
 
 export const RobotoNormalWhite131px = css`
-  color: var(--white);
+  color: rgb(200,200,0);
   font-family: var(--font-family-roboto);
-  font-size: 12px; var(--font-size-xs);
+  font-size: 16px; //var(--font-size-xs);
   font-weight: 400;
   font-style: normal;
 `;
@@ -475,9 +475,8 @@ class Sun2 extends React.Component {
 
     return (
         <OverlapGroupPlanet>
-          <Circle2></Circle2>
-          <Circle1></Circle1>
           <PlanetLabel>{name}</PlanetLabel>
+          <IconPlanet src="icon-sun.svg" />
         </OverlapGroupPlanet>
     );
   }
@@ -493,6 +492,16 @@ const Circle2 = styled.div`
   background-color: var(--falcon);
   border-radius: 2.98px;
 `;
+
+const IconPlanet = styled.img`
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  top: 16px;
+  left: 0px;
+  transform: rotate(-0deg);
+`;
+
 
 const Circle1 = styled.div`
   ${Border14pxTundora}
@@ -536,72 +545,12 @@ class Mercury2 extends React.Component {
     return (
 
         <OverlapGroupPlanet>
-          <Icon></Icon>
           <PlanetLabel>{name}</PlanetLabel>
-          <Line1
-            src="line-1.svg"
-          />
-          <Line3
-            src="line-3.svg"
-          />
-          <Line6
-            src="line-6.svg"
-          />
-          <Line2
-            src="line-2.svg"
-          />
+          <IconPlanet src="icon-mercury.svg" />
         </OverlapGroupPlanet>
     );
   }
 }
-
-const Icon = styled.div`
-  ${Border14pxTundora}
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  top: 4px;
-  left: 12px;
-  border-radius: 12.5px;
-`;
-
-const Line1 = styled.img`
-  position: absolute;
-  width: 6px;
-  height: 3px;
-  top: 4px;
-  left: 30px;
-  transform: rotate(-45deg);
-`;
-
-const Line3 = styled.img`
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  top: 30px;
-  left: 21px;
-  transform: rotate(-45deg);
-`;
-
-const Line6 = styled.img`
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  top: 29px;
-  left: 20px;
-  transform: rotate(-45deg);
-`;
-
-const Line2 = styled.img`
-  position: absolute;
-  width: 4px;
-  height: 7px;
-  top: 0;
-  left: 17px;
-  transform: rotate(-45deg);
-`;
-
-
 
 class Venus extends React.Component {
   render() {
@@ -634,28 +583,13 @@ class Venus2 extends React.Component {
 
     return (
         <OverlapGroupPlanet>
-          <Line5
-            src="line-5.svg"
-          />
-          <Line6
-            src="line-6-1.svg"
-          />
-          <Icon></Icon>
-          <Icon1></Icon1>
           <PlanetLabel>{name}</PlanetLabel>
+          <IconPlanet src="icon-venus.svg" />
         </OverlapGroupPlanet>
     );
   }
 }
 
-const Line5 = styled.img`
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  top: 25px;
-  left: 17px;
-  transform: rotate(-45deg);
-`;
 
 const Icon1 = styled.div`
   ${Border14pxTundora}
@@ -700,24 +634,14 @@ class Rahu2 extends React.Component {
     return (
 
         <OverlapGroupPlanet>
-          <Union
-            src="union.svg"
-          />
           <PlanetLabel>{name}</PlanetLabel>
+          <IconPlanet src="icon-rahu.svg" />
+
         </OverlapGroupPlanet>
 
     );
   }
 }
-
-const Union = styled.img`
-  position: absolute;
-  width: 35px;
-  height: 35px;
-  top: 7px;
-  left: 7px;
-  transform: rotate(-45deg);
-`;
 
 
 class Mars extends React.Component {
@@ -752,11 +676,8 @@ class Mars2 extends React.Component {
 
     return (
         <OverlapGroupPlanet>
-          <Icon></Icon>
-          <Arrow
-            src="arrow.svg"
-          />
           <PlanetLabel>{name}</PlanetLabel>
+          <IconPlanet src="icon-mars.svg" />
         </OverlapGroupPlanet>
     );
   }
@@ -790,35 +711,14 @@ class Jupiter2 extends React.Component {
 
     return (
         <OverlapGroupPlanet>
-          <Vector3
-            src="vector-3.svg"
-          />
-          <Line8
-            src="line-8.svg"
+          <IconPlanet
+            src="icon-jupiter.svg"
           />
           <PlanetLabel>{name}</PlanetLabel>
         </OverlapGroupPlanet>
     );
   }
 }
-
-const Vector3 = styled.img`
-  position: absolute;
-  width: 37px;
-  height: 27px;
-  top: 4px;
-  left: 3px;
-  transform: rotate(15deg);
-`;
-
-const Line8 = styled.img`
-  position: absolute;
-  width: 10px;
-  height: 28px;
-  top: 7px;
-  left: 24px;
-  transform: rotate(15deg);
-`;
 
 
 class Moon extends React.Component {
@@ -838,13 +738,11 @@ class Moon2 extends React.Component {
 
     return (
         <OverlapGroupPlanet>
-          <Circle2
-            src="circle2.svg"
-          />
-          <Circle1
-            src="circle1.svg"
-          />
           <PlanetLabel>{name}</PlanetLabel>
+
+          <IconPlanet
+            src="icon-moon.svg"
+          />
         </OverlapGroupPlanet>
     );
   }
@@ -868,11 +766,9 @@ class Ketu2 extends React.Component {
     const { name } = this.props;
 
     return (
-        <OverlapGroupPlanet>
-          <Union
-            src="union-1.svg"
-          />
+        <OverlapGroupPlanet>      
           <PlanetLabel>{name}</PlanetLabel>
+          <IconPlanet src="icon-ketu.svg" />          
         </OverlapGroupPlanet>
     );
   }
@@ -895,59 +791,13 @@ class Saturn2 extends React.Component {
 
     return (
         <OverlapGroupPlanet>
-          <Icon></Icon>
-          <Line4
-            src="line-4.svg"
-          />
-          <Line7
-            src="line-7.svg"
-          />
-          <Vector1
-            src="vector-1.svg"
-          />
-          <Vector2
-            src="vector-2.svg"
-          />
           <PlanetLabel>{name}</PlanetLabel>
+
+          <IconPlanet src="icon-saturn.svg" />
         </OverlapGroupPlanet>
     );
   }
 }
-const Line4 = styled.img`
-  position: absolute;
-  width: 10px;
-  height: 9px;
-  top: 2px;
-  left: 11px;
-  transform: rotate(45deg);
-`;
-
-const Line7 = styled.img`
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  top: 10px;
-  left: 5px;
-  transform: rotate(45deg);
-`;
-
-const Vector1 = styled.img`
-  position: absolute;
-  width: 20px;
-  height: 11px;
-  top: 19px;
-  left: 11px;
-  transform: rotate(45deg);
-`;
-
-const Vector2 = styled.img`
-  position: absolute;
-  width: 5px;
-  height: 3px;
-  top: 30px;
-  left: 26px;
-  transform: rotate(45deg);
-`;
 
 const HouseDetailContainer = styled.div`
   font-family: var(--font-family-roboto);
