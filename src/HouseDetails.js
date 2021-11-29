@@ -1,3 +1,4 @@
+import {getHouse1Detail} from "./House1Detail";
 
 const TestDetail = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
@@ -20,7 +21,6 @@ const House11Detail = "<h1>House11</h1>" +  TestDetail;
 const House12Detail = "<h1>House12</h1>" +  TestDetail;
 
 const HouseDtails = {
-    "house1": House1Detail,
     "house2": House2Detail,
     "house3": House3Detail,
     "house4": House4Detail,
@@ -35,6 +35,11 @@ const HouseDtails = {
 
 };
 
-export var getHouseDetails = function (className) {
-    return (HouseDtails[className])
+export var getHouseDetails = function (className, planetData) {
+    switch (className) {
+        case "house1":
+            return getHouse1Detail(planetData);
+        default:
+            return (HouseDtails[className]);
+    }
 }

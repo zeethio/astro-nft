@@ -1,0 +1,908 @@
+-
+  var Planets = [
+    {
+        name: "sun",
+        governance: "soul",
+        status: "royal",
+        gender: "male",
+        element: "fire",
+        temperament: "calm",
+        nature: "malefic",
+    },
+    {
+        name: "moon",
+        governance: "mind",
+        status: "royal",
+        gender: "female",
+        element: "water",
+        temperament: "calm",
+        nature: "benefic or malefic",
+    },
+    {
+        name: "mars",
+        governance: "mind",
+        status: "chief",
+        gender: "male",
+        element: "fire",
+        temperament: "inert",
+        nature: "malefic",
+    },
+    {
+        name: "venus",
+        governance: "semen",
+        status: "minister",
+        gender: "female",
+        element: "water",
+        temperament: "dynamic",
+        nature: "benefic",
+    },
+    {
+        name: "mercury",
+        governance: "speach",
+        status: "prince",
+        gender: "neuter",
+        element: "earth",
+        temperament: "dynamic",
+    },
+    {
+        name: "jupiter",
+        governance: "knowledge",
+        status: "minister",
+        gender: "male",
+        element: "space",
+        temperament: "calm",
+        nature: "benefic",
+    },
+    {
+        name: "saturn",
+        governance: "grief",
+        status: "army",
+        gender: "neuter",
+        element: "air",
+        temperament: "inert",
+        nature: "malefic",
+    },
+    {
+        name: "rahu",
+        governance: "fire",
+        status: "army",
+        element: "",
+        temperament: "",
+        nature: "malefic",
+    },
+    {
+        name: "ketu",
+        governance: "water",
+        status: "army",
+        element: "air",
+        temperament: "",
+        nature: "malefic",
+    },
+ ]
+ 
+  const Signs = [
+     {
+        name: "aries",
+        planet: "mars",
+        element: "Fire",
+        nature: "Movable",
+        gender: "Male",
+        varna: "Kshatriya",
+        ascension: "Short",
+        rises: "Hind",
+        direction: "Northern",
+        type: "Quadruped",
+        fertility: "Barren",
+        bodyPart: "Head",
+    },
+    {
+        name: "taurus",
+        planet: "venus",
+        element: "Earth",
+        nature: "Fixed",
+        gender: "Female",
+        varna: "Vaishya",
+        ascension: "Short",
+        rises: "Hind",
+        direction: "Northern",
+        type: "Quadruped",
+        fertility: "Fruiteful",
+        bodyPart: "Face & Throat",
+    },
+    {
+        name: "gemeni",
+        planet: "mercury",
+        element: "Air",
+        nature: "Dual",
+        gender: "Male",
+        varna: "Shudra",
+        ascension: "Short",
+        rises: "Head and Hind",
+        direction: "Northern",
+        type: "Human",
+        fertility: "Barren",
+        bodyPart: "Shoulders & Chest",
+    },
+    {
+        name: "cancer",
+        planet: "moon",
+        element: "Water",
+        nature: "Movable",
+        gender: "Feale",
+        varna: "Brahmin",
+        ascension: "Long",
+        rises: "Head",
+        direction: "Northern",
+        type: "Reptile",
+        fertility: "Fruiteful",
+        bodyPart: "Heart",
+    },
+    {
+        name: "leo",
+        planet: "sun",
+        element: "Fire",
+        nature: "Fixed",
+        gender: "Male",
+        varna: "Kshatriya",
+        ascension: "Long",
+        rises: "Head",
+        direction: "Northern",
+        type: "Quadruped",
+        fertility: "Barren",
+        bodyPart: "Stomach & Upper Abdomen",
+    },
+    {
+        name: "virgo",
+        planet: "mercury",
+        element: "Earth",
+        nature: "Dual",
+        gender: "Female",
+        varna: "Vaishya",
+        ascension: "Long",
+        rises: "Head",
+        direction: "Northern",
+        type: "Human",
+        fertility: "Barren",
+        bodyPart: "Waist & Intestines",
+    },
+    {
+        name: "libra",
+        planet: "Venus",
+        element: "Air",
+        nature: "Movable",
+        gender: "Male",
+        varna: "Shudra",
+        ascension: "Long",
+        rises: "Head",
+        direction: "Southern",
+        type: "Human",
+        fertility: "Moderate",
+        bodyPart: "Below Navel",
+    },
+    {
+        name: "scorpio",
+        planet: "mars",
+        element: "Water",
+        nature: "Fixed",
+        gender: "Female",
+        varna: "Brahmin",
+        ascension: "Long",
+        rises: "Head",
+        direction: "Southern",
+        type: "Reptile",
+        fertility: "Fruiteful",
+        bodyPart: "Genitalia",
+    },
+    {
+        name: "sagittarious",
+        planet: "jupiter",
+        element: "Fire",
+        nature: "Dual",
+        gender: "Male",
+        varna: "Kshatria",
+        ascension: "Long",
+        rises: "Hind",
+        direction: "Southern",
+        type: "Half Human & Half Quadruped",
+        fertility: "Fruiteful",
+        bodyPart: "Thighs",
+    },
+    {
+        name: "capricorn",
+        planet: "saturn",
+        element: "Earth",
+        nature: "Movable",
+        gender: "Female",
+        varna: "Vaishya",
+        ascension: "Short",
+        rises: "Hind",
+        direction: "Southern",
+        type: "Quadruped",
+        fertility: "Moderate",
+        bodyPart: "Knees",
+    },
+    {
+        name: "auarious",
+        planet: "saturn",
+        element: "Ait",
+        nature: "Fixed",
+        gender: "Male",
+        varna: "Shudra",
+        ascension: "Short",
+        rises: "Hind",
+        direction: "Southern",
+        type: "Human",
+        fertility: "Moderate",
+        bodyPart: "Ankles",
+    },
+    {
+        name: "pisces",
+        planet: "jupiter",
+        element: "Water",
+        nature: "Dual",
+        gender: "Male",
+        varna: "Brahmin",
+        ascension: "Short",
+        rises: "Head and Hind",
+        direction: "Southern",
+        type: "Reptile",
+        fertility: "Fruiteful",
+        bodyPart: "Feet",
+    },
+  ]
+
+
+  var House1 = 
+    [
+        {
+            name: "intellect level",
+            signEffect: {"aries": "high", "tarus": "very high"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        {
+            name: "health",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        
+        {
+            name: "appearance",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },         
+        {
+            name: "beauty",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "character",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "purpose of life",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                 
+        {
+            name: "behvior",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                         
+        {
+            name: "physical comforts",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },        
+    ]
+
+  var House2 = 
+    [
+        {
+            name: "intellect level",
+            signEffect: {"aries": "high", "tarus": "very high"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        {
+            name: "health",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        
+        {
+            name: "appearance",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },         
+        {
+            name: "beauty",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "character",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "purpose of life",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                 
+        {
+            name: "behvior",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                         
+        {
+            name: "physical comforts",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },        
+    ]
+
+  var House3 = 
+    [
+        {
+            name: "intellect level",
+            signEffect: {"aries": "high", "tarus": "very high"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        {
+            name: "health",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        
+        {
+            name: "appearance",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },         
+        {
+            name: "beauty",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "character",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "purpose of life",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                 
+        {
+            name: "behvior",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                         
+        {
+            name: "physical comforts",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },        
+    ]
+
+  var House4 = 
+    [
+        {
+            name: "intellect level",
+            signEffect: {"aries": "high", "tarus": "very high"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        {
+            name: "health",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        
+        {
+            name: "appearance",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },         
+        {
+            name: "beauty",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "character",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "purpose of life",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                 
+        {
+            name: "behvior",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                         
+        {
+            name: "physical comforts",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },        
+    ]
+
+  var House5 = 
+    [
+        {
+            name: "intellect level",
+            signEffect: {"aries": "high", "tarus": "very high"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        {
+            name: "health",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        
+        {
+            name: "appearance",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },         
+        {
+            name: "beauty",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "character",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "purpose of life",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                 
+        {
+            name: "behvior",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                         
+        {
+            name: "physical comforts",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },        
+    ]
+
+  var House6 = 
+    [
+        {
+            name: "intellect level",
+            signEffect: {"aries": "high", "tarus": "very high"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        {
+            name: "health",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        
+        {
+            name: "appearance",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },         
+        {
+            name: "beauty",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "character",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "purpose of life",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                 
+        {
+            name: "behvior",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                         
+        {
+            name: "physical comforts",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },        
+    ]
+
+  var House7 = 
+    [
+        {
+            name: "intellect level",
+            signEffect: {"aries": "high", "tarus": "very high"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        {
+            name: "health",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        
+        {
+            name: "appearance",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },         
+        {
+            name: "beauty",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "character",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "purpose of life",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                 
+        {
+            name: "behvior",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                         
+        {
+            name: "physical comforts",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },        
+    ]
+
+  var House8 = 
+    [
+        {
+            name: "intellect level",
+            signEffect: {"aries": "high", "tarus": "very high"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        {
+            name: "health",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        
+        {
+            name: "appearance",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },         
+        {
+            name: "beauty",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "character",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "purpose of life",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                 
+        {
+            name: "behvior",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                         
+        {
+            name: "physical comforts",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },        
+    ]
+
+  var House9 = 
+    [
+        {
+            name: "intellect level",
+            signEffect: {"aries": "high", "tarus": "very high"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        {
+            name: "health",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        
+        {
+            name: "appearance",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },         
+        {
+            name: "beauty",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "character",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "purpose of life",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                 
+        {
+            name: "behvior",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                         
+        {
+            name: "physical comforts",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },        
+    ]
+
+  var House10 = 
+    [
+        {
+            name: "intellect level",
+            signEffect: {"aries": "high", "tarus": "very high"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        {
+            name: "health",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        
+        {
+            name: "appearance",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },         
+        {
+            name: "beauty",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "character",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "purpose of life",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                 
+        {
+            name: "behvior",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                         
+        {
+            name: "physical comforts",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },        
+    ]
+
+  var House11 = 
+    [
+        {
+            name: "intellect level",
+            signEffect: {"aries": "high", "tarus": "very high"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        {
+            name: "health",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        
+        {
+            name: "appearance",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },         
+        {
+            name: "beauty",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "character",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "purpose of life",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                 
+        {
+            name: "behvior",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                         
+        {
+            name: "physical comforts",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },        
+    ]
+
+  var House12 = 
+    [
+        {
+            name: "intellect level",
+            signEffect: {"aries": "high", "tarus": "very high"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        {
+            name: "health",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+        },
+        
+        {
+            name: "appearance",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },         
+        {
+            name: "beauty",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "character",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },
+        {
+            name: "purpose of life",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                 
+        {
+            name: "behvior",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },                         
+        {
+            name: "physical comforts",
+            signEffect: {"aries": "strong", "tarus": "very strong"},
+            planetEffect: {"sun": "fame", "moon": "peace", "mars": "leadership"},
+            
+        },        
+    ]
+  var Houses = [
+     { name: "House1", attribs: House1},
+     { name: "House2", attribs: House2},
+     { name: "House3", attribs: House3},
+     { name: "House4", attribs: House4},
+     { name: "House5", attribs: House5},
+     { name: "House6", attribs: House6},
+     { name: "House7", attribs: House7},
+     { name: "House8", attribs: House8},
+     { name: "House9", attribs: House9},
+     { name: "House10", attribs: House10},
+     { name: "House11", attribs: House11},
+     { name: "House12", attribs: House12},
+  ]
+  
+- let houseNum = 0
+- let signNum = 1;
+- let planetsPos = { "sun": 1, "moon": 1, "mars": 2, "venus": 3, "mercury": 3, "jupiter":7, "saturn": 6, "rahu": 11, "ketu": 5}
+
+- let House = Houses[houseNum]
+- let Sign = Signs[signNum]
+- let rulingPlanet=Sign.planet
+- let trait;
+
+
+mixin signEffect
+      | This #{trait.signEffect[rulingPlanet]} value is due to ruling planet of your house #{rulingPlanet}
+mixin planetEffect
+  eachz Planet in Planets with { separator: '.', last_separator: '.', begin_with_general: '', end:'.' }
+    if (trait.planetEffect[Planet.name] && planetsPos[Planet.name] == signNum)
+      | The positioning of the  #{Planet.name} gives #{trait.planetEffect[Planet.name]}
+
+h1 #{House.name}
+p 
+  eachz traitLT in House.attribs with { separator: '.', last_separator: '.', begin_with_general: 'This house influnces ', end:'.' }
+    - trait = traitLT
+      |  #{trait.name} ,
+
+p
+  eachz traitLT in House.attribs with { separator: '.', last_separator: '.', begin_with_general: '', end:'.' }
+    - trait = traitLT
+      | You #[+syn ("have", "are blessed with" )] #[+syn('good', 'high', 'excellent')] #{trait.name} .  #[+signEffect] . #[+planetEffect]
+

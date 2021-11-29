@@ -24,14 +24,15 @@ class Chart extends React.Component {
       ketuProps: props.ketuProps,
       saturnProps: props.saturnProps,
       ascProps: props.ascProps,
-      housesProps: props.housesProps,       
+      housesProps: props.housesProps,  
+      planetData: "",     
     };
     this.handler = this.handler.bind(this);
     this.handlerBirthLagna = this.handlerBirthLagna.bind(this);
   }
   handler(className) {
     this.setState({
-      houseDetail: getHouseDetails(className)
+      houseDetail: getHouseDetails(className, this.state.planetData)
     })
   }
 
@@ -50,6 +51,7 @@ class Chart extends React.Component {
         rahuProps: {"name": "Rahu", "angle": planetData[11]+"deg"},
         ketuProps: {"name": "Ketu", "angle": planetData[12]+"deg"},
         ascProps: {"name": "ASC", "angle": planetData[13] - 90},
+        planetData: planetData,
     })
   } 
   render() {
