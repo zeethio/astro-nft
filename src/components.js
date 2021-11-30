@@ -8,6 +8,16 @@ import parse from "html-react-parser";
 import {loadAstroNlg, loadRosaeNlg, renderHouseDetail} from "./AstroNlg"
 
 const HOUSE_POS = "400px"
+
+const HousesNum = {
+  "house1": 0, "house2": 1, "house3": 2, "house4": 3, "house5": 4, "house6": 5,
+  "house7": 6, "house8": 7, "house9": 8, "house10": 9, "house11": 10, "house12": 11,
+}
+
+const PlanetsEnum = {
+  "sun": 0, "moon": 1, "mercury": 2, "venus": 3, "mars": 4, "jupiter": 5, "saturn": 6, "rahu": 7, "ketu": 8,
+}
+
 class Chart extends React.Component {
 
   constructor(props) {
@@ -26,7 +36,7 @@ class Chart extends React.Component {
       saturnProps: props.saturnProps,
       ascProps: props.ascProps,
       housesProps: props.housesProps,  
-      planetData: "",
+      planetData: [],
       astroNlgLoaded: false, 
       rosaeNlgLoaded: false,           
     };
@@ -34,13 +44,31 @@ class Chart extends React.Component {
     this.handlerBirthLagna = this.handlerBirthLagna.bind(this);
   }
 
-  handler(className) {
+  angleToSign(angle) {
+    var signNum = Math.round((angle%360)/30);
+    return signNum;
+  }
 
+  getPlanetPos(planetsData) {
+    var planetsPos = {}
+    if(this.state.planetData.length >= 9) {
+      for (var planet in  PlanetsEnum) {
+        var angle = planetsData[PlanetsEnum[planet] + 1];
+        planetsPos[planet] = this.angleToSign(angle);
+      }
+    }
+    return planetsPos;
+  }
+
+  handler(className) {
     var houseDetail = "";
+    var houseNum = HousesNum[className];
+    var planetsPos = this.getPlanetPos( this.state.planetData );
+    var signNum = this.angleToSign(this.state.planetData && this.state.planetData.length > 0 ? this.state.planetData[13] : 0);
     var inputData = { 
-      houseNum: 0, 
-      signNum: 1, 
-      planetsPos: { "sun": 3, "moon": 1, "mars": 2, "venus": 3, "mercury": 3, "jupiter":7, "saturn": 6, "rahu": 11, "ketu": 5}
+      houseNum: houseNum, 
+      signNum: signNum, 
+      planetsPos: planetsPos
     }
 
     if(this.state.rosaeNlgLoaded && this.state.astroNlgLoaded) {
@@ -59,15 +87,15 @@ class Chart extends React.Component {
 
     this.setState({
         date: date,
-        sunProps: {"name": "Sun", "angle": planetData[1]+"deg"},
-        moonProps: {"name": "Moon", "angle": planetData[2]+"deg"},
-        mercuryProps: {"name": "Mercury", "angle": planetData[3]+"deg"},
-        venusProps: {"name": "Venus", "angle": planetData[4]+"deg"},
-        marsProps: {"name": "Mars", "angle": planetData[5]+"deg"},
-        jupiterProps: {"name": "Jupiter", "angle": planetData[6]+"deg"},
-        saturnProps: {"name": "Saturn", "angle": planetData[7]+"deg"},
-        rahuProps: {"name": "Rahu", "angle": planetData[11]+"deg"},
-        ketuProps: {"name": "Ketu", "angle": planetData[12]+"deg"},
+        sunProps: {"name": "Sun", "angle": planetData[1]},
+        moonProps: {"name": "Moon", "angle": planetData[2]},
+        mercuryProps: {"name": "Mercury", "angle": planetData[3]},
+        venusProps: {"name": "Venus", "angle": planetData[4]},
+        marsProps: {"name": "Mars", "angle": planetData[5]},
+        jupiterProps: {"name": "Jupiter", "angle": planetData[6]},
+        saturnProps: {"name": "Saturn", "angle": planetData[7]},
+        rahuProps: {"name": "Rahu", "angle": planetData[11]},
+        ketuProps: {"name": "Ketu", "angle": planetData[12]},
         ascProps: {"name": "ASC", "angle": planetData[13] - 90},
         planetData: planetData,
     })
@@ -485,7 +513,7 @@ const Planet = styled.div`
   //align-items: flex-end;
   //min-width: 642px;
   //transform: rotate(0deg);
-  transform: rotate(${props => props.angle ? props.angle : "0deg"});
+  transform: rotate(${props => props.angle ? props.angle + "deg": "0deg"});
 `;
 
 class Sun extends React.Component {
