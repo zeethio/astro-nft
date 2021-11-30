@@ -5,6 +5,7 @@ import './components.css';
 import {getHouseDetails, HousesIntro} from "./HouseDetails.js"
 import {BirthLagna} from  "./BirthLagna.js"
 import parse from "html-react-parser";
+import {loadAstroNlg, loadRosaeNlg, renderHouseDetail} from "./AstroNlg"
 
 const HOUSE_POS = "400px"
 class Chart extends React.Component {
@@ -25,14 +26,31 @@ class Chart extends React.Component {
       saturnProps: props.saturnProps,
       ascProps: props.ascProps,
       housesProps: props.housesProps,  
-      planetData: "",     
+      planetData: "",
+      astroNlgLoaded: false, 
+      rosaeNlgLoaded: false,           
     };
     this.handler = this.handler.bind(this);
     this.handlerBirthLagna = this.handlerBirthLagna.bind(this);
   }
+
   handler(className) {
+
+    var houseDetail = "";
+    var inputData = { 
+      houseNum: 0, 
+      signNum: 1, 
+      planetsPos: { "sun": 3, "moon": 1, "mars": 2, "venus": 3, "mercury": 3, "jupiter":7, "saturn": 6, "rahu": 11, "ketu": 5}
+    }
+
+    if(this.state.rosaeNlgLoaded && this.state.astroNlgLoaded) {
+      houseDetail = renderHouseDetail(inputData);
+    }
+    console.log(houseDetail);
+
     this.setState({
-      houseDetail: getHouseDetails(className, this.state.planetData)
+      //houseDetail: getHouseDetails(className, this.state.planetData)
+      houseDetail: houseDetail
     })
   }
 
@@ -54,6 +72,18 @@ class Chart extends React.Component {
         planetData: planetData,
     })
   } 
+
+
+  componentDidMount() {
+    console.log('componentDidMount() Chart');
+    loadRosaeNlg(() => {
+      this.setState({rosaeNlgLoaded: true});
+    });
+    loadAstroNlg(() => {
+      this.setState({astroNlgLoaded: true});
+    });      
+
+  }  
   render() {
     const {
       zodiac,
@@ -804,13 +834,14 @@ class Saturn2 extends React.Component {
 const HouseDetailContainer = styled.div`
   font-family: var(--font-family-roboto);
   font-size: 18px; //var(--font-size-m2);
+  text-align: justify;
   width: 100%;
   height: 100%;
   overflow-y: auto;
   position: relative;
   border: 2px solid palevioletred;
   border-radius: 3px;
-  padding: 2px 2px;
+  padding: 1em 1em;
   margin: 1em;
 `;
 

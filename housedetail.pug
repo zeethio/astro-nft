@@ -878,9 +878,21 @@
      { name: "House12", attribs: House12},
   ]
   
-- let houseNum = 0
-- let signNum = 1;
-- let planetsPos = { "sun": 1, "moon": 1, "mars": 2, "venus": 3, "mercury": 3, "jupiter":7, "saturn": 6, "rahu": 11, "ketu": 5}
+- 
+  let InputData_Default = { 
+        houseNum: 0, 
+        signNum: 1, 
+        planetsPos: { "sun": 1, "moon": 1, "mars": 2, "venus": 3, "mercury": 3, "jupiter":7, "saturn": 6, "rahu": 11, "ketu": 5}
+      };
+
+-
+  if (!inputData) {
+    inputData = InputData_Default;
+  }
+
+- let houseNum = inputData.houseNum;
+- let signNum = inputData.signNum;
+- let planetsPos = inputData.planetsPos;
 
 - let House = Houses[houseNum]
 - let Sign = Signs[signNum]
