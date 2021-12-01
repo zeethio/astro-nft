@@ -21,9 +21,9 @@ class BirthLagna extends React.Component {
         this.state = {
             date: new Date(), 
             gmtOffset: 0, 
-            timeZone: 0,
-            longitude:null, 
-            latitude: null,
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            longitude:0, 
+            latitude: 0,
             useGoogleMap: false, 
         };
         this.handlerDateTime = this.handlerDateTime.bind(this);
@@ -163,7 +163,14 @@ class BirthLagna extends React.Component {
     }
 
     componentDidMount() {
-      console.log('componentDidMount() lifecycle');      
+        console.log('componentDidMount() lifecycle');
+        const success = position => {
+            this.setState({latitude: position.coords.latitude, longitude: position.coords.longitude});
+         }
+        const error = ()  => {
+            this.setState({lat: 0, long: 0});
+        }
+        navigator.geolocation.getCurrentPosition(success, error);
     }
     render() {
         const useMap = this.state.useGoogleMap;

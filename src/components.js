@@ -136,7 +136,6 @@ class Chart extends React.Component {
             <Asc {...this.state.ascProps}/>
             <Planets>
               <OverlapGroup13>
-                <Zone></Zone>
                 <Sun {...this.state.sunProps} />
                 
                 <Mercury {...this.state.mercuryProps} />
@@ -248,17 +247,6 @@ const OverlapGroup13 = styled.div`
   margin-top: 0px;
 `;
 
-const Zone = styled.div`
-  ${Border397pxBlack}
-  position: absolute;
-  width: 642px;
-  height: 642px;
-  top: 0px;
-  left: 0px;
-  border-radius: 320.5px;
-`;
-
-
 
 class Houses extends React.Component {
   render() {
@@ -308,11 +296,6 @@ class HouseV2 extends React.Component {
           <Attrib3 className="attrib3">
             {attrib3 + ":" + value3}
           </Attrib3>
-          {/*
-          <Zone
-            className="zone-1"
-            src="zone-1@1x.svg"
-          />*/}
         </OverlapGroupHouseAtrib>
       </HouseStyle>
     );
@@ -452,16 +435,7 @@ const Attrib1 = styled.div`
   text-align: center;
   letter-spacing: 0;
 `;
-/*
-const Zone = styled.img`
-  position: absolute;
-  width: 171px;
-  height: 244px;
-  top: 26px;
-  left: 50px;
-  transform: rotate(30deg);
-`;
-*/
+
 
 
 class Asc extends React.Component {
