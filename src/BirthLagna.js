@@ -6,7 +6,7 @@ import DateTimePicker from 'react-datetime-picker';
 
 import {calPlanetPosition2} from './js_astro/src/astronomy.js'; 
 import {GoogleMapWrapper} from './maps_wrapper/GoogleMapWrapper';
-import TimezoneSelect from "react-timezone-select"
+import TimezoneSelect from "react-timezone-select";
 import { zonedTimeToUtc, utcToZonedTime } from 'date-fns-tz'
 
 const mapStyles = {
@@ -20,7 +20,6 @@ class BirthLagna extends React.Component {
         super(props);
         this.state = {
             date: new Date(), 
-            gmtOffset: 0, 
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             longitude:0, 
             latitude: 0,
@@ -41,13 +40,12 @@ class BirthLagna extends React.Component {
         this.setState({ useGoogleMap: !this.state.useGoogleMap})
     }
 
-    tzOffset(timeZone) {
+    tzOffsetMinutes(timeZone, date) {
         if (timeZone && timeZone.offset) {
-            return timeZone.offset;
+            return timeZone.offset * 60;
         } else {
-            return 0;
+            return  date.getTimezoneOffset();
         }
-
     }
     
     validateInputs(date, timeZone, latitude, longitude) {
@@ -56,10 +54,7 @@ class BirthLagna extends React.Component {
             console.log("Invalid Date:" + date)
             return false; 
         }
-        if(timeZone == 0 || timeZone.offset == undefined) {
-            console.log("Invalid timeZone:" + timeZone)
-            return false; 
-        }
+
         if(latitude === null) {
             console.log("Invalid Latitude:" + latitude);
             //Fallthrough
@@ -93,7 +88,7 @@ class BirthLagna extends React.Component {
         // equivalent to UTC time
         var pickerTime = date.getTime() - date.getTimezoneOffset()*60*1000;
         //var zoneTime = pickerTime - timeZone.offset*60*60*1000;
-        var jstTime = pickerTime  - (9 + (timeZone.offset - 9)) *60*60*1000 ;
+        var jstTime = pickerTime  - this.tzOffsetMinutes(timeZone, date) *60*1000 ;
 
         var jstZonedDate = utcToZonedTime(jstTime, "Asia/Seoul")
         console.log("jstTime:" + jstTime + " jstZonedDate:" + jstZonedDate)
@@ -166,6 +161,7 @@ class BirthLagna extends React.Component {
         console.log('componentDidMount() lifecycle');
         const success = position => {
             this.setState({latitude: position.coords.latitude, longitude: position.coords.longitude});
+            this.updatePlanets(this.state.date, this.state.timeZone, position.coords.latitude, position.coords.longitude);
          }
         const error = ()  => {
             this.setState({lat: 0, long: 0});

@@ -127,30 +127,30 @@ class Chart extends React.Component {
       saturnProps,
     } = this.props;
     console.log(this.props)
+    console.log("planetaryData: " + this.state.planetData);
     return (
       <div className="container-center-horizontal">
         <div className="chart">
           <OverlapGroupChart>
+            <Space angle={this.state.ascProps.angle}>
             <Zodiac style={{ backgroundImage: `url(${zodiac})` }}></Zodiac>
-            <Houses handler = {this.handler} angle={this.state.ascProps.angle} data = {this.state.housesProps} />
-            <Asc {...this.state.ascProps}/>
             <Planets>
               <OverlapGroup13>
                 <Sun {...this.state.sunProps} />
-                
                 <Mercury {...this.state.mercuryProps} />
-                
                 <Venus {...this.state.venusProps} />
-               
                 <Rahu {...this.state.rahuProps} />
                 <Mars {...this.state.marsProps} />
                 <Jupiter {...this.state.jupiterProps} />
                 <Moon {...this.state.moonProps} />
                 <Ketu {...this.state.ketuProps} />
                 <Saturn {...this.state.saturnProps} />
-             
               </OverlapGroup13>
             </Planets>
+            </Space>
+            <Asc {...this.state.ascProps}/>            
+            <Houses handler = {this.handler} data = {this.state.housesProps} />
+
           </OverlapGroupChart>
         </div>
         <div className="side-panel">
@@ -217,12 +217,24 @@ const OverlapGroupChart = styled.div`
   align-items: center;
 `;
 
+const Space = styled.div`
+  position: absolute;
+  width: 642px;
+  height: 642px;
+  top: 168px;
+  left: 168px;
+  background-size: cover;
+  background-position: 50% 50%;
+  transform: rotate(${props => props.angle ? -props.angle +"deg": "0deg"});  
+`;
+
+
 const Zodiac = styled.div`
   position: absolute;
   width: 582px;
   height: 582px;
-  top: 207px;
-  left: 199px;
+  top: 30px;
+  left: 30px;
   background-size: cover;
   background-position: 50% 50%;
 `;
@@ -231,8 +243,8 @@ const Planets = styled.div`
   position: absolute;
   width: 642px;
   height: 642px;
-  top: 176px;
-  left: 169px;
+  top: 0px;
+  left: 0px;
   display: flex;
   align-items: flex-start;
   overflow: hidden;
@@ -441,7 +453,7 @@ const Attrib1 = styled.div`
 class Asc extends React.Component {
   render() {
     return (
-      <Asc1 angle= {this.props.angle}>
+      <Asc1>
         <ASC>ASC</ASC>
       </Asc1>
     );
@@ -451,18 +463,17 @@ class Asc extends React.Component {
 const Asc1 = styled.div`
   position: absolute;
   width: 80px;
-  height: 44px;
-  top: 480px;
+  height: 40px;
+  top: 470px;
   left: 450px;
   display: flex;
   align-items: flex-start;
-  background-color: #5c1010;
+  background-color: #Ac4040;
   border-radius: 38.89px;
   overflow: hidden;
   opacity: 0.7;
-  transform: rotate(${props => props.angle ? props.angle +"deg": "0deg"}) translate(300px);
-  //transform: rotate(${props => "0deg"}) translate(-300px);
-
+  //transform: rotate(${props => props.angle ? props.angle +"deg": "0deg"}) translate(300px);
+  transform: translateX(300px);
 `;
 
 const ASC = styled.div`
