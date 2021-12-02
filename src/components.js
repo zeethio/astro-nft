@@ -95,7 +95,7 @@ class Chart extends React.Component {
         jupiterProps: {"name": "Jupiter", "angle": planetData[6]},
         saturnProps: {"name": "Saturn", "angle": planetData[7]},
         rahuProps: {"name": "Rahu", "angle": planetData[11]},
-        ketuProps: {"name": "Ketu", "angle": planetData[12]},
+        ketuProps: {"name": "Ketu", "angle": 180 + planetData[11]},
         ascProps: {"name": "ASC", "angle": planetData[13] - 90},
         planetData: planetData,
     })
@@ -129,30 +129,28 @@ class Chart extends React.Component {
     console.log(this.props)
     console.log("planetaryData: " + this.state.planetData);
     return (
-      <div className="container-center-horizontal">
-        <div className="chart">
+      <div className="container-center-vertical">
           <OverlapGroupChart>
             <Space angle={this.state.ascProps.angle}>
-            <Zodiac style={{ backgroundImage: `url(${zodiac})` }}></Zodiac>
-            <Planets>
-              <OverlapGroup13>
-                <Sun {...this.state.sunProps} />
-                <Mercury {...this.state.mercuryProps} />
-                <Venus {...this.state.venusProps} />
-                <Rahu {...this.state.rahuProps} />
-                <Mars {...this.state.marsProps} />
-                <Jupiter {...this.state.jupiterProps} />
-                <Moon {...this.state.moonProps} />
-                <Ketu {...this.state.ketuProps} />
-                <Saturn {...this.state.saturnProps} />
-              </OverlapGroup13>
-            </Planets>
+              <Zodiac style={{ backgroundImage: `url(${zodiac})` }}></Zodiac>
+              <Planets>
+                <OverlapGroup13>
+                  <Sun {...this.state.sunProps} />
+                  <Mercury {...this.state.mercuryProps} />
+                  <Venus {...this.state.venusProps} />
+                  <Rahu {...this.state.rahuProps} />
+                  <Mars {...this.state.marsProps} />
+                  <Jupiter {...this.state.jupiterProps} />
+                  <Moon {...this.state.moonProps} />
+                  <Ketu {...this.state.ketuProps} />
+                  <Saturn {...this.state.saturnProps} />
+                </OverlapGroup13>
+              </Planets>
             </Space>
             <Asc {...this.state.ascProps}/>            
             <Houses handler = {this.handler} data = {this.state.housesProps} />
 
           </OverlapGroupChart>
-        </div>
         <div className="side-panel">
           <BirthLagna handler={this.handlerBirthLagna} ></BirthLagna>
           <HouseDetailContainer> {parse(this.state.houseDetail)}</HouseDetailContainer>
@@ -846,7 +844,7 @@ class Saturn2 extends React.Component {
 
 const HouseDetailContainer = styled.div`
   font-family: var(--font-family-roboto);
-  font-size: 18px; //var(--font-size-m2);
+  font-size: 30px; //var(--font-size-m2);
   text-align: justify;
   width: 100%;
   height: 100%;

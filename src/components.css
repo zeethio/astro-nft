@@ -1,16 +1,4 @@
-.chart {
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--masala);
-    display: flex;
-    height: 1024px;
-    padding: 0 0px;
-    width: 1440px;
-    width: 100%;
-    flex-grow: 0;
 
-  }
-  
   .side-panel {
     flex-direction: column; 
     justify-content: flex-start; 
@@ -21,7 +9,7 @@
     width: 480px;
     align-items: center;
     padding: 1em;
-    width: 100%;
+    width: 80%;
     flex-grow: 0;
   }
 
@@ -46,4 +34,39 @@
     flex-shrink: 1;
     pointer-events: auto;
   }
+
+  @media ( max-width: 1200px) {
+    .container-center-vertical {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      pointer-events: none;
+      flex-shrink: 1;
+      flex-grow: 1;
+      align-items: center;
+    }
   
+    .container-center-vertical > * {
+      flex-shrink: 1;
+      pointer-events: auto;
+    }
+  
+  }
+
+  @media ( min-width: 1280px) {
+    .container-center-vertical {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      pointer-events: none;
+      flex-shrink: 1;
+      flex-grow: 1;
+      align-items: center;
+    }
+  
+    .container-center-vertical > * {
+      flex-shrink: 1;
+      pointer-events: auto;
+    }
+  
+  }

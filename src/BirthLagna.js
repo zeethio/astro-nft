@@ -41,11 +41,15 @@ class BirthLagna extends React.Component {
     }
 
     tzOffsetMinutes(timeZone, date) {
+        var offset = 0;
         if (timeZone && timeZone.offset) {
-            return timeZone.offset * 60;
+            offset =  timeZone.offset * 60;
         } else {
-            return  date.getTimezoneOffset();
+            // ate.getTimezoneOffset() returns negative values in munutes for positive GMT offset and vice versa
+            // GMT-8 returns 480
+            offset = -date.getTimezoneOffset();
         }
+        return offset;
     }
     
     validateInputs(date, timeZone, latitude, longitude) {
