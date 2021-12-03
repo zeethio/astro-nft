@@ -296,15 +296,15 @@ class HouseV2 extends React.Component {
     return (
       <HouseStyle handler= {handler}  angle={angle} className={`house ${className}`}>
         <OverlapGroupHouseAtrib  onClick= {() => handler(className) } className="overlap-group">
-          <Attrib1 className="attrib1">
+          <Attrib1>
             {attrib1}
           </Attrib1>
 
-          <Attrib2 className="attrib2">
-            {attrib2 + ":" + value2}
+          <Attrib2>
+            <AttribStrength bgcolor="#6a1b9a"  completed={value2*10} attrib={attrib2}></AttribStrength>
           </Attrib2>
-          <Attrib3 className="attrib3">
-            {attrib3 + ":" + value3}
+          <Attrib3>
+            <AttribStrength bgcolor="#6a1b9a"  completed={value3*10} attrib={attrib3}></AttribStrength>
           </Attrib3>
         </OverlapGroupHouseAtrib>
       </HouseStyle>
@@ -383,7 +383,7 @@ const OverlapGroupPlanet = styled.div`
 `;
 
 const OverlapGroupHouseAtrib = styled.div`
-  ${RobotoNormalWhite176px}
+  //${RobotoNormalWhite176px}
   width: 150px;
   height: 80px;
   position: relative;
@@ -392,7 +392,7 @@ const OverlapGroupHouseAtrib = styled.div`
   border-radius: 10px;
   flex-flow: column wrap;
   flex-grow: 0;
-  justify-content: space-between;
+  //justify-content: space-between;
   padding: 1em;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -403,49 +403,128 @@ const OverlapGroupHouseAtrib = styled.div`
   transform: rotate(90.0deg);
 `;
 
+const AttribStrength = (props) => {
+  const { bgcolor, completed, attrib } = props;
+
+  const containerStyles = {
+    display: "flex",
+    flexDirection: "row",
+    //flexAlignItems: "center",
+    height: 20,
+    width: "100%",
+    //backgroundColor: "#e0e0de",
+    borderRadius: 10,
+    margin: 5,
+    flex: 1
+  };
+
+  const keyContainerStyles = {
+    height: 20,
+    width: "50%",
+    //backgroundColor: "#e0e0de",
+    //borderRadius: 50,
+    margin: 0,
+    textAlign: "left",
+  };
+
+  const valueContainerStyles = {
+    height: 20,
+    right: 0,
+    //width: "20%",
+    height: "80%",
+    backgroundColor: "#e0e0de",
+    borderRadius: 10,
+    margin: 0,
+    //justifyContent: 'flex-end',
+    flex: 0.5,
+  };
+
+  const fillerStyles = {
+    height: "100%",
+    width: "100%",
+
+    width: `${completed}%`,
+    backgroundColor: bgcolor,
+    borderRadius: "inherit",
+    textAlign: "left",
+  };
+
+  const labelStyles = {
+    padding: 5,
+    color: "white",
+    fontWeight: "bold",
+  };
+
+  return (
+    <div style={containerStyles}>
+      <div style={keyContainerStyles}>
+        <span>{`${attrib}`}</span>
+      </div>
+      <div style={valueContainerStyles}>
+        <div style={fillerStyles}>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Attrib3 = styled.div`
-  ${ValignTextMiddle}
+  //${ValignTextMiddle}
+  font-size: 16px;
   position: relative;
-  //width: 106px;
+  width: 180px;
   //height: 37px;
   /*top: 5px;
-  left: 80px;*/
+  left: 10px;*/
   //transform: rotate(-90.0deg);
-  text-align: center;
+  //text-align: center;
   letter-spacing: 0;
 `;
 
 const Attrib2 = styled.div`
-  ${ValignTextMiddle}
-  font-size: 18px;//var(--font-size-s);
+  //${ValignTextMiddle}
+  font-size: 16px;
   position: relative;
-  //width: 106px;
+  width: 180px;
   //height: 37px;
   /*top: 5px;
-  left: 50px; */
+  left: 10px; */
   //transform: rotate(-90.0deg);
-  text-align: center;
+  text-align: left;
   letter-spacing: 0;
+  padding: 0px;
+  justify-content: left;
 `;
 
 const Attrib1 = styled.div`
-  ${ValignTextMiddle}
+  //${ValignTextMiddle}
   font-family: var(--font-family-roboto);
   color: rgb(190, 190, 0); 
   font-size: 20px;//var(--font-size-s);
   font-weight: 600;
   font-style: normal;
-
+  //background-color: #Ac4040;
   position: relative;
   //width: 106px;
   //height: 47px;
   /*top: 5px;
   left: 20px;*/
   //transform: rotate(-90deg);
-  text-align: center;
+  //text-align: center;
   letter-spacing: 0;
 `;
 
+const Percent = styled.div`
+  ${Border03pxTundora}
+  position: absolute;
+  width: 140px;
+  height: 16px;
+  top: 9px;
+  right: 0px;
+  background-color: #4c4010;
+  opacity: 0.5;
+  border-radius: 2.98px;
+`;
 
 
 class Asc extends React.Component {
@@ -562,7 +641,7 @@ const PlanetLabel = styled.div`
             position: absolute;
   width: 40px;
   height: 21px;
-  top: 1px;
+  top: -4px;
   left: 0;
   text-align: center;
   letter-spacing: 0;
@@ -725,16 +804,6 @@ class Mars2 extends React.Component {
     );
   }
 }
-
-const Arrow = styled.img`
-  position: absolute;
-  width: 11px;
-  height: 15px;
-  top: 1px;
-  left: 18px;
-  transform: rotate(-15deg);
-`;
-
 
 
 class Jupiter extends React.Component {
@@ -911,7 +980,7 @@ const house4Data = {
     attrib3: "Home",
 
     value1: 5,
-    value2: 3,
+    value2: 10,
     value3: 1,
 
     className: "house4",
@@ -988,7 +1057,7 @@ const house11Data = {
     attrib3: "Friends",
     attrib2: "Earnings",
     value1: 5,
-    value2: 3,
+    value2: 5,
     value3: 1,
 
     className: "house11",
@@ -999,8 +1068,8 @@ const house12Data = {
     attrib3: "Expenses",
     attrib2: "Pleasures",
     value1: 5,
-    value2: 3,
-    value3: 1,
+    value2: 5,
+    value3: 5,
 
     className: "house12",
 };

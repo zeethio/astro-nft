@@ -70,3 +70,10 @@
     }
   
   }
+
+  .AttribStrength {
+    position: absolute;
+    height: 20;
+    height: 140;
+    display: flex; 
+  }
