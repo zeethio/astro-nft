@@ -639,12 +639,13 @@ const PlanetLabel = styled.div`
   ${ValignTextMiddle}
   ${RobotoNormalWhite131px}
             position: absolute;
-  width: 40px;
+  width: 50px;
   height: 21px;
   top: -4px;
   left: 0;
   text-align: center;
   letter-spacing: 0;
+  overflow: hidden;
 `;
 
 
