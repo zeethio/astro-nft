@@ -18,6 +18,28 @@ const PlanetsEnum = {
   "sun": 0, "moon": 1, "mercury": 2, "venus": 3, "mars": 4, "jupiter": 5, "saturn": 6, "rahu": 7, "ketu": 8,
 }
 
+const SIZES = {
+  chart_width: "980px",
+  chart_height: "980px",
+  space_width: "700px",
+  space_height: "700px",
+  space_x: "140px",
+  space_y: "140px",
+  zodiac_width: "582px",
+  zodiac_height: "582px",
+  zodiac_x: "59px",
+  zodiac_y: "59px",
+  planet_width: "80px",
+  planet_height: "50px",
+  planet_x: "310px",
+  planet_y: "325px",
+  house_width: "180px",
+  house_height: "90px",
+  house_x: "400px",
+  house_y: "440px",
+
+};
+
 class Chart extends React.Component {
 
   constructor(props) {
@@ -77,7 +99,6 @@ class Chart extends React.Component {
     console.log(houseDetail);
 
     this.setState({
-      //houseDetail: getHouseDetails(className, this.state.planetData)
       houseDetail: houseDetail
     })
   }
@@ -87,15 +108,15 @@ class Chart extends React.Component {
 
     this.setState({
         date: date,
-        sunProps: {"name": "Sun", "angle": planetData[1]},
-        moonProps: {"name": "Moon", "angle": planetData[2]},
-        mercuryProps: {"name": "Mercury", "angle": planetData[3]},
-        venusProps: {"name": "Venus", "angle": planetData[4]},
-        marsProps: {"name": "Mars", "angle": planetData[5]},
-        jupiterProps: {"name": "Jupiter", "angle": planetData[6]},
-        saturnProps: {"name": "Saturn", "angle": planetData[7]},
-        rahuProps: {"name": "Rahu", "angle": planetData[11]},
-        ketuProps: {"name": "Ketu", "angle": 180 + planetData[11]},
+        sunProps: {"name": "Sun", "angle": planetData[1] - 90},
+        moonProps: {"name": "Moon", "angle": planetData[2] - 90},
+        mercuryProps: {"name": "Mercury", "angle": planetData[3] - 90},
+        venusProps: {"name": "Venus", "angle": planetData[4] - 90},
+        marsProps: {"name": "Mars", "angle": planetData[5] - 90},
+        jupiterProps: {"name": "Jupiter", "angle": planetData[6] - 90},
+        saturnProps: {"name": "Saturn", "angle": planetData[7] - 90},
+        rahuProps: {"name": "Rahu", "angle": planetData[11] - 90},
+        ketuProps: {"name": "Ketu", "angle": 180 + planetData[11] - 90},
         ascProps: {"name": "ASC", "angle": planetData[13] - 90},
         planetData: planetData,
     })
@@ -217,10 +238,10 @@ const OverlapGroupChart = styled.div`
 
 const Space = styled.div`
   position: absolute;
-  width: 642px;
-  height: 642px;
-  top: 168px;
-  left: 168px;
+  width:  ${SIZES.space_width};//642px;
+  height: ${SIZES.space_height};//642px;
+  top: ${SIZES.space_y}; //168px;
+  left: ${SIZES.space_x}; //168px;
   background-size: cover;
   background-position: 50% 50%;
   transform: rotate(${props => props.angle ? -props.angle +"deg": "0deg"});  
@@ -229,29 +250,28 @@ const Space = styled.div`
 
 const Zodiac = styled.div`
   position: absolute;
-  width: 582px;
-  height: 582px;
-  top: 30px;
-  left: 30px;
+  width: ${SIZES.zodiac_width};//582px;
+  height: ${SIZES.zodiac_height};//582px;
+  top: ${SIZES.zodiac_x};//30px;
+  left: ${SIZES.zodiac_y};//30px;
   background-size: cover;
   background-position: 50% 50%;
 `;
 
 const Planets = styled.div`
   position: absolute;
-  width: 642px;
-  height: 642px;
+  width: ${SIZES.space_width};//642px;
+  height: ${SIZES.space_height};//642px;
   top: 0px;
   left: 0px;
   display: flex;
   align-items: flex-start;
   overflow: hidden;
-  transform: rotate(0deg);
 `;
 
 const OverlapGroup13 = styled.div`
-  width: 642px;
-  height: 642px;
+  width: 100%;
+  height: 100%;
   position: relative;
   margin-left: 0px;
   margin-top: 0px;
@@ -265,41 +285,40 @@ class Houses extends React.Component {
         <OverlapGroup12>
           {this.props.data.map((props) => {
             return (
-            <HouseV2 angle={this.props.angle} handler = {this.props.handler} {...props}/>)
+            <House angle={this.props.angle} handler = {this.props.handler} {...props}/>)
           })}
-          </OverlapGroup12>
-          </HousesStyle>);
+        </OverlapGroup12>
+      </HousesStyle>);
   }
 }
 
 const HousesStyle = styled.div`
   position: relative;
-  width: 980px;
-  height: 980px;
+  width:  ${SIZES.chart_width}; //980px;
+  height: ${SIZES.chart_height}; //980px;
   display: flex;
   align-items: center;
   overflow: hidden;
 `;
 
 const OverlapGroup12 = styled.div`
-  width: 980px;
-  height: 980px;
+  width: 100%;
+  height: 100%;
   position: relative;
   align-items: center;  
 `;
 
 
-class HouseV2 extends React.Component {
+class House extends React.Component {
   render() {
     const { angle, handler, attrib1, value1, attrib2, value2, attrib3, value3, className } = this.props;
 
     return (
       <HouseStyle handler= {handler}  angle={angle} className={`house ${className}`}>
-        <OverlapGroupHouseAtrib  onClick= {() => handler(className) } className="overlap-group">
+        <OverlapGroupHouseAtrib  onClick= {() => handler(className) } className="atrib-overlap-group">
           <Attrib1>
             {attrib1}
           </Attrib1>
-
           <Attrib2>
             <AttribStrength bgcolor="#6a1b9a"  completed={value2*10} attrib={attrib2}></AttribStrength>
           </Attrib2>
@@ -315,85 +334,74 @@ class HouseV2 extends React.Component {
 
 const HouseStyle = styled.div`
   position: absolute;
-  width: 180px;
-  height: 180px;
-  top: 400px;
-  left: 400px;
+  width: ${SIZES.house_width};
+  height: ${SIZES.house_height};;
+  top: ${SIZES.house_y};;
+  left: ${SIZES.house_x};
   display: flex;
   padding: 0 0;
   align-items: center;
   justify-content: space-between;
-  overflow: hidden;
-  //transform: rotate(30deg);
+  //overflow: hidden;
   transform: unset;
 
   &.house.house1 {
-    transform:   rotate(${props => props.angle ? (props.angle + 0) + "deg": "0deg"}) rotate(0deg)  translate(400px);
+    transform:   rotate(${props => props.angle ? (props.angle + 0) + "deg": "0deg"}) rotate(0deg)  translate(${SIZES.house_x});
   }
   &.house.house2 {
-    transform:  rotate(${props => props.angle ? (props.angle + 30) + "deg": "30deg"})  translateX(400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 30) + "deg": "30deg"})   translate(${SIZES.house_x});
   }
   &.house.house3 {
-    transform:  rotate(${props => props.angle ? (props.angle + 60) + "deg": "60deg"}) translateX(400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 60) + "deg": "60deg"})  translate(${SIZES.house_x});
   }
   &.house.house4 {
-    transform:  rotate(${props => props.angle ? (props.angle + 90) + "deg": "90deg"}) translateX(400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 90) + "deg": "90deg"})  translate(${SIZES.house_x});
   }
 
   &.house.house5 {
-    transform:  rotate(${props => props.angle ? (props.angle + 120) + "deg": "120deg"}) translateX(400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 120) + "deg": "120deg"})  translate(${SIZES.house_x});
   }
 
   &.house.house6 {
-    transform:  rotate(${props => props.angle ? (props.angle + 150) + "deg": "150deg"}) translateX(400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 150) + "deg": "150deg"})  translate(${SIZES.house_x});
   }
 
 
   &.house.house7 {
-    transform:  rotate(${props => props.angle ? (props.angle + 180) + "deg": "180deg"}) translateX(400px);
+    transform:  rotate(${props => props.angle ? (props.angle + 180) + "deg": "180deg"})  translate(${SIZES.house_x});
   }
 
   &.house.house8 {
-    transform:  rotate(${props => props.angle ? (props.angle  -150) + "deg": "-150deg"}) translateX(400px);
+    transform:  rotate(${props => props.angle ? (props.angle  -150) + "deg": "-150deg"})  translate(${SIZES.house_x});
   }
 
   &.house.house9 {
-    transform:  rotate(${props => props.angle ? (props.angle -120) + "deg": "-120deg"}) translateX(400px);
+    transform:  rotate(${props => props.angle ? (props.angle -120) + "deg": "-120deg"})  translate(${SIZES.house_x});
   }
 
   &.house.house10 {
-    transform:  rotate(${props => props.angle ? (props.angle - 90) + "deg": "-90deg"}) translateX(400px);
+    transform:  rotate(${props => props.angle ? (props.angle - 90) + "deg": "-90deg"})  translate(${SIZES.house_x});
   }
 
   &.house.house11 {
-    transform:  rotate(${props => props.angle ? (props.angle - 60) + "deg": "-60deg"}) translateX(400px);
+    transform:  rotate(${props => props.angle ? (props.angle - 60) + "deg": "-60deg"})  translate(${SIZES.house_x});
   }
 
   &.house.house12 {
-    transform:  rotate(${props => props.angle ? (props.angle - 30) + "deg": "-30deg"}) translateX(400px);
+    transform:  rotate(${props => props.angle ? (props.angle - 30) + "deg": "-30deg"})  translate(${SIZES.house_x});
   }
 `;
 
-const OverlapGroupPlanet = styled.div`
-  ${RobotoNormalWhite176px}
-  width: 80px;
-  height: 297px;
-  position: relative;
-  left: 280px;
-`;
 
 const OverlapGroupHouseAtrib = styled.div`
   //${RobotoNormalWhite176px}
-  width: 150px;
-  height: 80px;
+  width: 100%;
+  height: 100%;
   position: relative;
   z-index: 2;
   border:  2px solid palevioletred;
   border-radius: 10px;
-  flex-flow: column wrap;
   flex-grow: 0;
-  //justify-content: space-between;
-  padding: 1em;
   overflow-x: hidden;
   overflow-y: hidden;
 
@@ -409,10 +417,8 @@ const AttribStrength = (props) => {
   const containerStyles = {
     display: "flex",
     flexDirection: "row",
-    //flexAlignItems: "center",
     height: 20,
     width: "100%",
-    //backgroundColor: "#e0e0de",
     borderRadius: 10,
     margin: 5,
     flex: 1
@@ -421,8 +427,6 @@ const AttribStrength = (props) => {
   const keyContainerStyles = {
     height: 20,
     width: "50%",
-    //backgroundColor: "#e0e0de",
-    //borderRadius: 50,
     margin: 0,
     textAlign: "left",
   };
@@ -430,12 +434,10 @@ const AttribStrength = (props) => {
   const valueContainerStyles = {
     height: 20,
     right: 0,
-    //width: "20%",
     height: "80%",
     backgroundColor: "#e0e0de",
     borderRadius: 10,
     margin: 0,
-    //justifyContent: 'flex-end',
     flex: 0.5,
   };
 
@@ -472,12 +474,7 @@ const Attrib3 = styled.div`
   //${ValignTextMiddle}
   font-size: 16px;
   position: relative;
-  width: 180px;
-  //height: 37px;
-  /*top: 5px;
-  left: 10px;*/
-  //transform: rotate(-90.0deg);
-  //text-align: center;
+  width: 100%;
   letter-spacing: 0;
 `;
 
@@ -485,11 +482,7 @@ const Attrib2 = styled.div`
   //${ValignTextMiddle}
   font-size: 16px;
   position: relative;
-  width: 180px;
-  //height: 37px;
-  /*top: 5px;
-  left: 10px; */
-  //transform: rotate(-90.0deg);
+  width: 100%;
   text-align: left;
   letter-spacing: 0;
   padding: 0px;
@@ -503,27 +496,8 @@ const Attrib1 = styled.div`
   font-size: 20px;//var(--font-size-s);
   font-weight: 600;
   font-style: normal;
-  //background-color: #Ac4040;
   position: relative;
-  //width: 106px;
-  //height: 47px;
-  /*top: 5px;
-  left: 20px;*/
-  //transform: rotate(-90deg);
-  //text-align: center;
   letter-spacing: 0;
-`;
-
-const Percent = styled.div`
-  ${Border03pxTundora}
-  position: absolute;
-  width: 140px;
-  height: 16px;
-  top: 9px;
-  right: 0px;
-  background-color: #4c4010;
-  opacity: 0.5;
-  border-radius: 2.98px;
 `;
 
 
@@ -562,34 +536,56 @@ const ASC = styled.div`
   letter-spacing: 0;
 `;
 
+const IconPlanet = styled.img`
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  top: 20px;
+  left: 24px;
+`;
+
+const PlanetLabel = styled.div`
+  ${ValignTextMiddle}
+  ${RobotoNormalWhite131px}
+  position: absolute;
+  width: 100%;
+  height: 21px;
+  text-align: center;
+  justify-content: center;
+  letter-spacing: 0;
+  overflow: hidden;
+`;
 
 const Planet = styled.div`
   position: absolute;
-  height: 642px;
-  width: 642px;
-  //top: 133px;
-  //left: 133px;
+  height: ${SIZES.planet_height};//642px;
+  width: ${SIZES.planet_width};//642px;
+  left: ${SIZES.planet_x};//272px; // 624/2-80/2
+  top: ${SIZES.planet_y};//287px;    
   display: flex;
-  //padding: 302.1px 8.6px;
-  //justify-content: flex-end;
-  //align-items: flex-end;
-  //min-width: 642px;
-  //transform: rotate(0deg);
-  transform: rotate(${props => props.angle ? props.angle + "deg": "0deg"});
+  align-items: center;
+  justify-content: center;
+  transform: rotate(${props => props.angle ? props.angle + "deg": "0deg"}) translate(280px) translate(${props => props.offset ? props.offset + "px": "0px"}) rotate(${props => props.angle ? 90 + "deg": "0deg"});
 `;
+
+const OverlapGroupPlanet = styled.div`
+  ${RobotoNormalWhite176px}
+  width: 100%;
+  height: 100%; // 297
+  position: relative;
+  display: flex;
+`;
+
 
 class Sun extends React.Component {
   render() {
     return (
-      <Planet angle = {this.props.angle}>
+      <Planet className="Sun" angle={this.props.angle} offset="0">
         <Sun2 {...this.props}></Sun2>
       </Planet>
     );
   }
 }
-
-
-
 
 class Sun2 extends React.Component {
   render() {
@@ -604,56 +600,37 @@ class Sun2 extends React.Component {
   }
 }
 
-const Circle2 = styled.div`
-  ${Border03pxTundora}
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  top: 9px;
-  left: 18px;
-  background-color: var(--falcon);
-  border-radius: 2.98px;
-`;
 
-const IconPlanet = styled.img`
-  position: absolute;
-  width: 32px;
-  height: 32px;
-  top: 16px;
-  left: 0px;
-  transform: rotate(-0deg);
-`;
+class Moon extends React.Component {
+  render() {
 
+    return (
+      <Planet angle = {this.props.angle} offset="8">
+        <Moon2 {...this.props} />
+      </Planet>
+    );
+  }
+}
 
-const Circle1 = styled.div`
-  ${Border14pxTundora}
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  top: 0;
-  left: 7px;
-  border-radius: 12.5px;
-`;
+class Moon2 extends React.Component {
+  render() {
+    const { name } = this.props;
 
-const PlanetLabel = styled.div`
-  ${ValignTextMiddle}
-  ${RobotoNormalWhite131px}
-            position: absolute;
-  width: 50px;
-  height: 21px;
-  top: -4px;
-  left: 0;
-  text-align: center;
-  letter-spacing: 0;
-  overflow: hidden;
-`;
+    return (
+        <OverlapGroupPlanet>
+          <PlanetLabel>{name}</PlanetLabel>
 
-
-
+          <IconPlanet
+            src="icon-moon.svg"
+          />
+        </OverlapGroupPlanet>
+    );
+  }
+}
 class Mercury extends React.Component {
   render() {
     return (
-      <Planet angle = {this.props.angle}>
+      <Planet angle={this.props.angle} offset="20">
         <Mercury2 {...this.props} />
       </Planet>
     );
@@ -679,25 +656,12 @@ class Venus extends React.Component {
   render() {
 
     return (
-      <Planet angle = {this.props.angle}>
+      <Planet angle={this.props.angle} offset="32">
         <Venus2 {...this.props} />
       </Planet>
     );
   }
 }
-
-const Venus1 = styled.div`
-  position: absolute;
-  width: 642px;
-  height: 642px;
-  top: 133px;
-  left: 133px;
-  display: flex;
-  padding: 299.4px 3.3px;
-  align-items: flex-end;
-  transform: rotate(-15deg);
-`;
-
 
 
 class Venus2 extends React.Component {
@@ -713,40 +677,94 @@ class Venus2 extends React.Component {
   }
 }
 
+class Mars extends React.Component {
+  render() {
 
-const Icon1 = styled.div`
-  ${Border14pxTundora}
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  top: 0;
-  left: 7px;
-  border-radius: 12.5px;
-`;
+
+    return (
+      <Planet angle = {this.props.angle} offset="42">
+        <Mars2 {...this.props} />
+      </Planet>
+    );
+  }
+}
+
+
+
+class Mars2 extends React.Component {
+  render() {
+    const { name } = this.props;
+
+    return (
+        <OverlapGroupPlanet>
+          <PlanetLabel>{name}</PlanetLabel>
+          <IconPlanet src="icon-mars.svg" />
+        </OverlapGroupPlanet>
+    );
+  }
+}
+
+class Jupiter extends React.Component {
+  render() {
+    return (
+      <Planet angle = {this.props.angle} offset="54">
+        <Jupiter2 {...this.props} />
+      </Planet>
+    );
+  }
+}
+
+class Jupiter2 extends React.Component {
+  render() {
+    const { name } = this.props;
+
+    return (
+        <OverlapGroupPlanet>
+          <IconPlanet
+            src="icon-jupiter.svg"
+          />
+          <PlanetLabel>{name}</PlanetLabel>
+        </OverlapGroupPlanet>
+    );
+  }
+}
+
+
+class Saturn extends React.Component {
+  render() {
+    return (
+      <Planet angle = {this.props.angle} offset="54">
+        <Saturn2 {...this.props} />
+      </Planet>
+    );
+  }
+}
+
+class Saturn2 extends React.Component {
+  render() {
+    const { name } = this.props;
+
+    return (
+        <OverlapGroupPlanet>
+          <PlanetLabel>{name}</PlanetLabel>
+
+          <IconPlanet src="icon-saturn.svg" />
+        </OverlapGroupPlanet>
+    );
+  }
+}
 
 
 class Rahu extends React.Component {
   render() {
 
     return (
-      <Planet angle = {this.props.angle}>
+      <Planet angle = {this.props.angle} offset="0">
         <Rahu2 {...this.props} />
       </Planet>
     );
   }
 }
-
-const Rahu1 = styled.div`
-  position: absolute;
-  width: 642px;
-  height: 642px;
-  top: 133px;
-  left: 133px;
-  display: flex;
-  padding: 300px 15.9px;
-  align-items: flex-end;
-  transform: rotate(-20deg);
-`;
 
 
 
@@ -766,107 +784,11 @@ class Rahu2 extends React.Component {
   }
 }
 
-
-class Mars extends React.Component {
-  render() {
-
-
-    return (
-      <Planet angle = {this.props.angle}>
-        <Mars2 {...this.props} />
-      </Planet>
-    );
-  }
-}
-
-const Mars1 = styled.div`
-  position: absolute;
-  width: 642px;
-  height: 642px;
-  top: 133px;
-  left: 133px;
-  display: flex;
-  padding: 285.1px 17.9px;
-  align-items: flex-end;
-  transform: rotate(-45deg);
-`;
-
-
-
-class Mars2 extends React.Component {
-  render() {
-    const { name } = this.props;
-
-    return (
-        <OverlapGroupPlanet>
-          <PlanetLabel>{name}</PlanetLabel>
-          <IconPlanet src="icon-mars.svg" />
-        </OverlapGroupPlanet>
-    );
-  }
-}
-
-
-class Jupiter extends React.Component {
-  render() {
-    return (
-      <Planet angle = {this.props.angle}>
-        <Jupiter2 {...this.props} />
-      </Planet>
-    );
-  }
-}
-
-
-class Jupiter2 extends React.Component {
-  render() {
-    const { name } = this.props;
-
-    return (
-        <OverlapGroupPlanet>
-          <IconPlanet
-            src="icon-jupiter.svg"
-          />
-          <PlanetLabel>{name}</PlanetLabel>
-        </OverlapGroupPlanet>
-    );
-  }
-}
-
-
-class Moon extends React.Component {
-  render() {
-
-    return (
-      <Planet angle = {this.props.angle}>
-        <Moon2 {...this.props} />
-      </Planet>
-    );
-  }
-}
-
-class Moon2 extends React.Component {
-  render() {
-    const { name } = this.props;
-
-    return (
-        <OverlapGroupPlanet>
-          <PlanetLabel>{name}</PlanetLabel>
-
-          <IconPlanet
-            src="icon-moon.svg"
-          />
-        </OverlapGroupPlanet>
-    );
-  }
-}
-
-
 class Ketu extends React.Component {
   render() {
 
     return (
-      <Planet angle = {this.props.angle}>
+      <Planet angle = {this.props.angle} offset="0">
         <Ketu2 {...this.props} />
       </Planet>
     );
@@ -887,30 +809,6 @@ class Ketu2 extends React.Component {
   }
 }
 
-
-class Saturn extends React.Component {
-  render() {
-    return (
-      <Planet angle = {this.props.angle}>
-        <Saturn2 {...this.props} />
-      </Planet>
-    );
-  }
-}
-
-class Saturn2 extends React.Component {
-  render() {
-    const { name } = this.props;
-
-    return (
-        <OverlapGroupPlanet>
-          <PlanetLabel>{name}</PlanetLabel>
-
-          <IconPlanet src="icon-saturn.svg" />
-        </OverlapGroupPlanet>
-    );
-  }
-}
 
 const HouseDetailContainer = styled.div`
   font-family: var(--font-family-roboto);
