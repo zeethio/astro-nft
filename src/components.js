@@ -311,19 +311,19 @@ const OverlapGroup12 = styled.div`
 
 class House extends React.Component {
   render() {
-    const { angle, handler, attrib1, value1, attrib2, value2, attrib3, value3, className } = this.props;
+    const { angle, handler, caption, attrib1, value1, attrib2, value2, className } = this.props;
 
     return (
       <HouseStyle handler= {handler}  angle={angle} className={`house ${className}`}>
         <OverlapGroupHouseAtrib  onClick= {() => handler(className) } className="atrib-overlap-group">
-          <Attrib1>
-            {attrib1}
-          </Attrib1>
+          <HouseCaption>
+            {caption}
+          </HouseCaption>
           <Attrib2>
-            <AttribStrength bgcolor="#6a1b9a"  completed={value2*10} attrib={attrib2}></AttribStrength>
+            <AttribStrength bgcolor="#6a1b9a"  completed={value1*10} attrib={attrib1}></AttribStrength>
           </Attrib2>
           <Attrib3>
-            <AttribStrength bgcolor="#6a1b9a"  completed={value3*10} attrib={attrib3}></AttribStrength>
+            <AttribStrength bgcolor="#6a1b9a"  completed={value2*10} attrib={attrib2}></AttribStrength>
           </Attrib3>
         </OverlapGroupHouseAtrib>
       </HouseStyle>
@@ -426,7 +426,7 @@ const AttribStrength = (props) => {
 
   const keyContainerStyles = {
     height: 20,
-    width: "50%",
+    width: "60%",
     margin: 0,
     textAlign: "left",
   };
@@ -438,7 +438,7 @@ const AttribStrength = (props) => {
     backgroundColor: "#e0e0de",
     borderRadius: 10,
     margin: 0,
-    flex: 0.5,
+    flex: 0.7,
   };
 
   const fillerStyles = {
@@ -489,8 +489,7 @@ const Attrib2 = styled.div`
   justify-content: left;
 `;
 
-const Attrib1 = styled.div`
-  //${ValignTextMiddle}
+const HouseCaption = styled.div`
   font-family: var(--font-family-roboto);
   color: rgb(190, 190, 0); 
   font-size: 20px;//var(--font-size-s);
@@ -580,7 +579,7 @@ const OverlapGroupPlanet = styled.div`
 class Sun extends React.Component {
   render() {
     return (
-      <Planet className="Sun" angle={this.props.angle} offset="0">
+      <Planet className="Sun" angle={this.props.angle} offset="8">
         <Sun2 {...this.props}></Sun2>
       </Planet>
     );
@@ -605,7 +604,7 @@ class Moon extends React.Component {
   render() {
 
     return (
-      <Planet angle = {this.props.angle} offset="8">
+      <Planet angle = {this.props.angle} offset="16">
         <Moon2 {...this.props} />
       </Planet>
     );
@@ -630,7 +629,7 @@ class Moon2 extends React.Component {
 class Mercury extends React.Component {
   render() {
     return (
-      <Planet angle={this.props.angle} offset="20">
+      <Planet angle={this.props.angle} offset="24">
         <Mercury2 {...this.props} />
       </Planet>
     );
@@ -682,7 +681,7 @@ class Mars extends React.Component {
 
 
     return (
-      <Planet angle = {this.props.angle} offset="42">
+      <Planet angle = {this.props.angle} offset="40">
         <Mars2 {...this.props} />
       </Planet>
     );
@@ -707,7 +706,7 @@ class Mars2 extends React.Component {
 class Jupiter extends React.Component {
   render() {
     return (
-      <Planet angle = {this.props.angle} offset="54">
+      <Planet angle = {this.props.angle} offset="48">
         <Jupiter2 {...this.props} />
       </Planet>
     );
@@ -733,7 +732,7 @@ class Jupiter2 extends React.Component {
 class Saturn extends React.Component {
   render() {
     return (
-      <Planet angle = {this.props.angle} offset="54">
+      <Planet angle = {this.props.angle} offset="56">
         <Saturn2 {...this.props} />
       </Planet>
     );
@@ -841,134 +840,128 @@ const SidePanel = styled.div`
 `;
 
 const house1Data = {
-    attrib1: "House-1",
-    attrib2: "Charisma",
-    attrib3: "Confidence",
-    value1: 5,
-    value2: 3,
-    value3: 1,
+    caption: "House-1",
+    attrib1: "Charisma",
+    attrib2: "Confidence",
+
+    value1: 3,
+    value2: 1,
 
     className: "house1",
 };
 
 const house2Data = {
-    attrib1: "House-2",
-    attrib3: "Inheritance",
-    attrib2: "Speech",
-    value1: 5,
-    value2: 3,
-    value3: 1,
+    caption: "House-2",
+    attrib2: "Inheritance",
+    attrib1: "Speech",
+
+    value1: 3,
+    value2: 1,
 
     className: "house2",
 };
 
 const house3Data = {
-  attrib1: "House-3",
-  attrib2: "Journeys",
-  attrib3: "Skills",
-    value1: 5,
-    value2: 3,
-    value3: 1,
+  caption: "House-3",
+  attrib1: "Journeys",
+  attrib2: "Skills",
+
+    value1: 3,
+    value2: 1,
 
     className: "house3",
 };
 
 const house4Data = {
-    attrib1: "House-4",
-    attrib2: "Education",
-    attrib3: "Home",
+    caption: "House-4",
+    attrib1: "Education",
+    attrib2: "Home",
 
-    value1: 5,
-    value2: 10,
-    value3: 1,
+    value1: 10,
+    value2: 1,
 
     className: "house4",
 };
 
 const house5Data = {
-    attrib1: "House-5",
-    attrib3: "Children",
-    attrib2: "Recreation",
-    value1: 5,
-    value2: 3,
-    value3: 1,
+    caption: "House-5",
+    attrib2: "Children",
+    attrib1: "Recreation",
+
+    value1: 3,
+    value2: 1,
 
     className: "house5",
 };
 
 const house6Data = {
-    attrib1: "House-6",
-    attrib2: "Enemies",
-    attrib3: "Diseases",
-    value1: "",
-    value2: 3,
-    value3: 1,
+    caption: "House-6",
+    attrib1: "Enemies",
+    attrib2: "Diseases",
+
+    value1: 3,
+    value2: 1,
 
     className: "house6",
 };
 
 const house7Data = {
-    attrib1: "House-7",
-    attrib2: "Longevity",
-    attrib3: "Passion",
+    caption: "House-7",
+    attrib1: "Longevity",
+    attrib2: "Passion",
     className: "house7",
-    value1: "",
-    value2: 3,
-    value3: 1,
+
+    value1: 3,
+    value2: 1,
 
 };
 
 const house8Data = {
-    attrib1: "House-8",
-    attrib3: "Inheritance",
-    attrib2: "Suffering",
-    value1: 5,
-    value2: 3,
-    value3: 1,
+    caption: "House-8",
+    attrib2: "Inheritance",
+    attrib1: "Suffering",
+    value1: 3,
+    value2: 1,
 
     className: "house8",
 };
 
 const house9Data = {
-    attrib1: "House-9",
-    attrib2: "Career",
-    attrib3: "Prosperity",
-    value1: 5,
-    value2: 3,
-    value3: 1,
+    caption: "House-9",
+    attrib1: "Career",
+    attrib2: "Prosperity",
+    value1: 3,
+    value2: 1,
 
     className: "house9",
 };
 
 const house10Data = {
-    attrib1: "House-10",
-    attrib2: "Fame",
-    attrib3: "Power",
-    value1: 5,
-    value2: 3,
-    value3: 1,
+    caption: "House-10",
+    attrib1: "Fame",
+    attrib2: "Power",
+    value1: 3,
+    value2: 1,
 
     className: "house10",
 };
 
 const house11Data = {
-    attrib1: "House-11",
-    attrib3: "Friends",
-    attrib2: "Earnings",
+    caption: "House-11",
+    attrib2: "Friends",
+    attrib1: "Earnings",
     value1: 5,
-    value2: 5,
-    value3: 1,
+    value2: 1,
 
     className: "house11",
 };
 
 const house12Data = {
-    attrib1: "House-12",
-    attrib3: "Expenses",
-    attrib2: "Pleasures",
+    caption: "House-12",
+    attrib2: "Expenses",
+    attrib1: "Pleasures",
     value1: 5,
     value2: 5,
-    value3: 5,
 
     className: "house12",
 };
