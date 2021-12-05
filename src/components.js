@@ -37,8 +37,15 @@ const SIZES = {
   house_width: "180px",
   house_height: "90px",
   house_x: "400px",
-  house_y: "440px",
-
+  house_y: "445px",
+  sun_offset: 8,
+  moon_offset: 16,
+  mercury_offset: 24,
+  venus_offset: 32,
+  mars_offset: 40,
+  jupiter_offset: 40,
+  saturn_offset: 40,
+  rahu_offset: 40,    
 };
 
 function ChartWithId() {
@@ -593,7 +600,7 @@ const OverlapGroupPlanet = styled.div`
 class Sun extends React.Component {
   render() {
     return (
-      <Planet className="Sun" angle={this.props.angle} offset="8">
+      <Planet className="Sun" angle={this.props.angle} offset={SIZES.sun_offset}>
         <Sun2 {...this.props}></Sun2>
       </Planet>
     );
@@ -618,7 +625,7 @@ class Moon extends React.Component {
   render() {
 
     return (
-      <Planet angle = {this.props.angle} offset="16">
+      <Planet angle = {this.props.angle} offset={SIZES.moon_offset}>
         <Moon2 {...this.props} />
       </Planet>
     );
@@ -643,7 +650,7 @@ class Moon2 extends React.Component {
 class Mercury extends React.Component {
   render() {
     return (
-      <Planet angle={this.props.angle} offset="24">
+      <Planet angle={this.props.angle} offset={SIZES.mercury_offset}>
         <Mercury2 {...this.props} />
       </Planet>
     );
@@ -669,7 +676,7 @@ class Venus extends React.Component {
   render() {
 
     return (
-      <Planet angle={this.props.angle} offset="32">
+      <Planet angle={this.props.angle} offset={SIZES.venus_offset}>
         <Venus2 {...this.props} />
       </Planet>
     );
@@ -695,7 +702,7 @@ class Mars extends React.Component {
 
 
     return (
-      <Planet angle = {this.props.angle} offset="40">
+      <Planet angle = {this.props.angle} offset={SIZES.mars_offset}>
         <Mars2 {...this.props} />
       </Planet>
     );
@@ -720,7 +727,7 @@ class Mars2 extends React.Component {
 class Jupiter extends React.Component {
   render() {
     return (
-      <Planet angle = {this.props.angle} offset="48">
+      <Planet angle = {this.props.angle} offset={SIZES.jupiter_offset}>
         <Jupiter2 {...this.props} />
       </Planet>
     );
@@ -746,7 +753,7 @@ class Jupiter2 extends React.Component {
 class Saturn extends React.Component {
   render() {
     return (
-      <Planet angle = {this.props.angle} offset="56">
+      <Planet angle = {this.props.angle} offset={SIZES.saturn_offset}>
         <Saturn2 {...this.props} />
       </Planet>
     );
@@ -772,7 +779,7 @@ class Rahu extends React.Component {
   render() {
 
     return (
-      <Planet angle = {this.props.angle} offset="0">
+      <Planet angle = {this.props.angle} offset={SIZES.rahu_offset}>
         <Rahu2 {...this.props} />
       </Planet>
     );
@@ -801,7 +808,7 @@ class Ketu extends React.Component {
   render() {
 
     return (
-      <Planet angle = {this.props.angle} offset="0">
+      <Planet angle = {this.props.angle} offset={SIZES.rahu_offset}>
         <Ketu2 {...this.props} />
       </Planet>
     );
