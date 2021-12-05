@@ -1,8 +1,8 @@
 import React from 'react';
 //import logo from './logo.svg';
 import './App.css';
-import {Chart, chartData} from './components.js'
-
+import {Chart, ChartWithId, chartData} from './components.js'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 class App extends React.Component {
 
@@ -13,7 +13,17 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-        <Chart {...chartData} />
+        <BrowserRouter>
+        {/*<Chart {...chartData} />*/}
+        
+          <Routes>
+            <Route path="/" element={<Chart {...chartData} />} />
+            <Route path="view" element={<ChartWithId />} />
+            <Route path="view/:id" element={<ChartWithId />} />
+          </Routes>
+          
+        </BrowserRouter>
+    
         </header>
       </div>
     );

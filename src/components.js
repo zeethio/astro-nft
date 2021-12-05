@@ -6,6 +6,7 @@ import {getHouseDetails, HousesIntro} from "./HouseDetails.js"
 import {BirthLagna} from  "./BirthLagna.js"
 import parse from "html-react-parser";
 import {loadAstroNlg, loadRosaeNlg, renderHouseDetail} from "./AstroNlg"
+import { useParams } from "react-router-dom";
 
 const HOUSE_POS = "400px"
 
@@ -40,6 +41,16 @@ const SIZES = {
 
 };
 
+function ChartWithId() {
+  let  params =  useParams();
+  if("id" in params) {
+    let chartData = getChartData(params.id)
+    return (<Chart {...chartData} />);
+  } else {
+    return (<Chart {...chartData} />);
+  }
+}
+
 class Chart extends React.Component {
 
   constructor(props) {
@@ -60,7 +71,8 @@ class Chart extends React.Component {
       housesProps: props.housesProps,  
       planetData: [],
       astroNlgLoaded: false, 
-      rosaeNlgLoaded: false,           
+      rosaeNlgLoaded: false,
+      enableBirthLagna: props.enableBirthLagna,           
     };
     this.handler = this.handler.bind(this);
     this.handlerBirthLagna = this.handlerBirthLagna.bind(this);
@@ -173,7 +185,9 @@ class Chart extends React.Component {
 
           </OverlapGroupChart>
         <div className="side-panel">
-          <BirthLagna handler={this.handlerBirthLagna} ></BirthLagna>
+          { this.state.enableBirthLagna ? 
+            <BirthLagna handler={this.handlerBirthLagna} ></BirthLagna> : <div />
+          }
           <HouseDetailContainer> {parse(this.state.houseDetail)}</HouseDetailContainer>
         </div>
       </div>
@@ -983,42 +997,42 @@ const housesData = [
 
 const sunData = {
     name: "Sun",
-    angle: "0deg",
+    angle: 0,
 };
 
 
 const mercuryData = {
     name: "Mercury",
-    angle: "30deg",
+    angle: 30,
 };
 
 
 const venusData = {
     name: "Venus",
-    angle: "60deg",
+    angle: 60,
 };
 
 
 const rahuData = {
     name: "Rahu",
-    angle: "60deg",
+    angle: 6,
 };
 
 
 const marsData = {
     name: "Mars",
-    angle: "90deg",
+    angle: 90,
 };
 
 const jupiterData = {
     name: "Jupiter",
-    angle: "120deg",
+    angle: 120,
 };
 
 
 const moonData = {
     name: "Moon",
-    angle: "150deg",
+    angle: 150,
 };
 
 
@@ -1054,9 +1068,42 @@ const chartData = {
     ketuProps: ketuData,
     saturnProps: saturnData,
     ascProps: ascData,
+    enableBirthLagna: true,
 };
+
+function hexToBytes(hex) {
+  var bytes = [0,0,0,0,0,0,0,0,0];
+  for (var i=0, c = 0; c < hex.length; c += 3, i++)
+      bytes[i] = parseInt(hex.substr(c, 3), 10);
+  return bytes;
+}
+
+function getChartData(id) {
+  let hex = id.toString(10);
+  let planetData = hexToBytes(hex);
+  console.log(planetData); 
+
+
+  let chartData = {
+    zodiac: "zodiac@1x.png",
+    housesProps: housesData,
+    sunProps: {"name": "Sun", "angle": planetData[1] - 90},
+    moonProps: {"name": "Moon", "angle": planetData[2] - 90},
+    mercuryProps: {"name": "Mercury", "angle": planetData[3] - 90},
+    venusProps: {"name": "Venus", "angle": planetData[4] - 90},
+    marsProps: {"name": "Mars", "angle": planetData[5] - 90},
+    jupiterProps: {"name": "Jupiter", "angle": planetData[6] - 90},
+    saturnProps: {"name": "Saturn", "angle": planetData[7] - 90},
+    rahuProps: {"name": "Rahu", "angle": planetData[8] - 90},
+    ketuProps: {"name": "Ketu", "angle": 180 + planetData[8] - 90},
+    ascProps: {"name": "ASC", "angle": planetData[0] - 90},
+    enableBirthLagna: false,
+  };  
+  return chartData;
+}
 
 export {
   Chart,
-  chartData
+  chartData,
+  ChartWithId
 }
