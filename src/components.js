@@ -7,7 +7,7 @@ import {BirthLagna} from  "./BirthLagna.js"
 import parse from "html-react-parser";
 import {loadAstroNlg, loadRosaeNlg, renderHouseDetail} from "./AstroNlg"
 import { useParams } from "react-router-dom";
-
+/* global BigInt */
 const HOUSE_POS = "400px"
 
 const HousesNum = {
@@ -1080,13 +1080,17 @@ const chartData = {
 
 function hexToBytes(hex) {
   var bytes = [0,0,0,0,0,0,0,0,0];
-  for (var i=0, c = 0; c < hex.length; c += 3, i++)
-      bytes[i] = parseInt(hex.substr(c, 3), 10);
+  let posNum = BigInt(hex);
+  for (var i=0; i <= 8; i++) {
+      bytes[8-i] = Number(posNum % 1000n);
+      posNum =  posNum / 1000n;
+  }
   return bytes;
 }
 
 function getChartData(id) {
   let hex = id.toString(10);
+  let posNum = BigInt(id);
   let planetData = hexToBytes(hex);
   console.log(planetData); 
 
