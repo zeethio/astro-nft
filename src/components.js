@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 
 import Minter from "./nft-minter/Minter";
 
-/* global BigInt */
+  /* global BigInt */
 const HOUSE_POS = "400px"
 
 const HousesNum = {
