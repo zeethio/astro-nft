@@ -7,6 +7,7 @@ import {BirthLagna} from  "./BirthLagna.js"
 import parse from "html-react-parser";
 import {loadAstroNlg, loadRosaeNlg, renderHouseDetail} from "./AstroNlg"
 import { useParams } from "react-router-dom";
+
 import Minter from "./nft-minter/Minter";
 
 /* global BigInt */
