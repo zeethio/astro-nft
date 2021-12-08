@@ -91,15 +91,18 @@ const Minter = (props) => {
 
   return (
     <div className="Minter">
+      {/*
       <Textarea 
           value={tokenId}
           type="text"
       />
+      */}
       <UrlCopyGroup>
           <Textarea 
               ref={textAreaRef}
               value={url}
               type="text"
+              rows="1"
           />     
           <Tooltip
             open={open}
@@ -108,7 +111,7 @@ const Minter = (props) => {
             placement="top"
             leaveDelay={500}
           >
-          <CopyButton onClick={copyToClipBoard}>Copy</CopyButton> 
+          <img src="icon-copy.svg" onClick={copyToClipBoard} />
           </Tooltip>
       </UrlCopyGroup>
       <button className="mintbutton" id="walletButton" onClick={connectWalletPressed}>
@@ -124,7 +127,7 @@ const Minter = (props) => {
       <button className="mintbutton" id="mintButton" onClick={onMintPressed}>
         Mint NFT
       </button>
-      <p id="status" style={{ color: "red" }}>
+      <p id="status" style={{ color: "blue" }}>
         {status}
       </p>
     </div>
@@ -143,10 +146,10 @@ border-radius: 3px;
 `;
 
 const Textarea = styled.textarea`
-font-size: 20px;
+font-size: 16px;
 padding: 0.5em;
 margin: 0.5em;
-width: 70%;
+width: 100%;
 color: ${props => props.inputColor || "palevioletred"};
 background: papayawhip;
 border: none;
