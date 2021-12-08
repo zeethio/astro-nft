@@ -7,7 +7,9 @@ import {BirthLagna} from  "./BirthLagna.js"
 import parse from "html-react-parser";
 import {loadAstroNlg, loadRosaeNlg, renderHouseDetail} from "./AstroNlg"
 import { useParams } from "react-router-dom";
+import Minter from "./nft-minter/Minter";
 
+/* global BigInt */
 const HOUSE_POS = "400px"
 
 const HousesNum = {
@@ -100,7 +102,12 @@ class Chart extends React.Component {
     }
     return planetsPos;
   }
-
+  getChartId() {
+    return "030030060090120150180210240";
+  }
+  getFee() {
+    return "3000000000000";
+  }
   handler(className) {
     var houseDetail = "";
     var houseNum = HousesNum[className];
@@ -195,6 +202,7 @@ class Chart extends React.Component {
           { this.state.enableBirthLagna ? 
             <BirthLagna handler={this.handlerBirthLagna} ></BirthLagna> : <div />
           }
+          <Minter url ="https://astronft.zeeth.io/view" tokenId = {this.getChartId()} weiValue={this.getFee()}/>
           <HouseDetailContainer> {parse(this.state.houseDetail)}</HouseDetailContainer>
         </div>
       </div>
@@ -1080,13 +1088,17 @@ const chartData = {
 
 function hexToBytes(hex) {
   var bytes = [0,0,0,0,0,0,0,0,0];
-  for (var i=0, c = 0; c < hex.length; c += 3, i++)
-      bytes[i] = parseInt(hex.substr(c, 3), 10);
+  let posNum = BigInt(hex);
+  for (var i=0; i <= 8; i++) {
+      bytes[8-i] = Number(posNum % 1000n);
+      posNum =  posNum / 1000n;
+  }
   return bytes;
 }
 
 function getChartData(id) {
   let hex = id.toString(10);
+  let posNum = BigInt(id);
   let planetData = hexToBytes(hex);
   console.log(planetData); 
 
