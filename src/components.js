@@ -80,6 +80,7 @@ class Chart extends React.Component {
       ascProps: props.ascProps,
       housesProps: props.housesProps,  
       planetData: [],
+      chartId: 0,
       astroNlgLoaded: false, 
       rosaeNlgLoaded: false,
       enableBirthLagna: props.enableBirthLagna,           
@@ -103,11 +104,9 @@ class Chart extends React.Component {
     }
     return planetsPos;
   }
-  getChartId() {
-    return "030030060090120150180210240";
-  }
+
   getFee() {
-    return "3000000000000";
+    return 1*10**16;
   }
   handler(className) {
     var houseDetail = "";
@@ -132,6 +131,12 @@ class Chart extends React.Component {
 
   handlerBirthLagna(date, planetData) {
     console.log("date, asc planets: ", date, planetData);
+    var chartId = BigInt(parseInt(planetData[13]));
+    // Calculate chartId for blockchain
+    for (var i=1; i < 8; i++) {
+      chartId = chartId * BigInt(1000) + BigInt(parseInt(planetData[i]));
+    }
+    chartId = chartId * BigInt(1000) + BigInt(parseInt(planetData[11]));
 
     this.setState({
         date: date,
@@ -146,6 +151,7 @@ class Chart extends React.Component {
         ketuProps: {"name": "Ketu", "angle": 180 + planetData[11] - 90},
         ascProps: {"name": "ASC", "angle": planetData[13] - 90},
         planetData: planetData,
+        chartId: chartId,
     })
   } 
 
@@ -203,7 +209,7 @@ class Chart extends React.Component {
           { this.state.enableBirthLagna ? 
             <BirthLagna handler={this.handlerBirthLagna} ></BirthLagna> : <div />
           }
-          <Minter url ="https://astronft.zeeth.io/view" tokenId = {this.getChartId()} weiValue={this.getFee()}/>
+          <Minter url ="https://astronft.zeeth.io/view" tokenId = {this.state.chartId} weiValue={this.getFee()}/>
           <HouseDetailContainer> {parse(this.state.houseDetail)}</HouseDetailContainer>
         </div>
       </div>

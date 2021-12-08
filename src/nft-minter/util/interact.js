@@ -118,7 +118,7 @@ export const mintNFT = async (tokenId, weiValue) => {
     const transactionParameters = {
         to: contractAddress, // Required except during contract publications.
         from: window.ethereum.selectedAddress, // must match user's active address.
-        value: weiValue,
+        value: "0x"+(weiValue).toString(16),
         data: window.contract.methods
             .mint(window.ethereum.selectedAddress, tokenId, 1, [])
             .encodeABI(),
@@ -132,8 +132,7 @@ export const mintNFT = async (tokenId, weiValue) => {
     return {
       success: true,
       status:
-        "✅ Check out your transaction on Etherscan: https://ropsten.etherscan.io/tx/" +
-        txHash,
+        "✅ Check out your transaction on Etherscan " + txHash,
     };
   } catch (error) {
     return {

@@ -35,7 +35,10 @@ const Minter = (props) => {
     setStatus(status);
 
     addWalletListener();
-  }, []);
+    setTokenId(props.tokenId.toString())
+    setURL(props.url + "/" + props.tokenId)
+    setWeiValue(props.weiValue)
+  }, [props.url, props.tokenId, props.weiValue]);
 
   function addWalletListener() {
     if (window.ethereum) {
@@ -88,11 +91,9 @@ const Minter = (props) => {
 
   return (
     <div className="Minter">
-      <Input 
+      <Textarea 
           value={tokenId}
-          type="input"
-          placeholder="030030060090120150180210240"
-          onChange={(event) => setTokenId(event.target.value)}
+          type="text"
       />
       <UrlCopyGroup>
           <Textarea 
