@@ -83,7 +83,8 @@ class Chart extends React.Component {
       chartId: 0,
       astroNlgLoaded: false, 
       rosaeNlgLoaded: false,
-      enableBirthLagna: props.enableBirthLagna,           
+      enableBirthLagna: props.enableBirthLagna,
+      enableMintNft: props.enableMintNft,         
     };
     this.handler = this.handler.bind(this);
     this.handlerBirthLagna = this.handlerBirthLagna.bind(this);
@@ -213,7 +214,10 @@ class Chart extends React.Component {
           { this.state.enableBirthLagna ? 
             <BirthLagna handler={this.handlerBirthLagna} ></BirthLagna> : <div />
           }
-          <Minter url ="https://astronft.zeeth.io/view" tokenId = {this.state.chartId} weiValue={this.getFee()}/>
+          {
+            this.state.enableMintNft ? 
+            <Minter url ="https://astronft.zeeth.io/view" tokenId = {this.state.chartId} weiValue={this.getFee()}/> : <div />
+          }
           <HouseDetailContainer> {parse(this.state.houseDetail)}</HouseDetailContainer>
         </div>
       </div>
@@ -1095,6 +1099,7 @@ const chartData = {
     saturnProps: saturnData,
     ascProps: ascData,
     enableBirthLagna: true,
+    enableMintNft: true,
 };
 
 function hexToBytes(hex) {
@@ -1128,6 +1133,7 @@ function getChartData(id) {
     ketuProps: {"name": "Ketu", "angle": 180 + planetData[8] - 90},
     ascProps: {"name": "ASC", "angle": planetData[0] - 90},
     enableBirthLagna: false,
+    enableMintNft: false,
   };  
   return chartData;
 }

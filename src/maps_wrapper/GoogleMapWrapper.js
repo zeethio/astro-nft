@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import AutoComplete from './AutoComplete';
 import Marker from './Marker';
 
+const maps_key = process.env.REACT_APP_GOOGLE_MAPS_KEY;
 const Wrapper = styled.main`
   width: 100%;
   height: 100%;
@@ -146,7 +147,7 @@ class GoogleMapWrapper extends Component {
                     onChildClick={() => console.log('child click')}
                     onClick={this._onClick}
                     bootstrapURLKeys={{
-                        key: '',
+                        key: maps_key,
                         libraries: ['places', 'geometry'],
                     }}
                     yesIWantToUseGoogleMapApiInternals
