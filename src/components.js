@@ -131,28 +131,32 @@ class Chart extends React.Component {
 
   handlerBirthLagna(date, planetData) {
     console.log("date, asc planets: ", date, planetData);
-    var chartId = BigInt(parseInt(planetData[13]));
-    // Calculate chartId for blockchain
-    for (var i=1; i < 8; i++) {
-      chartId = chartId * BigInt(1000) + BigInt(parseInt(planetData[i]));
-    }
-    chartId = chartId * BigInt(1000) + BigInt(parseInt(planetData[11]));
+    try {
+      var chartId = BigInt(parseInt(planetData[13]));
+      // Calculate chartId for blockchain
+      for (var i=1; i < 8; i++) {
+        chartId = chartId * BigInt(1000) + BigInt(parseInt(planetData[i]));
+      }
+      chartId = chartId * BigInt(1000) + BigInt(parseInt(planetData[11]));
 
-    this.setState({
-        date: date,
-        sunProps: {"name": "Sun", "angle": planetData[1] - 90},
-        moonProps: {"name": "Moon", "angle": planetData[2] - 90},
-        mercuryProps: {"name": "Mercury", "angle": planetData[3] - 90},
-        venusProps: {"name": "Venus", "angle": planetData[4] - 90},
-        marsProps: {"name": "Mars", "angle": planetData[5] - 90},
-        jupiterProps: {"name": "Jupiter", "angle": planetData[6] - 90},
-        saturnProps: {"name": "Saturn", "angle": planetData[7] - 90},
-        rahuProps: {"name": "Rahu", "angle": planetData[11] - 90},
-        ketuProps: {"name": "Ketu", "angle": 180 + planetData[11] - 90},
-        ascProps: {"name": "ASC", "angle": planetData[13] - 90},
-        planetData: planetData,
-        chartId: chartId,
-    })
+      this.setState({
+          date: date,
+          sunProps: {"name": "Sun", "angle": planetData[1] - 90},
+          moonProps: {"name": "Moon", "angle": planetData[2] - 90},
+          mercuryProps: {"name": "Mercury", "angle": planetData[3] - 90},
+          venusProps: {"name": "Venus", "angle": planetData[4] - 90},
+          marsProps: {"name": "Mars", "angle": planetData[5] - 90},
+          jupiterProps: {"name": "Jupiter", "angle": planetData[6] - 90},
+          saturnProps: {"name": "Saturn", "angle": planetData[7] - 90},
+          rahuProps: {"name": "Rahu", "angle": planetData[11] - 90},
+          ketuProps: {"name": "Ketu", "angle": 180 + planetData[11] - 90},
+          ascProps: {"name": "ASC", "angle": planetData[13] - 90},
+          planetData: planetData,
+          chartId: chartId,
+      })
+    } catch (e) {
+
+    }
   } 
 
 

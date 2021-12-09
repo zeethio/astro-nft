@@ -113,7 +113,7 @@ class BirthLagna extends React.Component {
         console.log("year:" + year + " month:" + month + " day:" + day + " hour:" + hours + " minutes:" + minutes + " lat:"+  latitude + " long:" + longitude);
         var planetPosition = new Array();
         //planetPosition1 = calPlanetPosition2( 1964, 6, 25, 20, 0, 16, 82 );    
-        planetPosition = calPlanetPosition2( year, month, day, hours, minutes, longitude, latitude );        
+        planetPosition = calPlanetPosition2( year, month + 1, day, hours, minutes, longitude, latitude );        
 
         this.props.handler(date, planetPosition);
     }
@@ -177,7 +177,7 @@ class BirthLagna extends React.Component {
         return (
             <div className="BirthLagna">
                 <div className="BirthLagnaBody">
-                    <DateTimePicker className="CustomDatePicker" onChange={this.handlerDateTime} value={this.state.date} />
+                    <DateTimePicker className="CustomDatePicker" disableCalendar="true" disableClock="true" onChange={this.handlerDateTime} value={this.state.date} />
                     <div className="TimezoneWrapper">
                         <TimezoneSelect value={this.state.timeZone} placeholder="Select Time Zone" onChange={this.setSelectedTimezone} />
                     </div>            
