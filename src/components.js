@@ -142,16 +142,16 @@ class Chart extends React.Component {
 
       this.setState({
           date: date,
-          sunProps: {"name": "Sun", "angle": planetData[1] - 90},
-          moonProps: {"name": "Moon", "angle": planetData[2] - 90},
-          mercuryProps: {"name": "Mercury", "angle": planetData[3] - 90},
-          venusProps: {"name": "Venus", "angle": planetData[4] - 90},
-          marsProps: {"name": "Mars", "angle": planetData[5] - 90},
-          jupiterProps: {"name": "Jupiter", "angle": planetData[6] - 90},
-          saturnProps: {"name": "Saturn", "angle": planetData[7] - 90},
-          rahuProps: {"name": "Rahu", "angle": planetData[11] - 90},
-          ketuProps: {"name": "Ketu", "angle": 180 + planetData[11] - 90},
-          ascProps: {"name": "ASC", "angle": planetData[13] - 90},
+          sunProps: {"name": "Sun", "angle":  -planetData[1] - 90},
+          moonProps: {"name": "Moon", "angle": -planetData[2] - 90},
+          mercuryProps: {"name": "Mercury", "angle": -planetData[3] - 90},
+          venusProps: {"name": "Venus", "angle": -planetData[4] - 90},
+          marsProps: {"name": "Mars", "angle": -planetData[5] - 90},
+          jupiterProps: {"name": "Jupiter", "angle": -planetData[6] - 90},
+          saturnProps: {"name": "Saturn", "angle": -planetData[7] - 90},
+          rahuProps: {"name": "Rahu", "angle": -planetData[11] - 90},
+          ketuProps: {"name": "Ketu", "angle": -planetData[11] - 90 + 180},
+          ascProps: {"name": "ASC", "angle": -planetData[13] + 90},
           planetData: planetData,
           chartId: chartId,
       })
@@ -207,7 +207,7 @@ class Chart extends React.Component {
               </Planets>
             </Space>
             <Asc {...this.state.ascProps}/>            
-            <Houses handler = {this.handler} data = {this.state.housesProps} />
+            <Houses handler = {this.handler}  angle={180} data = {this.state.housesProps} />
 
           </OverlapGroupChart>
         <div className="side-panel">
@@ -338,8 +338,8 @@ class Houses extends React.Component {
 
 const HousesStyle = styled.div`
   position: relative;
-  width:  ${SIZES.chart_width}; //980px;
-  height: ${SIZES.chart_height}; //980px;
+  width:  ${SIZES.chart_width};
+  height: ${SIZES.chart_height};
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -393,46 +393,46 @@ const HouseStyle = styled.div`
     transform:   rotate(${props => props.angle ? (props.angle + 0) + "deg": "0deg"}) rotate(0deg)  translate(${SIZES.house_x});
   }
   &.house.house2 {
-    transform:  rotate(${props => props.angle ? (props.angle + 30) + "deg": "30deg"})   translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle - 30) + "deg": "30deg"})   translate(${SIZES.house_x});
   }
   &.house.house3 {
-    transform:  rotate(${props => props.angle ? (props.angle + 60) + "deg": "60deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle - 60) + "deg": "60deg"})  translate(${SIZES.house_x});
   }
   &.house.house4 {
-    transform:  rotate(${props => props.angle ? (props.angle + 90) + "deg": "90deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle - 90) + "deg": "90deg"})  translate(${SIZES.house_x});
   }
 
   &.house.house5 {
-    transform:  rotate(${props => props.angle ? (props.angle + 120) + "deg": "120deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle - 120) + "deg": "120deg"})  translate(${SIZES.house_x});
   }
 
   &.house.house6 {
-    transform:  rotate(${props => props.angle ? (props.angle + 150) + "deg": "150deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle - 150) + "deg": "150deg"})  translate(${SIZES.house_x});
   }
 
 
   &.house.house7 {
-    transform:  rotate(${props => props.angle ? (props.angle + 180) + "deg": "180deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle - 180) + "deg": "180deg"})  translate(${SIZES.house_x});
   }
 
   &.house.house8 {
-    transform:  rotate(${props => props.angle ? (props.angle  -150) + "deg": "-150deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle  + 150) + "deg": "-150deg"})  translate(${SIZES.house_x});
   }
 
   &.house.house9 {
-    transform:  rotate(${props => props.angle ? (props.angle -120) + "deg": "-120deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle + 120) + "deg": "-120deg"})  translate(${SIZES.house_x});
   }
 
   &.house.house10 {
-    transform:  rotate(${props => props.angle ? (props.angle - 90) + "deg": "-90deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle + 90) + "deg": "-90deg"})  translate(${SIZES.house_x});
   }
 
   &.house.house11 {
-    transform:  rotate(${props => props.angle ? (props.angle - 60) + "deg": "-60deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle + 60) + "deg": "-60deg"})  translate(${SIZES.house_x});
   }
 
   &.house.house12 {
-    transform:  rotate(${props => props.angle ? (props.angle - 30) + "deg": "-30deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle + 30) + "deg": "-30deg"})  translate(${SIZES.house_x});
   }
 `;
 
@@ -567,7 +567,7 @@ const Asc1 = styled.div`
   overflow: hidden;
   opacity: 0.7;
   //transform: rotate(${props => props.angle ? props.angle +"deg": "0deg"}) translate(300px);
-  transform: translateX(300px);
+  transform: translateX(-300px);
 `;
 
 const ASC = styled.div`
@@ -1086,7 +1086,8 @@ const ascData = {
 
 
 const chartData = {
-    zodiac: "zodiac@1x.png",
+    //zodiac: "zodiac@1x.png",
+    zodiac: "zodiac-s.png",
     housesProps: housesData,
     sunProps: sunData,
     mercuryProps: mercuryData,
@@ -1120,18 +1121,19 @@ function getChartData(id) {
 
 
   let chartData = {
-    zodiac: "zodiac@1x.png",
+    //zodiac: "zodiac@1x.png",
+    zodiac: "zodiac-s.png",
     housesProps: housesData,
-    sunProps: {"name": "Sun", "angle": planetData[1] - 90},
-    moonProps: {"name": "Moon", "angle": planetData[2] - 90},
-    mercuryProps: {"name": "Mercury", "angle": planetData[3] - 90},
-    venusProps: {"name": "Venus", "angle": planetData[4] - 90},
-    marsProps: {"name": "Mars", "angle": planetData[5] - 90},
-    jupiterProps: {"name": "Jupiter", "angle": planetData[6] - 90},
-    saturnProps: {"name": "Saturn", "angle": planetData[7] - 90},
-    rahuProps: {"name": "Rahu", "angle": planetData[8] - 90},
-    ketuProps: {"name": "Ketu", "angle": 180 + planetData[8] - 90},
-    ascProps: {"name": "ASC", "angle": planetData[0] - 90},
+    sunProps: {"name": "Sun", "angle": -planetData[1] - 90},
+    moonProps: {"name": "Moon", "angle": -planetData[2] - 90},
+    mercuryProps: {"name": "Mercury", "angle": -planetData[3] - 90},
+    venusProps: {"name": "Venus", "angle": -planetData[4] - 90},
+    marsProps: {"name": "Mars", "angle": -planetData[5] - 90},
+    jupiterProps: {"name": "Jupiter", "angle": -planetData[6] - 90},
+    saturnProps: {"name": "Saturn", "angle": -planetData[7] - 90},
+    rahuProps: {"name": "Rahu", "angle": -planetData[8] - 90},
+    ketuProps: {"name": "Ketu", "angle": 180 + -planetData[8] - 90},
+    ascProps: {"name": "ASC", "angle": -planetData[0] + 90},
     enableBirthLagna: false,
     enableMintNft: false,
   };  
