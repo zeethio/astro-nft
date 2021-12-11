@@ -1025,80 +1025,46 @@ const housesData = [
     house12Data,
 ];
 
-const sunData = {
-    name: "Sun",
-    angle: 0,
-};
-
-
-const mercuryData = {
-    name: "Mercury",
-    angle: 30,
-};
-
-
-const venusData = {
-    name: "Venus",
-    angle: 60,
-};
-
-
-const rahuData = {
-    name: "Rahu",
-    angle: 6,
-};
-
-
-const marsData = {
-    name: "Mars",
-    angle: 90,
-};
-
-const jupiterData = {
-    name: "Jupiter",
-    angle: 120,
-};
-
-
-const moonData = {
-    name: "Moon",
-    angle: 150,
-};
-
-
-const ketuData = {
-    name: "Ketu",
-    angle: "180deg",
-};
-
-
-const saturnData = {
-    name: "Saturn",
-    angle: "210deg",
-
-};
-
-
-const ascData = {
-  name: "ASC",
-  angle: 0,
-};
-
-
+// Defualt chart data. It will be overridden durting initialization. Kept it here as a template
 const chartData = {
     //zodiac: "zodiac@1x.png",
     zodiac: "zodiac-s.png",
     housesProps: housesData,
-    sunProps: sunData,
-    mercuryProps: mercuryData,
-    venusProps: venusData,
-    rahuProps: rahuData,
-    marsProps: marsData,
-    jupiterProps: jupiterData,
-    moonProps: moonData,
-    ketuProps: ketuData,
-    saturnProps: saturnData,
-    ascProps: ascData,
+    sunProps: { name: "Sun", angle: 0,},
+    mercuryProps:{ name: "Mercury", angle: 30,},
+    venusProps: {
+      name: "Venus",
+      angle: 60,
+    },
+    rahuProps: {
+      name: "Rahu",
+      angle: 6,
+    },
+    marsProps: {
+      name: "Mars",
+      angle: 90,
+    },
+    jupiterProps: {
+      name: "Jupiter",
+      angle: 120,
+    },
+    moonProps:{
+      name: "Moon",
+      angle: 150,
+    },
+    ketuProps: {
+      name: "Ketu",
+      angle: "180",
+    },
+    saturnProps: {
+      name: "Saturn",
+      angle: "210",
+  
+    },
+    ascProps: {
+      name: "ASC",
+      angle: 0,
+    },
     enableBirthLagna: true,
     enableMintNft: true,
 };
