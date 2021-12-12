@@ -1,5 +1,5 @@
 
-export const HousesIntro = "<h1>What is Birth Chart ?</h1><p>The birth chart is a snapshot of the sky at your moment of birth." +
+const HousesIntro = "<h1>What is Birth Chart ?</h1><p>The birth chart is a snapshot of the sky at your moment of birth." +
                     "The birth chart is divided into 12 equal sections, which comprise the Houses. Houses are not the same as the Zodiac wheel. " +
                     "The Houses in an Astrology Chart represent different facets of your life.</p>" +
                     "<p>It is essential to use your correct time and location of your birth when calculating your chart. The first house of your chart starts at the " +
@@ -12,4 +12,6 @@ export const HousesIntro = "<h1>What is Birth Chart ?</h1><p>The birth chart is 
                     "The attributes are further influenced by the planetary positions in various signs at the itme of your bith. Click the house to get more details of the effect. " +
                     "Each Zodiac sign has a planet associate with it. This planet will be the ruling planet of the House aligning with the sign. The currnent position of the planet in other houses couples the attributes of the house. "  +
                     "";
-
+export {
+    HousesIntro
+}                    

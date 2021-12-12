@@ -2,8 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { css, createGlobalStyle } from "styled-components";
 import './components.css';
-import {getHouseDetails, HousesIntro} from "./HouseDetails.js"
-import {BirthLagna} from  "./BirthLagna.js"
+import {HousesIntro} from "./HouseDetails.js";
+import {BirthLagna} from  "./BirthLagna.js";
+import {PlanetTable} from  "./PlanetTable.js";
+
 import parse from "html-react-parser";
 import {loadAstroNlg, loadRosaeNlg, renderHouseDetail} from "./AstroNlg"
 import { useParams } from "react-router-dom";
@@ -41,6 +43,7 @@ const SIZES = {
   house_height: "90px",
   house_x: "400px",
   house_y: "445px",
+  house_offset: "400px",
   sun_offset: 8,
   moon_offset: 16,
   mercury_offset: 24,
@@ -67,7 +70,7 @@ class Chart extends React.Component {
     super(props);
     this.state = {
       date: new Date(), 
-      houseDetail: HousesIntro,
+      houseDetail: HousesIntro ,
       sunProps: props.sunProps,
       mercuryProps: props.mercuryProps,
       venusProps: props.venusProps,
@@ -84,10 +87,27 @@ class Chart extends React.Component {
       astroNlgLoaded: false, 
       rosaeNlgLoaded: false,
       enableBirthLagna: props.enableBirthLagna,
-      enableMintNft: props.enableMintNft,         
+      enableMintNft: props.enableMintNft,
+      mintFragOpen: true,    
+      planetTableFragOpen: true,    
+      vedicChartFragOpen: true,
+      sideralOffset: 24,      
     };
     this.handler = this.handler.bind(this);
     this.handlerBirthLagna = this.handlerBirthLagna.bind(this);
+    this.toggleMintFrag = this.toggleMintFrag.bind(this);
+    this.togglePlanetTableFrag = this.togglePlanetTableFrag.bind(this);
+    this.toggleVedicChartFrag = this.toggleVedicChartFrag.bind(this);
+  }
+
+  toggleMintFrag() {
+    this.setState({ mintFragOpen: !this.state.mintFragOpen });
+  }
+  togglePlanetTableFrag() {
+    this.setState({ planetTableFragOpen: !this.state.planetTableFragOpen });
+  }
+  toggleVedicChartFrag() {
+    this.setState({ vedicChartFragOpen: !this.state.vedicChartFragOpen });
   }
 
   angleToSign(angle) {
@@ -95,12 +115,12 @@ class Chart extends React.Component {
     return signNum;
   }
 
-  getPlanetPos(planetsData) {
+  getPlanetPos(planetsData, sideralOffset) {
     var planetsPos = {}
-    if(this.state.planetData.length >= 9) {
+    if(planetsData.length >= 9) {
       for (var planet in  PlanetsEnum) {
         var angle = planetsData[PlanetsEnum[planet] + 1];
-        planetsPos[planet] = this.angleToSign(angle);
+        planetsPos[planet] = this.angleToSign(angle - sideralOffset);
       }
     }
     return planetsPos;
@@ -112,7 +132,7 @@ class Chart extends React.Component {
   handler(className) {
     var houseDetail = "";
     var houseNum = HousesNum[className];
-    var planetsPos = this.getPlanetPos( this.state.planetData );
+    var planetsPos = this.getPlanetPos( this.state.planetData, this.state.sideralOffset );
     var signNum = this.angleToSign(this.state.planetData && this.state.planetData.length > 0 ? this.state.planetData[13] : 0);
     var inputData = { 
       houseNum: houseNum, 
@@ -124,6 +144,7 @@ class Chart extends React.Component {
       houseDetail = renderHouseDetail(inputData);
     }
     console.log(houseDetail);
+    console.log(planetsPos);
 
     this.setState({
       houseDetail: houseDetail
@@ -187,11 +208,33 @@ class Chart extends React.Component {
     } = this.props;
     console.log(this.props)
     console.log("planetaryData: " + this.state.planetData);
+
+      let minter;
+      if(this.state.enableMintNft)      
+      minter = 
+        <FragContainer>
+          <FragHeading className="MintFrag" onClick={this.toggleMintFrag}>Mint on Blockchain {this.state.mintFragOpen ? "-" : "+"}</FragHeading>
+            {this.state.mintFragOpen ? <Minter className="Minter" url ="https://astronft.zeeth.io/view" tokenId = {this.state.chartId} weiValue={this.getFee()}/>: <div />} 
+        </FragContainer>
+      else minter = <div />;
+
+    let planetTable = 
+      <FragContainer>
+        <FragHeading className="PlanetTableFrag" onClick={this.togglePlanetTableFrag}>Show Planet Table {this.state.planetTableFragOpen ? "-" : "+"}</FragHeading>
+          {this.state.planetTableFragOpen ? <PlanetTable planetData={this.state.planetData}/>: <div />} 
+    </FragContainer>
+
+    let vedicChart = 
+      <FragContainer>
+        <FragHeading className="vedicChartFrag" onClick={this.toggleVedicChartFrag}>Show Chart {this.state.vedicChartFragOpen ? "-" : "+"}</FragHeading>
+          {this.state.vedicChartFragOpen ? <VedicChartS style={{ backgroundImage: `url(vedic-chart-s.png)`, backgroundPosition: 'center', backgroundSize: 'cover', width: 270, height: 270,}}/>: <div />} 
+    </FragContainer>
+
     return (
       <div className="container-center-vertical">
           <OverlapGroupChart>
             <Space angle={this.state.ascProps.angle}>
-              <Zodiac style={{ backgroundImage: `url(${zodiac})` }}></Zodiac>
+              <Zodiac angle={this.state.sideralOffset} style={{ backgroundImage: `url(${zodiac})` }}></Zodiac>
               <Planets>
                 <OverlapGroup13>
                   <Sun {...this.state.sunProps} />
@@ -214,10 +257,9 @@ class Chart extends React.Component {
           { this.state.enableBirthLagna ? 
             <BirthLagna handler={this.handlerBirthLagna} ></BirthLagna> : <div />
           }
-          {
-            this.state.enableMintNft ? 
-            <Minter url ="https://astronft.zeeth.io/view" tokenId = {this.state.chartId} weiValue={this.getFee()}/> : <div />
-          }
+          {minter}
+          {planetTable}
+          {vedicChart}
           <HouseDetailContainer> {parse(this.state.houseDetail)}</HouseDetailContainer>
         </div>
       </div>
@@ -282,10 +324,10 @@ const OverlapGroupChart = styled.div`
 
 const Space = styled.div`
   position: absolute;
-  width:  ${SIZES.space_width};//642px;
-  height: ${SIZES.space_height};//642px;
-  top: ${SIZES.space_y}; //168px;
-  left: ${SIZES.space_x}; //168px;
+  width:  ${SIZES.space_width};
+  height: ${SIZES.space_height};
+  top: ${SIZES.space_y};
+  left: ${SIZES.space_x};
   background-size: cover;
   background-position: 50% 50%;
   transform: rotate(${props => props.angle ? -props.angle +"deg": "0deg"});  
@@ -294,18 +336,28 @@ const Space = styled.div`
 
 const Zodiac = styled.div`
   position: absolute;
-  width: ${SIZES.zodiac_width};//582px;
-  height: ${SIZES.zodiac_height};//582px;
-  top: ${SIZES.zodiac_x};//30px;
-  left: ${SIZES.zodiac_y};//30px;
+  width: ${SIZES.zodiac_width};
+  height: ${SIZES.zodiac_height};
+  top: ${SIZES.zodiac_x};
+  left: ${SIZES.zodiac_y};
   background-size: cover;
   background-position: 50% 50%;
+  transform: rotate(${props => props.angle ? -props.angle +"deg": "0deg"});  
 `;
+
+const VedicChartS = styled.div`
+  position: relative;
+  width: 270;
+  height: 270;
+  background-size: cover;
+  //background-position: 50% 50%;
+`;
+
 
 const Planets = styled.div`
   position: absolute;
-  width: ${SIZES.space_width};//642px;
-  height: ${SIZES.space_height};//642px;
+  width: ${SIZES.space_width};
+  height: ${SIZES.space_height};
   top: 0px;
   left: 0px;
   display: flex;
@@ -390,49 +442,49 @@ const HouseStyle = styled.div`
   transform: unset;
 
   &.house.house1 {
-    transform:   rotate(${props => props.angle ? (props.angle + 0) + "deg": "0deg"}) rotate(0deg)  translate(${SIZES.house_x});
+    transform:   rotate(${props => props.angle ? (props.angle + 0) + "deg": "0deg"}) rotate(0deg)  translate(${SIZES.house_offset});
   }
   &.house.house2 {
-    transform:  rotate(${props => props.angle ? (props.angle - 30) + "deg": "30deg"})   translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle - 30) + "deg": "30deg"})   translate(${SIZES.house_offset});
   }
   &.house.house3 {
-    transform:  rotate(${props => props.angle ? (props.angle - 60) + "deg": "60deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle - 60) + "deg": "60deg"})  translate(${SIZES.house_offset});
   }
   &.house.house4 {
-    transform:  rotate(${props => props.angle ? (props.angle - 90) + "deg": "90deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle - 90) + "deg": "90deg"})  translate(${SIZES.house_offset});
   }
 
   &.house.house5 {
-    transform:  rotate(${props => props.angle ? (props.angle - 120) + "deg": "120deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle - 120) + "deg": "120deg"})  translate(${SIZES.house_offset});
   }
 
   &.house.house6 {
-    transform:  rotate(${props => props.angle ? (props.angle - 150) + "deg": "150deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle - 150) + "deg": "150deg"})  translate(${SIZES.house_offset});
   }
 
 
   &.house.house7 {
-    transform:  rotate(${props => props.angle ? (props.angle - 180) + "deg": "180deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle - 180) + "deg": "180deg"})  translate(${SIZES.house_offset});
   }
 
   &.house.house8 {
-    transform:  rotate(${props => props.angle ? (props.angle  + 150) + "deg": "-150deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle  + 150) + "deg": "-150deg"})  translate(${SIZES.house_offset});
   }
 
   &.house.house9 {
-    transform:  rotate(${props => props.angle ? (props.angle + 120) + "deg": "-120deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle + 120) + "deg": "-120deg"})  translate(${SIZES.house_offset});
   }
 
   &.house.house10 {
-    transform:  rotate(${props => props.angle ? (props.angle + 90) + "deg": "-90deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle + 90) + "deg": "-90deg"})  translate(${SIZES.house_offset});
   }
 
   &.house.house11 {
-    transform:  rotate(${props => props.angle ? (props.angle + 60) + "deg": "-60deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle + 60) + "deg": "-60deg"})  translate(${SIZES.house_offset});
   }
 
   &.house.house12 {
-    transform:  rotate(${props => props.angle ? (props.angle + 30) + "deg": "-30deg"})  translate(${SIZES.house_x});
+    transform:  rotate(${props => props.angle ? (props.angle + 30) + "deg": "-30deg"})  translate(${SIZES.house_offset});
   }
 `;
 
@@ -601,10 +653,10 @@ const PlanetLabel = styled.div`
 
 const Planet = styled.div`
   position: absolute;
-  height: ${SIZES.planet_height};//642px;
-  width: ${SIZES.planet_width};//642px;
-  left: ${SIZES.planet_x};//272px; // 624/2-80/2
-  top: ${SIZES.planet_y};//287px;    
+  height: ${SIZES.planet_height};
+  width: ${SIZES.planet_width};
+  left: ${SIZES.planet_x};
+  top: ${SIZES.planet_y};    
   display: flex;
   align-items: center;
   justify-content: center;
@@ -881,6 +933,26 @@ const SidePanel = styled.div`
   &:hover ${Houses} {
     display: none;
   }
+`;
+
+const FragContainer = styled.div`
+  width: 100%;
+  background: #482c34;
+  //border: 4px;
+  border-color: rgb(255,255,255);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;  
+`;
+
+const FragHeading = styled.div`
+  //border: 1px solid #ddd;
+  background: rebeccapurple;
+  color: white;
+  //padding: 0.5em;
+  margin-bottom: 10;
+  font-size: 16px;
+  //width: 100%;
 `;
 
 const house1Data = {
