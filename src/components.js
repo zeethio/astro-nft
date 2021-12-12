@@ -37,21 +37,21 @@ const SIZES = {
   zodiac_y: "59px",
   planet_width: "80px",
   planet_height: "50px",
-  planet_x: "310px",
+  planet_x: "310px", // (space_width - planet_width)/2 
   planet_y: "325px",
   house_width: "180px",
   house_height: "90px",
   house_x: "400px",
   house_y: "445px",
   house_offset: "400px",
-  sun_offset: 8,
-  moon_offset: 16,
-  mercury_offset: 24,
-  venus_offset: 32,
-  mars_offset: 40,
-  jupiter_offset: 40,
-  saturn_offset: 40,
-  rahu_offset: 40,    
+  sun_offset: 0,
+  moon_offset: 0,
+  mercury_offset: 0,
+  venus_offset: 0,
+  mars_offset: 0,
+  jupiter_offset: 0,
+  saturn_offset: 0,
+  rahu_offset: 0,    
 };
 
 function ChartWithId() {
@@ -112,15 +112,16 @@ class Chart extends React.Component {
 
   angleToSign(angle) {
     var signNum = Math.round((angle%360)/30);
-    return signNum;
+    return (signNum + 12) % 12;
   }
 
   getPlanetPos(planetsData, sideralOffset) {
     var planetsPos = {}
     if(planetsData.length >= 9) {
       for (var planet in  PlanetsEnum) {
-        var angle = planetsData[PlanetsEnum[planet] + 1];
-        planetsPos[planet] = this.angleToSign(angle - sideralOffset);
+        // Correct angle. ASC is moved negative 90deg w.r.t tropical aries reference
+        var angle = planetsData[PlanetsEnum[planet] + 1] - sideralOffset - 90;
+        planetsPos[planet] = this.angleToSign(angle );
       }
     }
     return planetsPos;
@@ -163,15 +164,15 @@ class Chart extends React.Component {
 
       this.setState({
           date: date,
-          sunProps: {"name": "Sun", "angle":  -planetData[1] - 90},
-          moonProps: {"name": "Moon", "angle": -planetData[2] - 90},
-          mercuryProps: {"name": "Mercury", "angle": -planetData[3] - 90},
-          venusProps: {"name": "Venus", "angle": -planetData[4] - 90},
-          marsProps: {"name": "Mars", "angle": -planetData[5] - 90},
-          jupiterProps: {"name": "Jupiter", "angle": -planetData[6] - 90},
-          saturnProps: {"name": "Saturn", "angle": -planetData[7] - 90},
-          rahuProps: {"name": "Rahu", "angle": -planetData[11] - 90},
-          ketuProps: {"name": "Ketu", "angle": -planetData[11] - 90 + 180},
+          sunProps: {"name": "Sun", "angle":  -planetData[1]},
+          moonProps: {"name": "Moon", "angle": -planetData[2]},
+          mercuryProps: {"name": "Mercury", "angle": -planetData[3]},
+          venusProps: {"name": "Venus", "angle": -planetData[4]},
+          marsProps: {"name": "Mars", "angle": -planetData[5]},
+          jupiterProps: {"name": "Jupiter", "angle": -planetData[6]},
+          saturnProps: {"name": "Saturn", "angle": -planetData[7]},
+          rahuProps: {"name": "A.Node", "angle": -planetData[11]},
+          ketuProps: {"name": "D.Node", "angle": -planetData[11] + 180},
           ascProps: {"name": "ASC", "angle": -planetData[13] + 90},
           planetData: planetData,
           chartId: chartId,
@@ -635,8 +636,8 @@ const IconPlanet = styled.img`
   position: absolute;
   width: 32px;
   height: 32px;
-  top: 20px;
-  left: 24px;
+  top: 9px;  //(planet_height=50 - 32) /2
+  left: 24px; //(planet_width - 32) /2
 `;
 
 const PlanetLabel = styled.div`
@@ -645,10 +646,12 @@ const PlanetLabel = styled.div`
   position: absolute;
   width: 100%;
   height: 21px;
+  top: -30px;
   text-align: center;
   justify-content: center;
   letter-spacing: 0;
   overflow: hidden;
+  transform: rotate(-90deg);
 `;
 
 const Planet = styled.div`
@@ -660,7 +663,7 @@ const Planet = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: rotate(${props => props.angle ? props.angle + "deg": "0deg"}) translate(280px) translate(${props => props.offset ? props.offset + "px": "0px"}) rotate(${props => props.angle ? 90 + "deg": "0deg"});
+  transform: rotate(${props => props.angle ? props.angle + "deg": "0deg"}) translateY(-280px) translateY(${props => props.offset ? -props.offset + "px": "0px"}) ;
 `;
 
 const OverlapGroupPlanet = styled.div`
@@ -1162,15 +1165,15 @@ function getChartData(id) {
     //zodiac: "zodiac@1x.png",
     zodiac: "zodiac-s.png",
     housesProps: housesData,
-    sunProps: {"name": "Sun", "angle": -planetData[1] - 90},
-    moonProps: {"name": "Moon", "angle": -planetData[2] - 90},
-    mercuryProps: {"name": "Mercury", "angle": -planetData[3] - 90},
-    venusProps: {"name": "Venus", "angle": -planetData[4] - 90},
-    marsProps: {"name": "Mars", "angle": -planetData[5] - 90},
-    jupiterProps: {"name": "Jupiter", "angle": -planetData[6] - 90},
-    saturnProps: {"name": "Saturn", "angle": -planetData[7] - 90},
-    rahuProps: {"name": "Rahu", "angle": -planetData[8] - 90},
-    ketuProps: {"name": "Ketu", "angle": 180 + -planetData[8] - 90},
+    sunProps: {"name": "Sun", "angle": -planetData[1]},
+    moonProps: {"name": "Moon", "angle": -planetData[2]},
+    mercuryProps: {"name": "Mercury", "angle": -planetData[3]},
+    venusProps: {"name": "Venus", "angle": -planetData[4]},
+    marsProps: {"name": "Mars", "angle": -planetData[5]},
+    jupiterProps: {"name": "Jupiter", "angle": -planetData[6]},
+    saturnProps: {"name": "Saturn", "angle": -planetData[7]},
+    rahuProps: {"name": "Rahu", "angle": -planetData[8]},
+    ketuProps: {"name": "Ketu", "angle": 180 + -planetData[8]},
     ascProps: {"name": "ASC", "angle": -planetData[0] + 90},
     enableBirthLagna: false,
     enableMintNft: false,
