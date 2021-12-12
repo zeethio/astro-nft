@@ -3,11 +3,11 @@ import styled from 'styled-components';
 //import { css } from "styled-components";
 import "./BirthLagna.css";
 import DateTimePicker from 'react-datetime-picker';
+import tzlookup from 'tz-lookup'
+import moment from 'moment-timezone'
 
 import {calPlanetPosition2} from './js_astro/src/astronomy.js'; 
 import {GoogleMapWrapper} from './maps_wrapper/GoogleMapWrapper';
-import TimezoneSelect from "react-timezone-select";
-import { zonedTimeToUtc, utcToZonedTime } from 'date-fns-tz'
 
 const mapStyles = {
     width: '100%',
@@ -20,7 +20,6 @@ class BirthLagna extends React.Component {
         super(props);
         this.state = {
             date: new Date(), 
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             longitude:0, 
             latitude: 0,
             useGoogleMap: false, 
@@ -29,7 +28,6 @@ class BirthLagna extends React.Component {
         this.handlerLocatoin = this.handlerLocatoin.bind(this);
         this.handlerMapLocatoin = this.handlerMapLocatoin.bind(this);
         this.togleMap = this.togleMap.bind(this);
-        this.setSelectedTimezone = this.setSelectedTimezone.bind(this);
         this.updatePlanets = this.updatePlanets.bind(this);
         this.getLatitude = this.getLatitude.bind(this);
         this.getLongitude = this.getLongitude.bind(this);
@@ -39,20 +37,8 @@ class BirthLagna extends React.Component {
     togleMap(){
         this.setState({ useGoogleMap: !this.state.useGoogleMap})
     }
-
-    tzOffsetMinutes(timeZone, date) {
-        var offset = 0;
-        if (timeZone && timeZone.offset) {
-            offset =  timeZone.offset * 60;
-        } else {
-            // ate.getTimezoneOffset() returns negative values in munutes for positive GMT offset and vice versa
-            // GMT-8 returns 480
-            offset = -date.getTimezoneOffset();
-        }
-        return offset;
-    }
     
-    validateInputs(date, timeZone, latitude, longitude) {
+    validateInputs(date, latitude, longitude) {
 
         if(date == null) {
             console.log("Invalid Date:" + date)
@@ -86,45 +72,46 @@ class BirthLagna extends React.Component {
             console.log(error);
         }
         return value;
-    }    
-    adjustTimeZone(date, timeZone) {
-        // pickerTime localTime - Timezone offset equalent to time calculated from picker display
-        // equivalent to UTC time
-        var pickerTime = date.getTime() - date.getTimezoneOffset()*60*1000;
-        //var zoneTime = pickerTime - timeZone.offset*60*60*1000;
-        var jstTime = pickerTime  - this.tzOffsetMinutes(timeZone, date) *60*1000 ;
-
-        var jstZonedDate = utcToZonedTime(jstTime, "Asia/Seoul")
-        console.log("jstTime:" + jstTime + " jstZonedDate:" + jstZonedDate)
-        return jstZonedDate;
     }
 
-    updatePlanets(localDate, timeZone, latitude, longitude) {
-        var date = this.adjustTimeZone(localDate, timeZone)
-        var year = date.getFullYear();
-        var month = date.getMonth();
-        var day = date.getDate();
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        var latitude = this.getLatitude(latitude);
-        var longitude = this.getLongitude(longitude);
-        console.log(localDate);
-        console.log(date);
+    getJstTime(date, latitude, longitude) {
+        let timeObject = { year: date.getFullYear(), month: date.getMonth(), date: date.getDate(), 
+            hours: date.getHours(), minute: date.getMinutes(),
+            second: 0, millisecond: 0
+        }
+        let timezone = moment.tz.zone(tzlookup(latitude, longitude));
+        let localTime = moment.tz(timeObject, timezone.name);
+        let jstTime = localTime.clone().tz("Asia/Seoul");
+
+        let utcTime = moment.tz(timeObject, timezone.name).utc(); 
+        console.log("timezone: " + JSON.stringify(timezone));
+        console.log("localTime: " + JSON.stringify(localTime));
+        console.log("utcTime: " + JSON.stringify(utcTime));
+        console.log("jstTime: " + JSON.stringify(jstTime));
+        console.log("jstTime: day:" + jstTime.year(), jstTime.month(), jstTime.date(), jstTime.hour(), jstTime.minute());
+
+        return [jstTime.year(), jstTime.month(), jstTime.date(), jstTime.hour(), jstTime.minute()]
+    }
+
+    updatePlanets(localDate, latitude, longitude) {
+        let year, month, day, hours, minutes;
+        [year, month, day, hours, minutes] = this.getJstTime(localDate, latitude, longitude); 
+
         console.log("year:" + year + " month:" + month + " day:" + day + " hour:" + hours + " minutes:" + minutes + " lat:"+  latitude + " long:" + longitude);
         var planetPosition = new Array();
         //planetPosition1 = calPlanetPosition2( 1964, 6, 25, 20, 0, 16, 82 );    
         planetPosition = calPlanetPosition2( year, month + 1, day, hours, minutes, longitude, latitude );        
 
-        this.props.handler(date, planetPosition);
+        this.props.handler(localDate, planetPosition);
     }
     
     handlerDateTime(date) {
         console.log(date);
-        if ( this.validateInputs(date, this.state.timeZone, this.state.latitude, this.state.longitude)) {
+        if ( this.validateInputs(date, this.state.latitude, this.state.longitude)) {
             this.setState({
                 date: date
             })
-            this.updatePlanets(date, this.state.timeZone, this.state.latitude, this.state.longitude );
+            this.updatePlanets(date, this.state.latitude, this.state.longitude );
         }
     } 
 
@@ -140,32 +127,23 @@ class BirthLagna extends React.Component {
             latitude = event.target.value;
             this.setState({latitude: latitude })
         }
-        if ( this.validateInputs(this.state.date, this.state.timeZone, latitude, longitude)) {
-            this.updatePlanets( this.state.date, this.state.timeZone, latitude, longitude );
+        if ( this.validateInputs(this.state.date, latitude, longitude)) {
+            this.updatePlanets( this.state.date,  latitude, longitude );
         }
     }        
 
-    handlerMapLocatoin(longitude, latitude, timeZone){
+    handlerMapLocatoin(longitude, latitude){
         console.log("longitude: " + longitude + " latitude:" + latitude );
         this.setState({longitude: longitude,  latitude: latitude});
-        if ( this.validateInputs(this.state.date, this.state.timeZone, latitude, longitude)) {
-            this.updatePlanets( this.state.date, this.state.timeZone, latitude, longitude );
+        if ( this.validateInputs(this.state.date, latitude, longitude)) {
+            this.updatePlanets( this.state.date, latitude, longitude );
         }        
     }
-
-    setSelectedTimezone(timeZone) {
-        console.log(timeZone);
-        this.setState({timeZone: timeZone});
-        if ( this.validateInputs(this.state.date, timeZone, this.state.latitude, this.state.longitude)) {
-            this.updatePlanets(this.state.date, timeZone, this.state.latitude, this.state.longitude)
-        }        
-    }
-
     componentDidMount() {
         console.log('componentDidMount() lifecycle');
         const success = position => {
             this.setState({latitude: position.coords.latitude, longitude: position.coords.longitude});
-            this.updatePlanets(this.state.date, this.state.timeZone, position.coords.latitude, position.coords.longitude);
+            this.updatePlanets(this.state.date,  position.coords.latitude, position.coords.longitude);
          }
         const error = ()  => {
             this.setState({lat: 0, long: 0});
@@ -177,10 +155,7 @@ class BirthLagna extends React.Component {
         return (
             <div className="BirthLagna">
                 <div className="BirthLagnaBody">
-                    <DateTimePicker className="CustomDatePicker" disableCalendar="true" disableClock="true" onChange={this.handlerDateTime} value={this.state.date} />
-                    <div className="TimezoneWrapper">
-                        <TimezoneSelect value={this.state.timeZone} placeholder="Select Time Zone" onChange={this.setSelectedTimezone} />
-                    </div>            
+                    <DateTimePicker className="CustomDatePicker" disableCalendar="true" disableClock="true" onChange={this.handlerDateTime} value={this.state.date} />         
                     <div>
                         <div>
                         <Input value={this.state.latitude} name="latitude" placeholder="Latitude" onChange={this.handlerLocatoin}/>                                

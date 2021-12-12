@@ -210,6 +210,7 @@ class Chart extends React.Component {
     console.log(this.props)
     console.log("planetaryData: " + this.state.planetData);
 
+    /*
       let minter;
       if(this.state.enableMintNft)      
       minter = 
@@ -230,7 +231,7 @@ class Chart extends React.Component {
         <FragHeading className="vedicChartFrag" onClick={this.toggleVedicChartFrag}>Show Chart {this.state.vedicChartFragOpen ? "-" : "+"}</FragHeading>
           {this.state.vedicChartFragOpen ? <VedicChartS style={{ backgroundImage: `url(vedic-chart-s.png)`, backgroundPosition: 'center', backgroundSize: 'cover', width: 270, height: 270,}}/>: <div />} 
     </FragContainer>
-
+  */
     return (
       <div className="container-center-vertical">
           <OverlapGroupChart>
@@ -258,9 +259,11 @@ class Chart extends React.Component {
           { this.state.enableBirthLagna ? 
             <BirthLagna handler={this.handlerBirthLagna} ></BirthLagna> : <div />
           }
+          {/*
           {minter}
           {planetTable}
           {vedicChart}
+          */}
           <HouseDetailContainer> {parse(this.state.houseDetail)}</HouseDetailContainer>
         </div>
       </div>
