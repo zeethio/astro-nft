@@ -47,7 +47,7 @@ const Minter = (props) => {
           setWallet(accounts[0]);
         } else {
           setWallet("");
-          setStatus("🦊 Connect to Metamask using the top right button.");
+          setStatus("🦊 Connect to Metamask using connect button.");
         }
       });
     } else {

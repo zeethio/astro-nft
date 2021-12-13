@@ -89,29 +89,6 @@ async function loadContract() {
 //export const mintNFT = async (url, name, description) => {
 export const mintNFT = async (tokenId, weiValue) => {
 
-  /*  
-  if (url.trim() == "" || name.trim() == "" || description.trim() == "") {
-    return {
-      success: false,
-      status: "❗Please make sure all fields are completed before minting.",
-    };
-  }
-  */
-  //make metadata
-  /*
-  const metadata = new Object();
-  metadata.name = name;
-  metadata.image = url;
-  metadata.description = description;
-  const pinataResponse = await pinJSONToIPFS(metadata);
-  if (!pinataResponse.success) {
-    return {
-      success: false,
-      status: "😢 Something went wrong while uploading your tokenURI.",
-    };
-  }
-  const tokenURI = pinataResponse.pinataUrl;
-  */
     console.log("TokenId: " + tokenId + " weiValue: " + weiValue);
     window.contract = await new web3.eth.Contract(contractABI, contractAddress);
 

@@ -3,10 +3,15 @@
     padding: 2px 2px;
     margin: 8px;
     align-items: center;
+    justify-content: center;
+    width: 100%; 
   }
   
   .BirthLagnaBody {
-    align-items: center;    
+    align-items: center;
+    width: 100%;  
+    max-width: 400px;  
+    box-sizing: border-box;
   }
   .CustomDatePicker {
     color: white;

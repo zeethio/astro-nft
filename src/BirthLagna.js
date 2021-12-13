@@ -5,6 +5,7 @@ import "./BirthLagna.css";
 import DateTimePicker from 'react-datetime-picker';
 import tzlookup from 'tz-lookup'
 import moment from 'moment-timezone'
+import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 
 import {calPlanetPosition2} from './js_astro/src/astronomy.js'; 
 import {GoogleMapWrapper} from './maps_wrapper/GoogleMapWrapper';
@@ -158,12 +159,24 @@ class BirthLagna extends React.Component {
         return (
             <div className="BirthLagna">
                 <div className="BirthLagnaBody">
-                    <DateTimePicker className="CustomDatePicker" disableCalendar="true" disableClock="true" onChange={this.handlerDateTime} value={this.state.date} />         
+                     <BirthTime>
+                         <div style={{ width: "100%", fontSize: "20px" }}>Birth Time</div>
+                        <DateTimePicker className="CustomDatePicker" disableCalendar="true" disableClock="true" onChange={this.handlerDateTime} value={this.state.date} />
+                    </BirthTime>         
                     <div>
                         <div>
-                        <Input value={this.state.latitude} name="latitude" placeholder="Latitude" onChange={this.handlerLocatoin}/>                                
-                        <Input value={this.state.longitude} name="longitude" placeholder="Longitude" onChange={this.handlerLocatoin} />                    
-                        <Button onClick= {this.togleMap}>Google Map</Button>
+                            <BirthPlace>
+                                <div style={{ width: "100%", fontSize: "20px" }}>Birth Place</div>
+                                <LatLongInput>
+                                    <LatLongLabel>Latitude</LatLongLabel>
+                                    <Input value={this.state.latitude} name="latitude" placeholder="Latitude" onChange={this.handlerLocatoin}/>                                
+                                </LatLongInput>
+                                <LatLongInput>
+                                    <LatLongLabel>Longitude</LatLongLabel>
+                                    <Input value={this.state.longitude} name="longitude" placeholder="Longitude" onChange={this.handlerLocatoin} />                    
+                                </LatLongInput>
+                                <ButtonGMap onClick= {this.togleMap}>Get with Google Map{ useMap ? <BsChevronUp>:</BsChevronUp> : <BsChevronDown />}</ButtonGMap>
+                            </BirthPlace>
                         </div>
                     <div>
                         {useMap && 
@@ -179,20 +192,10 @@ class BirthLagna extends React.Component {
     }
   }
   
-  const Input = styled.input`
-  font-size: 20px;
-  padding: 0.5em;
-  margin: 0.5em;
-  width: 20%;
-  color: ${props => props.inputColor || "palevioletred"};
-  background: papayawhip;
-  border: none;
-  border-radius: 3px;
-`;
 
-const Button = styled.button`
+const ButtonGMap = styled.button`
   color: palevioletred;
-  font-size: 24px;
+  font-size: 16px;
   margin: 0.5em;
   padding: 0.25em 0.5em;
   border: 2px solid palevioletred;
@@ -200,5 +203,68 @@ const Button = styled.button`
 `;
 
 
+const BirthPlace = styled.div`
+  color: palevioletred;
+  font-size: 24px;
+  margin: 0.5em;
+  padding: 0.25em 0.5em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+`;
+
+
+
+
+const LatLongInput = styled.div`
+  color: palevioletred;
+  font-size: 16px;
+  margin: 0.5em;
+  box-sizing: border-box;
+  //padding: 0.25em 0.5em;
+  //border: 2px solid palevioletred;
+  //border-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const LatLongLabel = styled.div`
+  position: relative;
+  margin: 0.5em;
+  align-items: center;
+  color: palevioletred;
+  font-size: 16px;
+  box-sizing: border-box;
+  flex-grow: 0;
+  flex-shrink: 0;  
+  flex-basis:80px
+`;
+
+const Input = styled.input`
+position: relative; 
+font-size: 20px;
+padding: 0.5em;
+//margin: 0.5em;
+color: ${props => props.inputColor || "palevioletred"};
+background: papayawhip;
+border: none;
+border-radius: 3px;
+box-sizing: border-box;
+flex-grow: 0;
+flex-shrink: 0;
+flex-basis:120px
+`;
+
+
+const BirthTime = styled.div`
+  color: palevioletred;
+  font-size: 24px;
+  margin: 0.5em;
+  padding: 0.25em 0.5em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+`;
   export { BirthLagna };
   

@@ -5,6 +5,7 @@ import './components.css';
 import {HousesIntro} from "./HouseDetails.js";
 import {BirthLagna} from  "./BirthLagna.js";
 import {PlanetTable} from  "./PlanetTable.js";
+import { BsChevronDown, BsChevronUp } from "react-icons/bs"; //react-icon
 
 import parse from "html-react-parser";
 import {loadAstroNlg, loadRosaeNlg, renderHouseDetail} from "./AstroNlg"
@@ -214,7 +215,7 @@ class Chart extends React.Component {
       if(this.state.enableMintNft)      
       minter = 
         <FragContainer>
-          <FragHeading className="MintFrag" onClick={this.toggleMintFrag}>Mint on Blockchain {this.state.mintFragOpen ? "-" : "+"}</FragHeading>
+          <FragHeading className="MintFrag" onClick={this.toggleMintFrag}>Mint on Blockchain {this.state.mintFragOpen ? <BsChevronUp>:</BsChevronUp> : <BsChevronDown />}</FragHeading>
             {this.state.mintFragOpen ? <Minter className="Minter" url ="https://astronft.zeeth.io/view" tokenId = {this.state.chartId} weiValue={this.getFee()}/>: <div />} 
         </FragContainer>
       else minter = <div />;
@@ -271,6 +272,14 @@ class Chart extends React.Component {
   }
 }
 
+const ButtonMintWrap = styled.button`
+  color: palevioletred;
+  font-size: 16px;
+  margin: 0.5em;
+  padding: 0.25em 0.5em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+`;
 
 export const ValignTextMiddle = css`
   display: flex;
@@ -954,8 +963,8 @@ const FragContainer = styled.div`
 const FragHeading = styled.div`
   //border: 1px solid #ddd;
   background: rebeccapurple;
-  color: white;
-  //padding: 0.5em;
+  color: palevioletred;
+  padding: 0.5em;
   margin-bottom: 10;
   font-size: 16px;
   //width: 100%;
