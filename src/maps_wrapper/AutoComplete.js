@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 20px;
+  padding-bottom: 20px;
   text-align:center;
 `;
 
@@ -49,7 +49,7 @@ class AutoComplete extends Component {
 
         addplace(place);
         this.searchInput.blur();
-    };
+    };  
 
     clearSearchBox() {
         this.searchInput.value = '';
@@ -63,6 +63,7 @@ class AutoComplete extends Component {
                     ref={(ref) => {
                         this.searchInput = ref;
                     }}
+                    style={{ width: "90%", fontSize: "16px" }}
                     type="text"
                     onFocus={this.clearSearchBox}
                     placeholder="Enter a location"

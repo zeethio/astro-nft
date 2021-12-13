@@ -88,7 +88,7 @@ class Chart extends React.Component {
       rosaeNlgLoaded: false,
       enableBirthLagna: props.enableBirthLagna,
       enableMintNft: props.enableMintNft,
-      mintFragOpen: true,    
+      mintFragOpen: false,    
       planetTableFragOpen: true,    
       vedicChartFragOpen: true,
       sideralOffset: 24,      
@@ -210,7 +210,6 @@ class Chart extends React.Component {
     console.log(this.props)
     console.log("planetaryData: " + this.state.planetData);
 
-    /*
       let minter;
       if(this.state.enableMintNft)      
       minter = 
@@ -219,6 +218,7 @@ class Chart extends React.Component {
             {this.state.mintFragOpen ? <Minter className="Minter" url ="https://astronft.zeeth.io/view" tokenId = {this.state.chartId} weiValue={this.getFee()}/>: <div />} 
         </FragContainer>
       else minter = <div />;
+    /*
 
     let planetTable = 
       <FragContainer>
@@ -259,8 +259,8 @@ class Chart extends React.Component {
           { this.state.enableBirthLagna ? 
             <BirthLagna handler={this.handlerBirthLagna} ></BirthLagna> : <div />
           }
-          {/*
           {minter}
+          {/*
           {planetTable}
           {vedicChart}
           */}

@@ -38,20 +38,21 @@ class BirthLagna extends React.Component {
         this.setState({ useGoogleMap: !this.state.useGoogleMap})
     }
     
-    validateInputs(date, latitude, longitude) {
-
+    validateInputs(date, _latitude, _longitude) {
+        let latitude = parseFloat(_latitude);
+        let longitude = parseFloat(_longitude);
         if(date == null) {
             console.log("Invalid Date:" + date)
             return false; 
         }
 
-        if(latitude === null) {
+        if(!(latitude >= -90 && latitude <= 90)) {
             console.log("Invalid Latitude:" + latitude);
-            //Fallthrough
+            return false;
         }
-        if(longitude === null) {
+        if (!(longitude >= -180 && longitude <= 180)) {
             console.log("Invalid longitude:" + longitude)
-            //Fallthrough
+            return false;
         }
         return true;
     }
@@ -93,8 +94,10 @@ class BirthLagna extends React.Component {
         return [jstTime.year(), jstTime.month(), jstTime.date(), jstTime.hour(), jstTime.minute()]
     }
 
-    updatePlanets(localDate, latitude, longitude) {
+    updatePlanets(localDate, _latitude, _longitude) {
         let year, month, day, hours, minutes;
+        let latitude = parseFloat(_latitude);
+        let longitude = parseFloat(_longitude);
         [year, month, day, hours, minutes] = this.getJstTime(localDate, latitude, longitude); 
 
         console.log("year:" + year + " month:" + month + " day:" + day + " hour:" + hours + " minutes:" + minutes + " lat:"+  latitude + " long:" + longitude);
