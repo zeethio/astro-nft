@@ -235,7 +235,7 @@ class Chart extends React.Component {
     </FragContainer>
   */
     return (
-      <div className="container-center-vertical">
+      <div className="container-main">
           <OverlapGroupChart>
             <Space angle={this.state.ascProps.angle}>
               <Zodiac angle={this.state.sideralOffset} style={{ backgroundImage: `url(${zodiac})` }}></Zodiac>
@@ -923,7 +923,14 @@ class Ketu2 extends React.Component {
 
 const HouseDetailContainer = styled.div`
   font-family: var(--font-family-roboto);
-  font-size: 30px; //var(--font-size-m2);
+
+  @media ( max-width: 1200px) {
+    font-size: 20px; //var(--font-size-m2);
+  }
+  @media ( min-width: 1200px) {
+    font-size: 16px; //var(--font-size-m2);
+  }
+
   text-align: justify;
   width: 100%;
   height: 100%;
@@ -954,8 +961,9 @@ const SidePanel = styled.div`
 const FragContainer = styled.div`
   width: 100%;
   max-width: 600px;
-  background: #482c34;
-  //border: 4px;
+  //background: #482c34;
+  background: #2F333D;
+  border: 2px;
   border-color: rgb(255,255,255);
   display: flex;
   flex-direction: column;
@@ -964,7 +972,7 @@ const FragContainer = styled.div`
 
 const FragHeading = styled.div`
   //border: 1px solid #ddd;
-  background: rebeccapurple;
+  //background: rebeccapurple;
   color: palevioletred;
   padding: 0.5em;
   margin-bottom: 10;

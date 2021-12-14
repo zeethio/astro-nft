@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import styled from 'styled-components';
 import Tooltip from "@material-ui/core/Tooltip";
+import { FaCopy } from "react-icons/fa";
 import {
   connectWallet,
   getCurrentWalletConnected,
@@ -64,8 +65,8 @@ const Minter = (props) => {
         <p>
           {" "}
           🦊{" "}
-          <a target="_blank" href={`https://metamask.io/download.html`}>
-            You must install Metamask, a virtual Ethereum wallet, in your
+          <a style={{color:"#61AEEF"}} target="_blank" href={`https://metamask.io/download.html`}>
+          You must install Metamask, a virtual Ethereum wallet, in your
             browser.
           </a>
         </p>
@@ -115,7 +116,7 @@ const Minter = (props) => {
             placement="top"
             leaveDelay={500}
           >
-          <img src="icon-copy.svg" onClick={copyToClipBoard} />
+          <FaCopy style={{color: "#61AFEF", padding: "5px"}} size={20} onClick={copyToClipBoard} />
           </Tooltip>
       </UrlCopyGroup>
       <ButtonConnect onClick={connectWalletPressed}>
@@ -131,7 +132,7 @@ const Minter = (props) => {
       <ButtonMint onClick={onMintPressed}>
         Mint NFT
       </ButtonMint>
-      <StatusArea id="status" style={{ color: "blue" }}>
+      <StatusArea id="status">
         {status}
       </StatusArea>
     </div>
@@ -139,7 +140,8 @@ const Minter = (props) => {
 };
 
 const ButtonConnect = styled.button`
-  color: palevioletred;
+  color: #979FAD;
+  background-color: #3A3F4B;
   font-size: 16px;
   margin: 0.5em;
   padding: 0.25em 0.5em;
@@ -148,7 +150,8 @@ const ButtonConnect = styled.button`
 `;
 
 const ButtonMint = styled.button`
-  color: palevioletred;
+  color: #979FAD;
+  background-color: #3A3F4B;
   font-size: 16px;
   margin: 0.5em;
   padding: 0.25em 0.5em;
@@ -163,29 +166,24 @@ const ButtonMint = styled.button`
 const Textarea = styled.textarea`
 font-size: 16px;
 padding: 0.5em;
-margin: 0.5em;
+margin-left: 0.5em;
+margin-bottom: 0.5em;
 min-height: 3em;
 width: 100%;
-color: ${props => props.inputColor || "palevioletred"};
-background: papayawhip;
+//color: ${props => props.inputColor || "palevioletred"};
+background: #282C34;//papayawhip;
 border: none;
 border-radius: 3px;
+color: #979FAD;
 `;
 
-const CopyButton = styled.button`
-  color: palevioletred;
-  font-size: 16px;
-  width: 15%;
-  margin: 0.5em;
-  padding: 0.25em 0.5em;
-  border: 2px solid palevioletred;
-  border-radius: 3px;
-`;
 
 const UrlCopyGroup = styled.div`
   width: 100%;
   position: relative;
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const TokenUri = styled.div`
@@ -194,14 +192,17 @@ const TokenUri = styled.div`
   width: 100%;
   position: relative;
   display: flex;
+  color: #979FAD;
 `;
 
 const StatusArea = styled.div`
 font-size: 16px;
 padding: 0.5em;
 margin: 0.5em;
-color: ${props => props.inputColor || "palevioletred"};
-background: papayawhip;
+//background-color: #282C34;
+//color: ${props => props.inputColor || "palevioletred"};
+color: #61AEEF;
+background: #282C34;
 border: none;
 border-radius: 3px;
 `;

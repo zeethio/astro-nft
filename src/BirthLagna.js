@@ -248,7 +248,7 @@ font-size: 20px;
 padding: 0.5em;
 //margin: 0.5em;
 color: ${props => props.inputColor || "palevioletred"};
-background: papayawhip;
+background: #282C34;
 border: none;
 border-radius: 3px;
 box-sizing: border-box;
