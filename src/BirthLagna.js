@@ -254,7 +254,7 @@ border-radius: 3px;
 box-sizing: border-box;
 flex-grow: 0;
 flex-shrink: 0;
-flex-basis:120px
+max-width: 160px;
 `;
 
 

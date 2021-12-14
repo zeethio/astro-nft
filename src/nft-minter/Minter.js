@@ -5,9 +5,12 @@ import {
   connectWallet,
   getCurrentWalletConnected,
   mintNFT,
+  getNetworkString,
+  SupportedNetworkIds,
 } from "./util/interact.js";
 
 import './Minter.css';
+import { BsWindowSidebar } from "react-icons/bs";
 
 /* global BigInt */
 
@@ -44,7 +47,13 @@ const Minter = (props) => {
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", (accounts) => {
         if (accounts.length > 0) {
-          setWallet(accounts[0]);
+          if(window.ethereum.networkVersion in SupportedNetworkIds) {
+            console.log("Connecting to " + window.ethereum.networkVersion);
+            setWallet(accounts[0]);
+            setStatus("🦊 Connected to Rinkeby test-net.");
+          } else {
+            setStatus("🦊 Unsupported network. Switch to Rinkeby.");
+          }
         } else {
           setWallet("");
           setStatus("🦊 Connect to Metamask using connect button.");
@@ -91,12 +100,6 @@ const Minter = (props) => {
 
   return (
     <div className="Minter">
-      {/*
-      <Textarea 
-          value={tokenId}
-          type="text"
-      />
-      */}
       <UrlCopyGroup>
           <Textarea 
               ref={textAreaRef}
@@ -127,9 +130,9 @@ const Minter = (props) => {
       <button className="mintbutton" id="mintButton" onClick={onMintPressed}>
         Mint NFT
       </button>
-      <p id="status" style={{ color: "blue" }}>
+      <StatusArea id="status" style={{ color: "blue" }}>
         {status}
-      </p>
+      </StatusArea>
     </div>
   );
 };
@@ -170,6 +173,16 @@ const UrlCopyGroup = styled.div`
   width: 100%;
   position: relative;
   display: flex;
+`;
+
+const StatusArea = styled.div`
+font-size: 16px;
+padding: 0.5em;
+margin: 0.5em;
+color: ${props => props.inputColor || "palevioletred"};
+background: papayawhip;
+border: none;
+border-radius: 3px;
 `;
 
 
