@@ -100,6 +100,7 @@ const Minter = (props) => {
 
   return (
     <div className="Minter">
+      <TokenUri>NFT URI</TokenUri>
       <UrlCopyGroup>
           <Textarea 
               ref={textAreaRef}
@@ -117,7 +118,7 @@ const Minter = (props) => {
           <img src="icon-copy.svg" onClick={copyToClipBoard} />
           </Tooltip>
       </UrlCopyGroup>
-      <button className="mintbutton" id="walletButton" onClick={connectWalletPressed}>
+      <ButtonConnect onClick={connectWalletPressed}>
         {walletAddress.length > 0 ? (
           "Connected: " +
           String(walletAddress).substring(0, 6) +
@@ -126,10 +127,10 @@ const Minter = (props) => {
         ) : (
           <span>Connect Wallet</span>
         )}
-      </button>
-      <button className="mintbutton" id="mintButton" onClick={onMintPressed}>
+      </ButtonConnect >
+      <ButtonMint onClick={onMintPressed}>
         Mint NFT
-      </button>
+      </ButtonMint>
       <StatusArea id="status" style={{ color: "blue" }}>
         {status}
       </StatusArea>
@@ -137,21 +138,33 @@ const Minter = (props) => {
   );
 };
 
-const Input = styled.input`
-font-size: 20px;
-padding: 0.5em;
-margin: 0.5em;
-width: 100%;
-color: ${props => props.inputColor || "palevioletred"};
-background: papayawhip;
-border: none;
-border-radius: 3px;
+const ButtonConnect = styled.button`
+  color: palevioletred;
+  font-size: 16px;
+  margin: 0.5em;
+  padding: 0.25em 0.5em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
 `;
+
+const ButtonMint = styled.button`
+  color: palevioletred;
+  font-size: 16px;
+  margin: 0.5em;
+  padding: 0.25em 0.5em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+  &:hover {
+    color: red;
+  }
+`;
+
 
 const Textarea = styled.textarea`
 font-size: 16px;
 padding: 0.5em;
 margin: 0.5em;
+min-height: 3em;
 width: 100%;
 color: ${props => props.inputColor || "palevioletred"};
 background: papayawhip;
@@ -170,6 +183,14 @@ const CopyButton = styled.button`
 `;
 
 const UrlCopyGroup = styled.div`
+  width: 100%;
+  position: relative;
+  display: flex;
+`;
+
+const TokenUri = styled.div`
+  margin:5px;
+  font-size: 16px;
   width: 100%;
   position: relative;
   display: flex;

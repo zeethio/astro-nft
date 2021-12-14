@@ -129,6 +129,7 @@ class Chart extends React.Component {
   }
 
   getFee() {
+    // 0.01eth
     return 1*10**16;
   }
   handler(className) {
@@ -952,6 +953,7 @@ const SidePanel = styled.div`
 
 const FragContainer = styled.div`
   width: 100%;
+  max-width: 600px;
   background: #482c34;
   //border: 4px;
   border-color: rgb(255,255,255);
