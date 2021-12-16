@@ -15,16 +15,14 @@ export const HousesNum = {
 
   export function getPlanetPos(planetData, sideralOffset) {
     var planetsPos = {}
-    var signNum = 0;
     if(planetData.length >= 9) {
-            for (var planet in  PlanetsEnum) {
+        for (var planet in  PlanetsEnum) {
             // Correct angle. ASC is moved negative 90deg w.r.t tropical aries reference
-            var angle = planetData[PlanetsEnum[planet] + 1] - sideralOffset;
+            var angle = planetData[PlanetsEnum[planet]] - sideralOffset;
             planetsPos[planet] = angleToSign(angle );
         }
-        var signNum = angleToSign(planetData && planetData.length > 0 ? planetData[0] - sideralOffset: 0);
     }
-    return [signNum, planetsPos];
+    return planetsPos;
   }
 
   export function getCloseConjuctions(planetData, sideralOffset) {

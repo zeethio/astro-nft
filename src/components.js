@@ -37,15 +37,7 @@ var SIZES = {
   house_height: "90px",
   house_x: "400px",
   house_y: "445px",
-  house_offset: "400px",
-  sun_offset: 0,
-  moon_offset: 0,
-  mercury_offset: 0,
-  venus_offset: 0,
-  mars_offset: 0,
-  jupiter_offset: 0,
-  saturn_offset: 0,
-  rahu_offset: 0,    
+  house_offset: "400px",   
 };
 
 function ChartWithId() {
@@ -105,11 +97,11 @@ class Chart extends React.Component {
     var signNum, planetsPos;
     //var planetsPos = this.getPlanetPos( this.state.planetData, this.state.sideralOffset );
     //var signNum = this.angleToSign(this.state.planetData && this.state.planetData.length > 0 ? this.state.planetData[0] - this.state.sideralOffset: 0);
-    [signNum, planetsPos] = getPlanetPos(this.state.planetData, this.state.sideralOffset);
+    planetsPos = getPlanetPos(this.state.planetData, this.state.sideralOffset);
     var inputData = { 
       houseNum: houseNum, 
-      signNum: signNum, 
-      planetsPos: planetsPos
+      signNum: planetsPos["asc"], 
+      planetsPos: planetsPos,
     }
 
     if(this.state.rosaeNlgLoaded && this.state.astroNlgLoaded) {
@@ -161,6 +153,11 @@ class Chart extends React.Component {
     console.log(`planetOffsets ${JSON.stringify(planetOffsets)}`);
     return planetOffsets;
   }
+  
+  adjustHousePos(asc, sign, sideralOffset) {
+    // asc symbold position + advance by half house size + advance by fraction of sign
+    return 30 - (asc - sign * 30 - sideralOffset);
+  }
 
   componentDidMount() {
     console.log('componentDidMount() Chart');
@@ -176,22 +173,16 @@ class Chart extends React.Component {
     const {
       zodiac,
       housesProps,
-      sunProps,
-      mercuryProps,
-      venusProps,
-      rahuProps,
-      marsProps,
-      jupiterProps,
-      moonProps,
-      ketuProps,
-      saturnProps,
     } = this.props;
     console.log(this.props)
     console.log("planetaryData: " + this.state.planetData);
 
+    var signNum, planetsPos;
     var groups = getCloseConjuctions(this.state.planetData, this.state.sideralOffset);
     var planetOffsets = this.adjustPlanetPos(groups);
-
+    planetsPos = getPlanetPos(this.state.planetData, this.state.sideralOffset);
+    console.log(JSON.stringify(planetsPos));
+    var house_angle_adj = this.adjustHousePos(this.state.planetData[PlanetsEnum["asc"]], planetsPos["asc"], this.state.sideralOffset);
     let minter;
     if(this.state.enableMintNft)      
     minter = 
@@ -234,7 +225,7 @@ class Chart extends React.Component {
               </Planets>
             </Space>
             <Asc {...this.state.ascProps}/>            
-            <Houses handler = {this.handlerHouseDetail}  angle={180} data = {this.state.housesProps} />
+            <Houses handler = {this.handlerHouseDetail}  angle={180 + 15 - house_angle_adj} data = {this.state.housesProps} />
 
           </OverlapGroupChart>
         <div className="side-panel">
@@ -524,7 +515,7 @@ const AttribStrength = (props) => {
   const valueContainerStyles = {
     height: 20,
     right: 0,
-    height: "80%",
+    width: "80%",
     backgroundColor: "#e0e0de",
     borderRadius: 10,
     margin: 0,
@@ -1108,41 +1099,6 @@ const chartData = {
     //zodiac: "zodiac@1x.png",
     zodiac: "zodiac-s.png",
     housesProps: housesData,
-    sunProps: { name: "Sun", angle: 0,},
-    mercuryProps:{ name: "Mercury", angle: 30,},
-    venusProps: {
-      name: "Venus",
-      angle: 60,
-    },
-    rahuProps: {
-      name: "Rahu",
-      angle: 6,
-    },
-    marsProps: {
-      name: "Mars",
-      angle: 90,
-    },
-    jupiterProps: {
-      name: "Jupiter",
-      angle: 120,
-    },
-    moonProps:{
-      name: "Moon",
-      angle: 150,
-    },
-    ketuProps: {
-      name: "Ketu",
-      angle: "180",
-    },
-    saturnProps: {
-      name: "Saturn",
-      angle: "210",
-  
-    },
-    ascProps: {
-      name: "ASC",
-      angle: 0,
-    },
     enableBirthLagna: true,
     enableMintNft: true,
 };
