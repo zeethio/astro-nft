@@ -12,7 +12,7 @@ import {loadAstroNlg, loadRosaeNlg, renderHouseDetail} from "./AstroNlg"
 import { useParams } from "react-router-dom";
 
 import Minter from "./nft-minter/Minter";
-import {HousesNum, PlanetsEnum, getPlanetPos, getCloseConjuctions} from "./AstroCalc"
+import {HousesNum, PlanetsEnum, getPlanetPos, getCloseConjuctions, getHouseData} from "./AstroCalc"
   /* global BigInt */
 const HOUSE_POS = "400px"
 
@@ -57,7 +57,6 @@ class Chart extends React.Component {
     this.state = {
       date: new Date(), 
       houseDetail: HousesIntro ,
-      housesProps: props.housesProps,  
       planetData: props.planetData ? props.planetData : [],
       chartId: 0,
       astroNlgLoaded: false, 
@@ -172,7 +171,6 @@ class Chart extends React.Component {
   render() {
     const {
       zodiac,
-      housesProps,
     } = this.props;
     console.log(this.props)
     console.log("planetaryData: " + this.state.planetData);
@@ -183,6 +181,8 @@ class Chart extends React.Component {
     planetsPos = getPlanetPos(this.state.planetData, this.state.sideralOffset);
     console.log(JSON.stringify(planetsPos));
     var house_angle_adj = this.adjustHousePos(this.state.planetData[PlanetsEnum["asc"]], planetsPos["asc"], this.state.sideralOffset);
+    var housesProps = getHouseData(this.state.planetData, this.state.sideralOffset);
+
     let minter;
     if(this.state.enableMintNft)      
     minter = 
@@ -225,7 +225,7 @@ class Chart extends React.Component {
               </Planets>
             </Space>
             <Asc {...this.state.ascProps}/>            
-            <Houses handler = {this.handlerHouseDetail}  angle={180 + 15 - house_angle_adj} data = {this.state.housesProps} />
+            <Houses handler = {this.handlerHouseDetail}  angle={180 + 15 - house_angle_adj} data = {housesProps} />
 
           </OverlapGroupChart>
         <div className="side-panel">
@@ -952,153 +952,12 @@ const FragHeading = styled.div`
   //width: 100%;
 `;
 
-const house1Data = {
-    caption: "House-1",
-    attrib1: "Charisma",
-    attrib2: "Confidence",
 
-    value1: 3,
-    value2: 1,
-
-    className: "house1",
-};
-
-const house2Data = {
-    caption: "House-2",
-    attrib2: "Inheritance",
-    attrib1: "Speech",
-
-    value1: 3,
-    value2: 1,
-
-    className: "house2",
-};
-
-const house3Data = {
-  caption: "House-3",
-  attrib1: "Journeys",
-  attrib2: "Skills",
-
-    value1: 3,
-    value2: 1,
-
-    className: "house3",
-};
-
-const house4Data = {
-    caption: "House-4",
-    attrib1: "Education",
-    attrib2: "Home",
-
-    value1: 10,
-    value2: 1,
-
-    className: "house4",
-};
-
-const house5Data = {
-    caption: "House-5",
-    attrib2: "Children",
-    attrib1: "Recreation",
-
-    value1: 3,
-    value2: 1,
-
-    className: "house5",
-};
-
-const house6Data = {
-    caption: "House-6",
-    attrib1: "Enemies",
-    attrib2: "Diseases",
-
-    value1: 3,
-    value2: 1,
-
-    className: "house6",
-};
-
-const house7Data = {
-    caption: "House-7",
-    attrib1: "Longevity",
-    attrib2: "Passion",
-    className: "house7",
-
-    value1: 3,
-    value2: 1,
-
-};
-
-const house8Data = {
-    caption: "House-8",
-    attrib2: "Inheritance",
-    attrib1: "Suffering",
-    value1: 3,
-    value2: 1,
-
-    className: "house8",
-};
-
-const house9Data = {
-    caption: "House-9",
-    attrib1: "Career",
-    attrib2: "Prosperity",
-    value1: 3,
-    value2: 1,
-
-    className: "house9",
-};
-
-const house10Data = {
-    caption: "House-10",
-    attrib1: "Fame",
-    attrib2: "Power",
-    value1: 3,
-    value2: 1,
-
-    className: "house10",
-};
-
-const house11Data = {
-    caption: "House-11",
-    attrib2: "Friends",
-    attrib1: "Earnings",
-    value1: 5,
-    value2: 1,
-
-    className: "house11",
-};
-
-const house12Data = {
-    caption: "House-12",
-    attrib2: "Expenses",
-    attrib1: "Pleasures",
-    value1: 5,
-    value2: 5,
-
-    className: "house12",
-};
-
-const housesData = [
-    house1Data,
-    house2Data,
-    house3Data,
-    house4Data,
-    house5Data,
-    house6Data,
-    house7Data,
-    house8Data,
-    house9Data,
-    house10Data,
-    house11Data,
-    house12Data,
-];
 
 // Defualt chart data. It will be overridden durting initialization. Kept it here as a template
 const chartData = {
     //zodiac: "zodiac@1x.png",
     zodiac: "zodiac-s.png",
-    housesProps: housesData,
     enableBirthLagna: true,
     enableMintNft: true,
 };
@@ -1125,7 +984,6 @@ function getChartData(id) {
   let chartData = {
     //zodiac: "zodiac@1x.png",
     zodiac: "zodiac-s.png",
-    housesProps: housesData,
     planetData: planetData,
     enableBirthLagna: false,
     enableMintNft: false,

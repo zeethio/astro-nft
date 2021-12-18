@@ -219,7 +219,7 @@ const BirthPlace = styled.div`
 
 const LatLongInput = styled.div`
   color: palevioletred;
-  font-size: 16px;
+  font-size: 20px;
   margin: 0.5em;
   box-sizing: border-box;
   //padding: 0.25em 0.5em;
@@ -235,7 +235,7 @@ const LatLongLabel = styled.div`
   margin: 0.5em;
   align-items: center;
   color: palevioletred;
-  font-size: 16px;
+  font-size: 20px;
   box-sizing: border-box;
   flex-grow: 0;
   flex-shrink: 0;  
