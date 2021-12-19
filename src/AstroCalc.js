@@ -1,3 +1,5 @@
+const ATTRIB_DEF=6;
+
 export const HousesNum = {
     "house1": 0, "house2": 1, "house3": 2, "house4": 3, "house5": 4, "house6": 5,
     "house7": 6, "house8": 7, "house9": 8, "house10": 9, "house11": 10, "house12": 11,
@@ -452,6 +454,16 @@ export default class Aspect {
     return  apsectingPlanets;
   }
 
+  function findPlanetsInHouse(house, planetsPos) {
+    let planets =[];
+    for (var key in planetsPos) {
+      if(planetsPos[key] == house){
+        planets.push(PlanetsEnum[key]);
+      }
+    }
+    return planets;
+  }
+
   function anyBenefic(planets) {
     for (var planet in planets) {
       if (PlanetsEnum[planet] in BENEFICS) {
@@ -481,16 +493,26 @@ export default class Aspect {
 
   // Aspects, based on Rāśis
 
+  const getHouseRulerDet = function(houseNum, planetsPos) {
+  
+    var signNum = planetsPos["asc"] + houseNum;
+    var sign = Signs[signNum];
+    var ruler = sign.planet;
+    var rulerCrntSign = planetsPos[ruler];
+    var rulerCrntHouse = (rulerCrntSign - signNum + 12) % 12;
+    return [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse]
+  }
+  
   const house1Data = {
     caption: "House-1",
     attrib1: "Appearance",
     attrib2: "Intellect",
     attrib3: "Bodily_comforts",
     attrib4: "Health",
-    value1: 3,
-    value2: 1,
-    value3: 3,
-    value4: 1,
+    value1: ATTRIB_DEF,
+    value2: ATTRIB_DEF,
+    value3: ATTRIB_DEF,
+    value4: ATTRIB_DEF,
 
     className: "house1",
 };
@@ -498,43 +520,60 @@ export default class Aspect {
 //https://sites.google.com/site/horasashtra/effects-of-houses
 // Ch. 12. Effects of 1st House
 
-const getHouse1Data = function(planetsPos, planetData, sideralOffset) {
+const getHouse1Data = function(planetsPos) {
   // Start with average values (for a range 1..10) for each attribute.
   var value1 = 5;
   var value2 = 5;
   var value3 = 5;
   var value4 = 5;
 
+  const [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse] = getHouseRulerDet(0, planetsPos)
+  /*
   var hosueSignNum = planetsPos["asc"];
   var sign = Signs[hosueSignNum];
   var rulingPlanet = sign.planet;
   var rulingPlanetSignPos = planetsPos[rulingPlanet];
   var rulingPlanetHousePos = (rulingPlanetSignPos - hosueSignNum + 12) % 12; 
-  
+  */
   
   //  1-2. Physical comforts. Should Lagna Lord be conjunct with a malefic, or be in 8th, 6th, or 12th, physical felicity will diminish.
+/*
   let conjuctPlanets = findAspectingPlanets(PlanetsEnum[rulingPlanet], "conjunction", planetData);
   value3 += ( rulingPlanetHousePos in [7, 5, 11] || anyMalefic(conjuctPlanets)) ? -1: 0;
-
-  // With a benefic in an angle, or trine all diseases will disappear. 
+*/
+  // 1-2. ... With a benefic in an angle, or trine all diseases will disappear. 
+  
+/*
   let trinePlanets = findAspectingPlanets(PlanetsEnum[rulingPlanet], "trine", planetData);
   let anglePlanets = findAspectingPlanets(PlanetsEnum[rulingPlanet], "square", planetData);
   value3 +=  anyBenefic([...trinePlanets, ...anglePlanets])? 1: 0;
-
+*/
   // 3. There will not be bodily health, if Lagna, or Moon be aspected by, or conjunct with a malefic, being devoid of a benefics Aspect.
-  let lagnaAspects = findAllAspectingPlanets(PlanetsEnum["asc"], "square", planetData);
+  //let lagnaAspects = findAllAspectingPlanets(PlanetsEnum["asc"], "square", planetData);
 
-  // malefic planets
+  //4. Bodily Beauty. A benefic in Lagna will give a pleasing appearance, while a malefic will make one bereft of good appearance.
+  let planetsInHouse = findPlanetsInHouse(planetsPos);
+  value1 += anyBenefic(planetsInHouse)? 3: 0;
+  value1 += anyMalefic(planetsInHouse)? -3: 0;
 
-  // opposition
+  //5-7. Other Benefits. If Lagna Lord, Mercury, Jupiter, or Venus be in an angle, or in a trine, the native will be long lived, wealthy, intelligent and liked by the king. 
+  /*
+  let lagnaTrinePlanets = findAspectingPlanets(PlanetsEnum["asc"], "trine", planetData);
+  let lagnaAnglePlanets = findAspectingPlanets(PlanetsEnum["asc"], "square", planetData);
+  value2 +=  anyBenefic([...lagnaTrinePlanets, ...lagnaAnglePlanets, ...trinePlanets, ...anglePlanets])? 2: 0;
+  */
+  value2 +=  (BENEFICS.includes(ruler) && [4, 8].includes(rulerCrntHouse)) ? 3 : 0;
 
-  // conjuction
+  //console.log(`conjuctPlanets ${conjuctPlanets}`)
+  //console.log(`trinePlanets ${trinePlanets}`)
+  //console.log(`anglePlanets ${anglePlanets}`)
+  //console.log(`lagnaTrinePlanets ${lagnaTrinePlanets}`)
+  //console.log(`lagnaAnglePlanets ${lagnaAnglePlanets}`)
 
-  // trine
-  
-  value2 = sign in [1,4,7,10] ?  value2 + 2 : value2;
   house1Data["value1"] = value1;
   house1Data["value2"] = value2;
+  house1Data["value3"] = value3;
+  house1Data["value4"] = value4;
   return house1Data;
 }
 
@@ -543,19 +582,31 @@ const house2Data = {
     attrib2: "Inheritance",
     attrib1: "Speech",
 
-    value1: 3,
-    value2: 1,
+    value1: ATTRIB_DEF,
+    value2: ATTRIB_DEF,
+ 
 
     className: "house2",
 };
+
+const getHouse2Data = function(planetsPos, planetData, sideralOffset) {
+  // Start with average values (for a range 1..10) for each attribute.
+  var value1 = 5;
+  var value2 = 5;
+  var value3 = 5;
+  var value4 = 5;
+  
+  //const [hosueSignNum, sign, ruler, rulingPlanetSignPos, rulingPlanetHousePos] = getHouseRulerDet(1, planetsPos)
+ 
+
+}
 
 const house3Data = {
   caption: "House-3",
   attrib1: "Journeys",
   attrib2: "Skills",
-
-    value1: 3,
-    value2: 1,
+  value1: ATTRIB_DEF,
+  value2: ATTRIB_DEF,
 
     className: "house3",
 };
@@ -565,8 +616,9 @@ const house4Data = {
     attrib1: "Education",
     attrib2: "Home",
 
-    value1: 10,
-    value2: 1,
+    value1: ATTRIB_DEF,
+    value2: ATTRIB_DEF,
+
 
     className: "house4",
 };
@@ -576,8 +628,9 @@ const house5Data = {
     attrib2: "Children",
     attrib1: "Recreation",
 
-    value1: 3,
-    value2: 1,
+    value1: ATTRIB_DEF,
+    value2: ATTRIB_DEF,
+
 
     className: "house5",
 };
@@ -587,8 +640,9 @@ const house6Data = {
     attrib1: "Enemies",
     attrib2: "Diseases",
 
-    value1: 3,
-    value2: 1,
+    value1: ATTRIB_DEF,
+    value2: ATTRIB_DEF,
+
 
     className: "house6",
 };
@@ -599,8 +653,9 @@ const house7Data = {
     attrib2: "Passion",
     className: "house7",
 
-    value1: 3,
-    value2: 1,
+    value1: ATTRIB_DEF,
+    value2: ATTRIB_DEF,
+
 
 };
 
@@ -608,8 +663,9 @@ const house8Data = {
     caption: "House-8",
     attrib2: "Inheritance",
     attrib1: "Suffering",
-    value1: 3,
-    value2: 1,
+    value1: ATTRIB_DEF,
+    value2: ATTRIB_DEF,
+
 
     className: "house8",
 };
@@ -618,8 +674,9 @@ const house9Data = {
     caption: "House-9",
     attrib1: "Career",
     attrib2: "Prosperity",
-    value1: 3,
-    value2: 1,
+    value1: ATTRIB_DEF,
+    value2: ATTRIB_DEF,
+
 
     className: "house9",
 };
@@ -628,8 +685,9 @@ const house10Data = {
     caption: "House-10",
     attrib1: "Fame",
     attrib2: "Power",
-    value1: 3,
-    value2: 1,
+    value1: ATTRIB_DEF,
+    value2: ATTRIB_DEF,
+
 
     className: "house10",
 };
@@ -638,8 +696,9 @@ const house11Data = {
     caption: "House-11",
     attrib2: "Friends",
     attrib1: "Earnings",
-    value1: 5,
-    value2: 1,
+    value1: ATTRIB_DEF,
+    value2: ATTRIB_DEF,
+
 
     className: "house11",
 };
@@ -648,8 +707,8 @@ const house12Data = {
     caption: "House-12",
     attrib2: "Expenses",
     attrib1: "Pleasures",
-    value1: 5,
-    value2: 5,
+    value1: ATTRIB_DEF,
+    value2: ATTRIB_DEF,
 
     className: "house12",
 };
