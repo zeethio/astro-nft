@@ -4,7 +4,7 @@ export const HousesNum = {
     "house1": 0, "house2": 1, "house3": 2, "house4": 3, "house5": 4, "house6": 5,
     "house7": 6, "house8": 7, "house9": 8, "house10": 9, "house11": 10, "house12": 11,
   }
-  
+
   export const PlanetsEnum = {
     "asc":0, "sun": 1, "moon": 2, "mercury": 3, "venus": 4, "mars": 5, "jupiter": 6, "saturn": 7, "rahu": 8, "ketu": 9,
   }
@@ -182,7 +182,7 @@ export const HousesNum = {
     },
     {
         name: "libra",
-        planet: "Venus",
+        planet: "venus",
         element: "Air",
         nature: "Movable",
         gender: "Male",
@@ -287,6 +287,13 @@ const MALEFICS = ["sun", "saturn", "mars", "rahu", "ketu"];
 const BENEFICS = ["venus", "jupiter"];
 
 const mixed_benefics = ["moon", "mercury"];
+
+// Houses 5 & 9 -> base 0
+const ASPECT_TRINE = [4,8];
+
+// Houses 4,7,10 => base 0
+const ASPECT_ANGLE = [3,6,9];
+
 
 // moon is benefic
 function isMoonBenefic() {
@@ -454,32 +461,59 @@ export default class Aspect {
     return  apsectingPlanets;
   }
 
-  function findPlanetsInHouse(house, planetsPos) {
+  function findPlanetsInHouse(sign, planetsPos) {
     let planets =[];
     for (var key in planetsPos) {
-      if(planetsPos[key] == house){
-        planets.push(PlanetsEnum[key]);
+      if(planetsPos[key] == sign){
+        planets.push(key);
       }
     }
+    console.log(`findPlanetsInHouse:  sign:${sign} planets:${planets}`);
     return planets;
   }
 
   function anyBenefic(planets) {
-    for (var planet in planets) {
-      if (PlanetsEnum[planet] in BENEFICS) {
+    for (var i=0; i < planets.length; i++) {
+      if (BENEFICS.includes(planets[i])) {
         return true;
       }
     }
+    // TODO: Check mercury, moon
     return false;
   }  
   
+  function Benefics(planets) {
+    var benefics = [];
+    for (var i=0; i < planets.length; i++) {
+      if (BENEFICS.includes(planets[i])) {
+        benefics.push(planets[i]);
+      }
+    }
+    // T
+    // TODO: Check mercury, moon
+    console.log(`benefics: ${benefics}`);
+    return benefics;
+  }  
+
   function anyMalefic(planets) {
-    for (var planet in planets) {
-      if (PlanetsEnum[planet] in MALEFICS) {
+    for (var i=0; i < planets.length; i++) {
+      if (MALEFICS.includes(planets[i])) {
         return true;
       }
     }
+    // TODO: Check mercury, moon
     return false;
+  }  
+  function Malefics(planets) {
+    var malefics = [];
+    for (var i=0; i < planets.length; i++) {
+      if (MALEFICS.includes(planets[i])) {
+        malefics.push(planets[i]);
+      }
+    }
+    // TODO: Check mercury, moon
+    console.log(`malefics: ${malefics}`);
+    return malefics;
   }  
 
   const planetStrength = function (planetData, sideralOffset) {
@@ -493,13 +527,14 @@ export default class Aspect {
 
   // Aspects, based on Rāśis
 
-  const getHouseRulerDet = function(houseNum, planetsPos) {
+  const getHouseRulerDetails = function(houseNum, planetsPos) {
   
-    var signNum = planetsPos["asc"] + houseNum;
+    var signNum = (planetsPos["asc"] + houseNum ) % 12;
     var sign = Signs[signNum];
     var ruler = sign.planet;
     var rulerCrntSign = planetsPos[ruler];
-    var rulerCrntHouse = (rulerCrntSign - signNum + 12) % 12;
+    var rulerCrntHouse = (houseNum + (rulerCrntSign - signNum + 12) + 12 )% 12;
+    console.log(`getHouseRulerDetails: houseNum:${houseNum} signNum:${signNum} ruler:${ruler} rulerCrntSign:${rulerCrntSign} rulerCrntHouse:${rulerCrntHouse}`);
     return [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse]
   }
   
@@ -520,14 +555,15 @@ export default class Aspect {
 //https://sites.google.com/site/horasashtra/effects-of-houses
 // Ch. 12. Effects of 1st House
 
-const getHouse1Data = function(planetsPos) {
+const getHouse1Data = function(planetsPos, planetData, sideralOffset) {
   // Start with average values (for a range 1..10) for each attribute.
   var value1 = 5;
   var value2 = 5;
   var value3 = 5;
   var value4 = 5;
+  let houseNum = HousesNum["house1"];
 
-  const [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse] = getHouseRulerDet(0, planetsPos)
+  const [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse] = getHouseRulerDetails(houseNum, planetsPos);
   /*
   var hosueSignNum = planetsPos["asc"];
   var sign = Signs[hosueSignNum];
@@ -552,7 +588,9 @@ const getHouse1Data = function(planetsPos) {
   //let lagnaAspects = findAllAspectingPlanets(PlanetsEnum["asc"], "square", planetData);
 
   //4. Bodily Beauty. A benefic in Lagna will give a pleasing appearance, while a malefic will make one bereft of good appearance.
-  let planetsInHouse = findPlanetsInHouse(planetsPos);
+  let planetsInHouse = findPlanetsInHouse(signNum, planetsPos);
+  var benefics = Benefics(planetsInHouse);
+  var malefics = Malefics(planetsInHouse);
   value1 += anyBenefic(planetsInHouse)? 3: 0;
   value1 += anyMalefic(planetsInHouse)? -3: 0;
 
@@ -562,7 +600,7 @@ const getHouse1Data = function(planetsPos) {
   let lagnaAnglePlanets = findAspectingPlanets(PlanetsEnum["asc"], "square", planetData);
   value2 +=  anyBenefic([...lagnaTrinePlanets, ...lagnaAnglePlanets, ...trinePlanets, ...anglePlanets])? 2: 0;
   */
-  value2 +=  (BENEFICS.includes(ruler) && [4, 8].includes(rulerCrntHouse)) ? 3 : 0;
+  value2 +=  (BENEFICS.includes(ruler) && ASPECT_TRINE.includes(rulerCrntHouse)) ? 3 : 0;
 
   //console.log(`conjuctPlanets ${conjuctPlanets}`)
   //console.log(`trinePlanets ${trinePlanets}`)
@@ -595,10 +633,13 @@ const getHouse2Data = function(planetsPos, planetData, sideralOffset) {
   var value2 = 5;
   var value3 = 5;
   var value4 = 5;
-  
-  //const [hosueSignNum, sign, ruler, rulingPlanetSignPos, rulingPlanetHousePos] = getHouseRulerDet(1, planetsPos)
- 
+  let houseNum = HousesNum["house2"];
+  const [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse] = getHouseRulerDetails(houseNum, planetsPos);
+  let planetsInHouse = findPlanetsInHouse(signNum, planetsPos);
+  var benefics = Benefics(planetsInHouse);
+  var malefics = Malefics(planetsInHouse);
 
+  return house2Data;
 }
 
 const house3Data = {
@@ -610,6 +651,19 @@ const house3Data = {
 
     className: "house3",
 };
+
+const getHouse3Data = function(planetsPos, planetData, sideralOffset) {
+  // Start with average values (for a range 1..10) for each attribute.
+  var value1 = 5;
+  var value2 = 5;
+  var value3 = 5;
+  var value4 = 5;
+  let houseNum = HousesNum["house3"];
+
+  const [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse] = getHouseRulerDetails(HousesNum["house3"], planetsPos);
+  let planetsInHouse = findPlanetsInHouse(signNum, planetsPos);
+  return house3Data
+}
 
 const house4Data = {
     caption: "House-4",
@@ -623,6 +677,20 @@ const house4Data = {
     className: "house4",
 };
 
+const getHouse4Data = function(planetsPos, planetData, sideralOffset) {
+  // Start with average values (for a range 1..10) for each attribute.
+  var value1 = 5;
+  var value2 = 5;
+  var value3 = 5;
+  var value4 = 5;
+  let houseNum = HousesNum["house4"];
+
+  const [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse] = getHouseRulerDetails(HousesNum["house4"], planetsPos);
+  let planetsInHouse = findPlanetsInHouse(signNum, planetsPos);
+  var benefics = Benefics(planetsInHouse);
+  var malefics = Malefics(planetsInHouse);
+  return house4Data;
+}
 const house5Data = {
     caption: "House-5",
     attrib2: "Children",
@@ -634,6 +702,20 @@ const house5Data = {
 
     className: "house5",
 };
+
+const getHouse5Data = function(planetsPos, planetData, sideralOffset) {
+  // Start with average values (for a range 1..10) for each attribute.
+  var value1 = 5;
+  var value2 = 5;
+  var value3 = 5;
+  var value4 = 5;let houseNum = HousesNum["house5"];
+
+  const [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse] = getHouseRulerDetails(HousesNum["house5"], planetsPos);
+  let planetsInHouse = findPlanetsInHouse(signNum, planetsPos);
+  var benefics = Benefics(planetsInHouse);
+  var malefics = Malefics(planetsInHouse);  
+  return house5Data;
+}
 
 const house6Data = {
     caption: "House-6",
@@ -647,6 +729,21 @@ const house6Data = {
     className: "house6",
 };
 
+const getHouse6Data = function(planetsPos, planetData, sideralOffset) {
+  // Start with average values (for a range 1..10) for each attribute.
+  var value1 = 5;
+  var value2 = 5;
+  var value3 = 5;
+  var value4 = 5;
+  let houseNum = HousesNum["house6"];
+
+  const [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse] = getHouseRulerDetails(HousesNum["house6"], planetsPos);
+  let planetsInHouse = findPlanetsInHouse(signNum, planetsPos);
+  var benefics = Benefics(planetsInHouse);
+  var malefics = Malefics(planetsInHouse);  
+  return house6Data;
+}
+
 const house7Data = {
     caption: "House-7",
     attrib1: "Longevity",
@@ -655,9 +752,22 @@ const house7Data = {
 
     value1: ATTRIB_DEF,
     value2: ATTRIB_DEF,
-
-
 };
+
+const getHouse7Data = function(planetsPos, planetData, sideralOffset) {
+  // Start with average values (for a range 1..10) for each attribute.
+  var value1 = 5;
+  var value2 = 5;
+  var value3 = 5;
+  var value4 = 5;
+  let houseNum = HousesNum["house7"];
+
+  const [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse] = getHouseRulerDetails(HousesNum["house7"], planetsPos);
+  let planetsInHouse = findPlanetsInHouse(signNum, planetsPos);
+  var benefics = Benefics(planetsInHouse);
+  var malefics = Malefics(planetsInHouse);  
+  return house7Data;
+}
 
 const house8Data = {
     caption: "House-8",
@@ -670,6 +780,21 @@ const house8Data = {
     className: "house8",
 };
 
+const getHouse8Data = function(planetsPos, planetData, sideralOffset) {
+  // Start with average values (for a range 1..10) for each attribute.
+  var value1 = 5;
+  var value2 = 5;
+  var value3 = 5;
+  var value4 = 5;
+  let houseNum = HousesNum["house8"];
+
+  const [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse] = getHouseRulerDetails(HousesNum["house8"], planetsPos);
+  let planetsInHouse = findPlanetsInHouse(signNum, planetsPos);
+  var benefics = Benefics(planetsInHouse);
+  var malefics = Malefics(planetsInHouse);  
+  return house8Data;
+}
+
 const house9Data = {
     caption: "House-9",
     attrib1: "Career",
@@ -680,6 +805,22 @@ const house9Data = {
 
     className: "house9",
 };
+
+const getHouse9Data = function(planetsPos, planetData, sideralOffset) {
+  // Start with average values (for a range 1..10) for each attribute.
+  var value1 = 5;
+  var value2 = 5;
+  var value3 = 5;
+  var value4 = 5;
+  let houseNum = HousesNum["house9"];
+
+  const [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse] = getHouseRulerDetails(HousesNum["house9"], planetsPos);
+  let planetsInHouse = findPlanetsInHouse(signNum, planetsPos);
+  var benefics = Benefics(planetsInHouse);
+  var malefics = Malefics(planetsInHouse);
+
+  return house9Data;
+}
 
 const house10Data = {
     caption: "House-10",
@@ -692,6 +833,21 @@ const house10Data = {
     className: "house10",
 };
 
+const getHouse10Data = function(planetsPos, planetData, sideralOffset) {
+  // Start with average values (for a range 1..10) for each attribute.
+  var value1 = 5;
+  var value2 = 5;
+  var value3 = 5;
+  var value4 = 5;
+  let houseNum = HousesNum["house10"];
+
+  const [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse] = getHouseRulerDetails(HousesNum["house10"], planetsPos);
+  let planetsInHouse = findPlanetsInHouse(signNum, planetsPos);
+  var benefics = Benefics(planetsInHouse);
+  var malefics = Malefics(planetsInHouse);  
+  return house10Data;
+}
+
 const house11Data = {
     caption: "House-11",
     attrib2: "Friends",
@@ -703,6 +859,21 @@ const house11Data = {
     className: "house11",
 };
 
+const getHouse11Data = function(planetsPos, planetData, sideralOffset) {
+  // Start with average values (for a range 1..10) for each attribute.
+  var value1 = 5;
+  var value2 = 5;
+  var value3 = 5;
+  var value4 = 5;
+  let houseNum = HousesNum["house11"];
+
+  const [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse] = getHouseRulerDetails(HousesNum["house11"], planetsPos);
+  let planetsInHouse = findPlanetsInHouse(signNum, planetsPos);
+  var benefics = Benefics(planetsInHouse);
+  var malefics = Malefics(planetsInHouse);  
+  return house11Data;
+}
+
 const house12Data = {
     caption: "House-12",
     attrib2: "Expenses",
@@ -712,6 +883,21 @@ const house12Data = {
 
     className: "house12",
 };
+
+const getHouse12Data = function(planetsPos, planetData, sideralOffset) {
+  // Start with average values (for a range 1..10) for each attribute.
+  var value1 = 5;
+  var value2 = 5;
+  var value3 = 5;
+  var value4 = 5;
+  let houseNum = HousesNum["house12"];
+
+  const [signNum, sign, ruler, rulerCrntSign, rulerCrntHouse] = getHouseRulerDetails(HousesNum["house12"], planetsPos);
+  let planetsInHouse = findPlanetsInHouse(signNum, planetsPos);
+  var benefics = Benefics(planetsInHouse);
+  var malefics = Malefics(planetsInHouse);  
+  return house12Data;
+}
 
 const housesData = [
     house1Data,
@@ -731,9 +917,21 @@ const housesData = [
 export function getHouseData(planetData, sideralOffset) {
   try {
     let planetsPos = getPlanetPos(planetData, sideralOffset);
-    housesData[0] = getHouse1Data(planetsPos, planetData, sideralOffset);
-  } catch {
-    console.log("Error getting house data. returning default data");
+      housesData[0] = getHouse1Data(planetsPos, planetData, sideralOffset);
+      housesData[1] = getHouse2Data(planetsPos, planetData, sideralOffset);
+      housesData[2] = getHouse3Data(planetsPos, planetData, sideralOffset);
+      housesData[3] = getHouse4Data(planetsPos, planetData, sideralOffset);
+      housesData[4] = getHouse5Data(planetsPos, planetData, sideralOffset);
+      housesData[5] = getHouse6Data(planetsPos, planetData, sideralOffset);
+      housesData[6] = getHouse7Data(planetsPos, planetData, sideralOffset);
+      housesData[7] = getHouse8Data(planetsPos, planetData, sideralOffset);
+      housesData[8] = getHouse9Data(planetsPos, planetData, sideralOffset);
+      housesData[9] = getHouse10Data(planetsPos, planetData, sideralOffset);
+      housesData[10] = getHouse11Data(planetsPos, planetData, sideralOffset);
+      housesData[11] = getHouse12Data(planetsPos, planetData, sideralOffset);
+
+  } catch(e) {
+    console.log(`Error getting house data. returning default data error:{e}`);
   }
   return housesData;
 }
