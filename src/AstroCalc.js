@@ -291,6 +291,7 @@ const mixed_benefics = ["moon", "mercury"];
 // Houses 5 & 9 -> base 0
 const ASPECT_TRINE = [4,8];
 
+// Angle houses are - 1st, 4th, 7th and 10th house
 // Houses 4,7,10 => base 0
 const ASPECT_ANGLE = [3,6,9];
 
