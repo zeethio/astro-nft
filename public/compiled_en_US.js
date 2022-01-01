@@ -2,7 +2,7 @@ function pug_escape(e){var a=""+e,t=pug_match_html.exec(a);if(!t)return e;var r,
 var pug_match_html=/["&<>]/;function template(locals) {const embeddedLinguisticResources = {"verbs":{},"words":{},"adjectives":{}};var pug_html = "", protect_stack = [], pug_mixins = {}, pug_interp;;
     var locals_for_with = (locals || {});
     
-    (function (House1, House10, House11, House12, House2, House3, House4, House5, House6, House7, House8, House9, Houses, JSON, Object, Planets, console, eachzHelper2, eachzHelper3, embeddedLinguisticResources, inputData, params, signInHouse, util) {
+    (function (House1, House10, House11, House12, House2, House3, House4, House5, House6, House7, House8, House9, Houses, JSON, Object, Planets, console, eachzHelper2, eachzHelper3, eachzHelper4, embeddedLinguisticResources, inputData, params, signInHouse, util) {
       /**
  * @license
  * Copyright 2021 Ludan Stoecklé
@@ -1043,7 +1043,13 @@ var verbPart=pug_mixins["verbPart"];
    
  var signInHouse = {
        "House1": {
-           "sun": "You present yourself very strongly to make an impression on others. You will be a good leader or innovator if you try your best",      
+           "sun": "You present yourself very strongly to make an impression on others. You will be a good leader or innovator if you try your best", 
+           "moon":"You are very sensitive person. Your moods change quickly and it is hard for you to hide your emotions.You have very soft nature and you connect to people personally and sympathetic towards them",
+           "mercury":"You accomodate new situations with great enthusiasm and you are very mature thinker ",
+           "venus":"You are very charismatic person.Because of your attractive personality and talktive nature people tend to attract towards you.You love art and you keep your surroundings beautiful." ,
+           "mars":" You are an active, energetic, dynamic, enterprising, and aggressive person. People are often impressed with your energy and stamina! You want to lead and act independently.You love competition",
+           "jupiter":"you are a very principled person with strong morals.You believe in the power of optimism.You present a jovial, kind, altruistic manner to the world around you with your optimistic nature ",
+           "saturn":" ",
        },
  }
  
@@ -1064,8 +1070,8 @@ var verbPart=pug_mixins["verbPart"];
  
 let InputData_Default = { 
       houseNum: 0, 
-      signNum: 1, 
-      planetsPos: { "sun": 1, "moon": 1, "mars": 2, "venus": 3, "mercury": 3, "jupiter":7, "saturn": 6, "rahu": 11, "ketu": 5}
+      signNum: 2, 
+      planetsPos: { "sun": 2, "moon": 2, "mars": 2, "venus": 3, "mercury": 3, "jupiter":7, "saturn": 6, "rahu": 11, "ketu": 5}
     };
 
 if (!inputData) {
@@ -1097,20 +1103,25 @@ util.asmManager.foreach(Planets, eachzHelper1, { separator: '.', last_separator:
 };
 var planetEffect=pug_mixins["planetEffect"];
 pug_html = pug_html + "\u003Ch1\u003E" + "¤" + (pug_escape(null == (pug_interp = House.name) ? "" : pug_interp)) + "¤" + "\u003C\u002Fh1\u003E\u003Cp\u003E";
-if ((signInHouse[House.name] && signInHouse[House.name]["sun"] )) {
-pug_html = pug_html + "¤" + (pug_escape(null == (pug_interp = signInHouse[House.name]["sun"]) ? "" : pug_interp)) + "¤";
+pug_mixins['eachzHelper2'] = pug_interp = function(Planet) {
+if (planetsPos[Planet.name] == signNum && signInHouse[House.name] && signInHouse[House.name][Planet.name]) 
+{
+pug_html = pug_html + "¤" + (pug_escape(null == (pug_interp = signInHouse[House.name][Planet.name]) ? "" : pug_interp)) + "¤";
 }
-pug_html = pug_html + "\u003C\u002Fp\u003E\u003Cp\u003E¤ ¤";
-pug_mixins['eachzHelper2'] = pug_interp = function(traitLT) {
+};
+var eachzHelper2=pug_mixins["eachzHelper2"];
+util.asmManager.foreach(Planets , eachzHelper2, { separator: '.', last_separator: '.', begin_with_general: '', end:'.' });
+pug_html = pug_html + "\u003C\u002Fp\u003E\u003Cp\u003E";
+pug_mixins['eachzHelper3'] = pug_interp = function(traitLT) {
 trait = traitLT
 {
 pug_html = pug_html + "¤ ¤" + "¤" + (pug_escape(null == (pug_interp = trait.name) ? "" : pug_interp)) + "¤" + "¤ ,¤";
 }
 };
-var eachzHelper2=pug_mixins["eachzHelper2"];
-util.asmManager.foreach(House.attribs, eachzHelper2, { separator: '.', last_separator: '.', begin_with_general: 'This house influnces ', end:'.' });
+var eachzHelper3=pug_mixins["eachzHelper3"];
+util.asmManager.foreach(House.attribs, eachzHelper3, { separator: '.', last_separator: '.', begin_with_general: 'This house influnces ', end:'.' });
 pug_html = pug_html + "\u003C\u002Fp\u003E\u003Cp\u003E";
-pug_mixins['eachzHelper3'] = pug_interp = function(traitLT) {
+pug_mixins['eachzHelper4'] = pug_interp = function(traitLT) {
 trait = traitLT
 {
 pug_html = pug_html + "¤You ¤";
@@ -1124,8 +1135,8 @@ pug_mixins["planetEffect"]();
 pug_html = pug_html + "¤¤";
 }
 };
-var eachzHelper3=pug_mixins["eachzHelper3"];
-util.asmManager.foreach(House.attribs, eachzHelper3, { separator: '.', last_separator: '.', begin_with_general: '', end:'.' });
+var eachzHelper4=pug_mixins["eachzHelper4"];
+util.asmManager.foreach(House.attribs, eachzHelper4, { separator: '.', last_separator: '.', begin_with_general: '', end:'.' });
 pug_html = pug_html + "\u003C\u002Fp\u003E";
     }.call(this, "House1" in locals_for_with ?
         locals_for_with.House1 :
@@ -1165,7 +1176,9 @@ pug_html = pug_html + "\u003C\u002Fp\u003E";
         locals_for_with.eachzHelper2 :
         typeof eachzHelper2 !== 'undefined' ? eachzHelper2 : undefined, "eachzHelper3" in locals_for_with ?
         locals_for_with.eachzHelper3 :
-        typeof eachzHelper3 !== 'undefined' ? eachzHelper3 : undefined, "embeddedLinguisticResources" in locals_for_with ?
+        typeof eachzHelper3 !== 'undefined' ? eachzHelper3 : undefined, "eachzHelper4" in locals_for_with ?
+        locals_for_with.eachzHelper4 :
+        typeof eachzHelper4 !== 'undefined' ? eachzHelper4 : undefined, "embeddedLinguisticResources" in locals_for_with ?
         locals_for_with.embeddedLinguisticResources :
         typeof embeddedLinguisticResources !== 'undefined' ? embeddedLinguisticResources : undefined, "inputData" in locals_for_with ?
         locals_for_with.inputData :

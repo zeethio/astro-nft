@@ -99,7 +99,7 @@ class Chart extends React.Component {
     planetsPos = getPlanetPos(this.state.planetData, this.state.sideralOffset);
     var inputData = { 
       houseNum: houseNum, 
-      signNum: planetsPos["asc"], 
+      signNum:  (planetsPos["asc"] + houseNum ) % 12, 
       planetsPos: planetsPos,
     }
 

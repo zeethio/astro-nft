@@ -737,7 +737,13 @@
     
   var signInHouse = {
         "House1": {
-            "sun": "You present yourself very strongly to make an impression on others. You will be a good leader or innovator if you try your best",      
+            "sun": "You present yourself very strongly to make an impression on others. You will be a good leader or innovator if you try your best", 
+            "moon":"You are very sensitive person. Your moods change quickly and it is hard for you to hide your emotions.You have very soft nature and you connect to people personally and sympathetic towards them",
+            "mercury":"You accomodate new situations with great enthusiasm and you are very mature thinker ",
+            "venus":"You are very charismatic person.Because of your attractive personality and talktive nature people tend to attract towards you.You love art and you keep your surroundings beautiful." ,
+            "mars":" You are an active, energetic, dynamic, enterprising, and aggressive person. People are often impressed with your energy and stamina! You want to lead and act independently.You love competition",
+            "jupiter":"you are a very principled person with strong morals.You believe in the power of optimism.You present a jovial, kind, altruistic manner to the world around you with your optimistic nature ",
+            "saturn":" ",
         },
   }
   
@@ -788,7 +794,7 @@ h1 #{House.name}
 p
   if (signInHouse[House.name] && signInHouse[House.name]["sun"] ) 
    | #{signInHouse[House.name]["sun"]}
-p 
+   
   eachz traitLT in House.attribs with { separator: '.', last_separator: '.', begin_with_general: 'This house influnces ', end:'.' }
     - trait = traitLT
       |  #{trait.name} ,
