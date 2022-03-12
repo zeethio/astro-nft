@@ -84,6 +84,7 @@ class GoogleMapWrapper extends Component {
             lng: place.geometry.location.lng()
         });
         this._generateAddress()
+        this.state.onChangeLocation( place.geometry.location.lng(),place.geometry.location.lat(), 0);
     };
     
     _generateAddress() {
