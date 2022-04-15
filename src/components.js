@@ -29,6 +29,10 @@ var SIZES = {
   zodiac_height: "582px",
   zodiac_x: "59px",
   zodiac_y: "59px",
+  navamsha_width: "662px",
+  navamsha_height: "662px",
+  navamsha_x: "19px",
+  navamsha_y: "19px",  
   planet_width: "100px",
   planet_height: "100px",
   planet_x: "300px", // (space_width - planet_width)/2 
@@ -66,7 +70,8 @@ class Chart extends React.Component {
       mintFragOpen: false,    
       planetTableFragOpen: true,    
       vedicChartFragOpen: true,
-      sideralOffset: 24,      
+      sideralOffset: 24, 
+      enableNavamsha: false,     
     };
     this.handlerHouseDetail = this.handlerHouseDetail.bind(this);
     this.handlerBirthLagna = this.handlerBirthLagna.bind(this);
@@ -74,6 +79,7 @@ class Chart extends React.Component {
     this.togglePlanetTableFrag = this.togglePlanetTableFrag.bind(this);
     this.toggleVedicChartFrag = this.toggleVedicChartFrag.bind(this);
     this.adjustPlanetPos = this.adjustPlanetPos.bind(this); 
+    this.handlerZodiacOtions = this.handlerZodiacOtions.bind(this);
   }
 
   toggleMintFrag() {
@@ -112,6 +118,10 @@ class Chart extends React.Component {
     this.setState({
       houseDetail: houseDetail
     })
+  }
+  
+  handlerZodiacOtions() {
+    this.setState({enableNavamsha: !this.state.enableNavamsha});
   }
 
   handlerBirthLagna(date, _planetData) {
@@ -171,6 +181,7 @@ class Chart extends React.Component {
   render() {
     const {
       zodiac,
+      navamsha
     } = this.props;
     console.log(this.props)
     console.log("planetaryData: " + this.state.planetData);
@@ -206,10 +217,11 @@ class Chart extends React.Component {
     </FragContainer>
   */
     return (
-      <div className="container-main">
+      <div className="container-main" onClick= {this.handlerZodiacOtions}>
           <OverlapGroupChart>
             <Space angle={-this.state.planetData[0] + 90 }>
               <Zodiac angle={this.state.sideralOffset} style={{ backgroundImage: `url(${zodiac})` }}></Zodiac>
+              {this.state.enableNavamsha ? <Navamsha angle={this.state.sideralOffset} style={{ backgroundImage: `url(${navamsha})` }}></Navamsha> : <div />}
               <Planets>
                 <OverlapGroup13>
                   <Sun name="Sun" angle={-this.state.planetData[1]} offset={planetOffsets[1]}/>
@@ -330,6 +342,17 @@ const Zodiac = styled.div`
   transform: rotate(${props => props.angle ? -props.angle +"deg": "0deg"});  
 `;
 
+const Navamsha = styled.div`
+  position: absolute;
+  width: ${SIZES.navamsha_width};
+  height: ${SIZES.navamsha_height};
+  top: ${SIZES.navamsha_x};
+  left: ${SIZES.navamsha_y};
+  background-size: cover;
+  background-position: 50% 50%;
+  transform: rotate(${props => props.angle ? -props.angle - 1.66 +"deg": "0deg"});  
+`;
+
 const VedicChartS = styled.div`
   position: relative;
   width: 270;
@@ -396,7 +419,7 @@ class House extends React.Component {
 
     return (
       <HouseStyle handler= {handler}  angle={angle} className={`house ${className}`}>
-        <OverlapGroupHouseAtrib  onClick= {() => handler(className) } className="atrib-overlap-group">
+        <OverlapGroupHouseAtrib  onClick= {(ev) => {handler(className); ev.stopPropagation();} } className="atrib-overlap-group">
           <HouseCaption>
             {caption}
           </HouseCaption>
@@ -957,6 +980,7 @@ const FragHeading = styled.div`
 // Defualt chart data. It will be overridden durting initialization. Kept it here as a template
 const chartData = {
     //zodiac: "zodiac@1x.png",
+    navamsha: "NavamshaChart.png",
     zodiac: "zodiac-s.png",
     enableBirthLagna: true,
     enableMintNft: true,
