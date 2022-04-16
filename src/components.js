@@ -29,10 +29,10 @@ var SIZES = {
   zodiac_height: "582px",
   zodiac_x: "59px",
   zodiac_y: "59px",
-  navamsha_width: "662px",
-  navamsha_height: "662px",
-  navamsha_x: "19px",
-  navamsha_y: "19px",  
+  navamsha_width: "680px",
+  navamsha_height: "680px",
+  navamsha_x: "10px",
+  navamsha_y: "10px",  
   planet_width: "100px",
   planet_height: "100px",
   planet_x: "300px", // (space_width - planet_width)/2 
@@ -71,7 +71,8 @@ class Chart extends React.Component {
       planetTableFragOpen: true,    
       vedicChartFragOpen: true,
       sideralOffset: 24, 
-      enableNavamsha: false,     
+      enableNavamsha: false,
+      enablePlanetLabel: true,     
     };
     this.handlerHouseDetail = this.handlerHouseDetail.bind(this);
     this.handlerBirthLagna = this.handlerBirthLagna.bind(this);
@@ -121,7 +122,8 @@ class Chart extends React.Component {
   }
   
   handlerZodiacOtions() {
-    this.setState({enableNavamsha: !this.state.enableNavamsha});
+    let isVisible = !this.state.enableNavamsha;
+    this.setState({enableNavamsha: isVisible, enablePlanetLabel: !isVisible});
   }
 
   handlerBirthLagna(date, _planetData) {
@@ -217,22 +219,22 @@ class Chart extends React.Component {
     </FragContainer>
   */
     return (
-      <div className="container-main" onClick= {this.handlerZodiacOtions}>
-          <OverlapGroupChart>
+      <div className="container-main">
+          <OverlapGroupChart onClick= {this.handlerZodiacOtions}>
             <Space angle={-this.state.planetData[0] + 90 }>
               <Zodiac angle={this.state.sideralOffset} style={{ backgroundImage: `url(${zodiac})` }}></Zodiac>
               {this.state.enableNavamsha ? <Navamsha angle={this.state.sideralOffset} style={{ backgroundImage: `url(${navamsha})` }}></Navamsha> : <div />}
               <Planets>
                 <OverlapGroup13>
-                  <Sun name="Sun" angle={-this.state.planetData[1]} offset={planetOffsets[1]}/>
-                  <Moon name="Moon" angle={-this.state.planetData[2]}  offset={planetOffsets[2]} />
-                  <Mercury name="Merc" angle={-this.state.planetData[3]}  offset={planetOffsets[3]}/>
-                  <Venus name="Venus" angle={-this.state.planetData[4]}  offset={planetOffsets[4]}/>
-                  <Mars name="Mars" angle={-this.state.planetData[5]} offset={planetOffsets[5]}/>
-                  <Jupiter name="Jup" angle={-this.state.planetData[6]} offset={planetOffsets[6]}/>
-                  <Saturn name="Sat" angle={-this.state.planetData[7]} offset={planetOffsets[7]}/>
-                  <Rahu name="A.Ndde" angle={-this.state.planetData[8]} offset={planetOffsets[8]}/>
-                  <Ketu name="D.Node" angle={-this.state.planetData[9]} offset={planetOffsets[9]}/>
+                  <Sun name={this.state.enablePlanetLabel ? "Sun": ""} angle={-this.state.planetData[1]} offset={planetOffsets[1]} enableLabel={this.state.enablePlanetLabel}/>
+                  <Moon name={this.state.enablePlanetLabel ? "Moon": ""} angle={-this.state.planetData[2]}  offset={planetOffsets[2]} />
+                  <Mercury name={this.state.enablePlanetLabel ? "Merc": ""} angle={-this.state.planetData[3]}  offset={planetOffsets[3]}/>
+                  <Venus name={this.state.enablePlanetLabel ? "Venus" : ""} angle={-this.state.planetData[4]}  offset={planetOffsets[4]}/>
+                  <Mars name={this.state.enablePlanetLabel ? "Mars": ""} angle={-this.state.planetData[5]} offset={planetOffsets[5]}/>
+                  <Jupiter name={this.state.enablePlanetLabel ? "Jup": ""} angle={-this.state.planetData[6]} offset={planetOffsets[6]}/>
+                  <Saturn name={this.state.enablePlanetLabel ? "Sat" : ""} angle={-this.state.planetData[7]} offset={planetOffsets[7]}/>
+                  <Rahu name={this.state.enablePlanetLabel ? "A.Ndde": ""} angle={-this.state.planetData[8]} offset={planetOffsets[8]}/>
+                  <Ketu name={this.state.enablePlanetLabel ? "D.Node": ""} angle={-this.state.planetData[9]} offset={planetOffsets[9]}/>
                 </OverlapGroup13>
               </Planets>
             </Space>
@@ -695,11 +697,11 @@ class Sun extends React.Component {
 
 class Sun2 extends React.Component {
   render() {
-    const { name } = this.props;
+    const { name, enableLabel } = this.props;
 
     return (
         <OverlapGroupPlanet>
-          <PlanetLabel>{name}</PlanetLabel>
+          {enableLabel ? <PlanetLabel>{name}</PlanetLabel> : <div />}
           <IconPlanet src="icon-sun.svg" />
         </OverlapGroupPlanet>
     );
