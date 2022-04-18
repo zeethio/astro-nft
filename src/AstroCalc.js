@@ -266,16 +266,18 @@ export const HousesNum = {
     },
   ]
 
-
-  // exalt positions are indicated using sign enumeration
+  // Brihat Parashar Chapter 3, 49-50. EXALTATION AND DEBILITATION 
+  // 5l-54. ADDITIONAL DIGNITIES  (Moolatrikona)
+  // exalt positions are indicated using sign enumeration (0- Aries ... 11-Pisces)
+  // trikonStart inclusive, trikonEnd exclusive
   export const PlanetEffect = [
-    { name:"sun",     exalt: 0, deepExalt: 10,  trikonSign: 3, trikonStart: 1, trikonEnd: 10},
-    { name:"moon",    exalt: 1, deepExalt: 3,   trikonSign: 1, trikonStart: 4, trikonEnd: 20},
-    { name:"mercury", exalt: 5, deepExalt: 15,  trikonSign: 5, trikonStart: 16,trikonEnd: 20}, 
-    { name:"venus",   exalt: 11,deepExalt: 3,   trikonSign: 6, trikonStart: 4, trikonEnd: 20}, 
-    { name:"mars",    exalt: 8, deepExalt: 28,  trikonSign: 0, trikonStart: 0, trikonEnd: 12}, 
-    { name:"jupiter", exalt: 3, deepExalt: 5,   trikonSign: 7, trikonStart: 0, trikonEnd: 10}, 
-    { name:"saturn",  exalt: 6, deepExalt: 3,   trikonSign: 10,trikonStart: 4, trikonEnd: 20}, 
+    { name:"sun",     exalt: 0, deepExalt: 10,  trikonSign: 4, trikonStart: 0, trikonEnd: 20},
+    { name:"moon",    exalt: 1, deepExalt: 3,   trikonSign: 1, trikonStart: 4, trikonEnd: 30},
+    { name:"mars",    exalt: 9, deepExalt: 28,  trikonSign: 0, trikonStart: 0, trikonEnd: 12},
+    { name:"mercury", exalt: 5, deepExalt: 15,  trikonSign: 5, trikonStart: 15,trikonEnd: 20},   
+    { name:"jupiter", exalt: 3, deepExalt: 5,   trikonSign: 8, trikonStart: 0, trikonEnd: 10},       
+    { name:"venus",   exalt: 11,deepExalt: 27,  trikonSign: 6, trikonStart: 0, trikonEnd: 15},     
+    { name:"saturn",  exalt: 6, deepExalt: 20,  trikonSign: 10,trikonStart: 0, trikonEnd: 20}, 
     { name:"rahu",    exalt: 1, deepExalt: 3,   trikonSign: 1, trikonStart: 4, trikonEnd: 20}, 
     { name:"ketu",    exalt: 7, deepExalt: 3,   trikonSign: 7, trikonStart: 4, trikonEnd: 20}, 
   ];

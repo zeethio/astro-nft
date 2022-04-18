@@ -13,6 +13,10 @@ import { useParams } from "react-router-dom";
 
 import Minter from "./nft-minter/Minter";
 import {HousesNum, PlanetsEnum, getPlanetPos, getCloseConjuctions, getHouseData} from "./AstroCalc"
+import './OptionsMenu.css';
+import OptionsMenu from "./OptionsMenu"
+
+
   /* global BigInt */
 const HOUSE_POS = "400px"
 
@@ -33,6 +37,11 @@ var SIZES = {
   navamsha_height: "680px",
   navamsha_x: "10px",
   navamsha_y: "10px",  
+  exalt_width: "280px",
+  exalt_height: "280px",
+  exalt_x: "210px",
+  exalt_y: "210px",
+
   planet_width: "100px",
   planet_height: "100px",
   planet_x: "300px", // (space_width - planet_width)/2 
@@ -72,7 +81,9 @@ class Chart extends React.Component {
       vedicChartFragOpen: true,
       sideralOffset: 24, 
       enableNavamsha: false,
-      enablePlanetLabel: true,     
+      enablePlanetLabel: true,    
+      ExaltPlanet: "SaturnExalt.png", 
+      showOptions: true,
     };
     this.handlerHouseDetail = this.handlerHouseDetail.bind(this);
     this.handlerBirthLagna = this.handlerBirthLagna.bind(this);
@@ -80,7 +91,7 @@ class Chart extends React.Component {
     this.togglePlanetTableFrag = this.togglePlanetTableFrag.bind(this);
     this.toggleVedicChartFrag = this.toggleVedicChartFrag.bind(this);
     this.adjustPlanetPos = this.adjustPlanetPos.bind(this); 
-    this.handlerZodiacOtions = this.handlerZodiacOtions.bind(this);
+    this.handlerOptionMenu = this.handlerOptionMenu.bind(this);
   }
 
   toggleMintFrag() {
@@ -121,9 +132,40 @@ class Chart extends React.Component {
     })
   }
   
-  handlerZodiacOtions() {
-    let isVisible = !this.state.enableNavamsha;
-    this.setState({enableNavamsha: isVisible, enablePlanetLabel: !isVisible});
+  handlerOptionMenu(action) {
+    if (action == "navamsha") {
+      let isVisible = !this.state.enableNavamsha;
+      this.setState({enableNavamsha: isVisible, enablePlanetLabel: !isVisible});
+    } else {
+      switch(action) {
+        case "sun":
+          this.setState({ ExaltPlanet: "SunExalt.png"});
+          break;
+        case "moon":
+          this.setState({ ExaltPlanet: "MoonExalt.png"});
+          break;
+        case "mercury":
+          this.setState({ ExaltPlanet: "MercuryExalt.png"});
+          break;
+        case "venus":
+          this.setState({ ExaltPlanet: "VenusExalt.png"});
+          break;
+        case "mars":
+          this.setState({ ExaltPlanet: "MarsExalt.png"});
+          break;
+        case "jupiter":
+          this.setState({ ExaltPlanet: "JupiterExalt.png"});
+          break;
+        case "saturn":
+          this.setState({ ExaltPlanet: "SaturnExalt.png"});
+          break;
+      
+        case "off":
+          this.setState({ ExaltPlanet: null});
+          break;
+  
+      }
+    }
   }
 
   handlerBirthLagna(date, _planetData) {
@@ -183,7 +225,8 @@ class Chart extends React.Component {
   render() {
     const {
       zodiac,
-      navamsha
+      navamsha,
+      sunexalt
     } = this.props;
     console.log(this.props)
     console.log("planetaryData: " + this.state.planetData);
@@ -218,15 +261,18 @@ class Chart extends React.Component {
           {this.state.vedicChartFragOpen ? <VedicChartS style={{ backgroundImage: `url(vedic-chart-s.png)`, backgroundPosition: 'center', backgroundSize: 'cover', width: 270, height: 270,}}/>: <div />} 
     </FragContainer>
   */
+    const showOptions = this.state.showOptions;
     return (
       <div className="container-main">
-          <OverlapGroupChart onClick= {this.handlerZodiacOtions}>
+          <OverlapGroupChart>          
             <Space angle={-this.state.planetData[0] + 90 }>
               <Zodiac angle={this.state.sideralOffset} style={{ backgroundImage: `url(${zodiac})` }}></Zodiac>
               {this.state.enableNavamsha ? <Navamsha angle={this.state.sideralOffset} style={{ backgroundImage: `url(${navamsha})` }}></Navamsha> : <div />}
+              {this.state.ExaltPlanet != null ? <Exalt angle={this.state.sideralOffset} style={{ backgroundImage: `url(${this.state.ExaltPlanet})` }}></Exalt> : <div />}
+
               <Planets>
                 <OverlapGroup13>
-                  <Sun name={this.state.enablePlanetLabel ? "Sun": ""} angle={-this.state.planetData[1]} offset={planetOffsets[1]} enableLabel={this.state.enablePlanetLabel}/>
+                  <Sun name={this.state.enablePlanetLabel ? "Sun": ""} angle={-this.state.planetData[1]} offset={planetOffsets[1]} enableLabel={this.state.enablePlanetLabel} onClick={(ev) => this.state.exaltHandler(ev)}/>
                   <Moon name={this.state.enablePlanetLabel ? "Moon": ""} angle={-this.state.planetData[2]}  offset={planetOffsets[2]} />
                   <Mercury name={this.state.enablePlanetLabel ? "Merc": ""} angle={-this.state.planetData[3]}  offset={planetOffsets[3]}/>
                   <Venus name={this.state.enablePlanetLabel ? "Venus" : ""} angle={-this.state.planetData[4]}  offset={planetOffsets[4]}/>
@@ -240,7 +286,10 @@ class Chart extends React.Component {
             </Space>
             <Asc {...this.state.ascProps}/>            
             <Houses handler = {this.handlerHouseDetail}  angle={180 + 15 - house_angle_adj} data = {housesProps} />
-
+            <div className="OptionsMenu">
+            <BtnOptions onClick={(e) => {this.setState({showOptions: !showOptions}); e.stopPropagation();}}>Options{ showOptions ? <BsChevronUp>:</BsChevronUp> : <BsChevronDown />}</BtnOptions>
+            {showOptions ? <OptionsMenu handler={this.handlerOptionMenu}> </OptionsMenu> : <div></div>}  
+            </div>
           </OverlapGroupChart>
         <div className="side-panel">
           { this.state.enableBirthLagna ? 
@@ -353,6 +402,17 @@ const Navamsha = styled.div`
   background-size: cover;
   background-position: 50% 50%;
   transform: rotate(${props => props.angle ? -props.angle - 1.66 +"deg": "0deg"});  
+`;
+
+const Exalt = styled.div`
+  position: absolute;
+  width: ${SIZES.exalt_width};
+  height: ${SIZES.exalt_height};
+  top: ${SIZES.exalt_x};
+  left: ${SIZES.exalt_y};
+  background-size: cover;
+  background-position: 50% 50%;
+  transform: rotate(${props => props.angle ? -props.angle +"deg": "0deg"});  
 `;
 
 const VedicChartS = styled.div`
@@ -977,7 +1037,17 @@ const FragHeading = styled.div`
   //width: 100%;
 `;
 
-
+const BtnOptions = styled.button`
+//position: absolute;
+//top: 20px;
+//left: 20px;
+color: palevioletred;
+font-size: 16px;
+margin: 0.5em;
+padding: 0.25em 0.5em;
+border: 2px solid palevioletred;
+border-radius: 3px;
+`;
 
 // Defualt chart data. It will be overridden durting initialization. Kept it here as a template
 const chartData = {
@@ -1009,6 +1079,7 @@ function getChartData(id) {
 
   let chartData = {
     //zodiac: "zodiac@1x.png",
+    navamsha: "NavamshaChart.png",    
     zodiac: "zodiac-s.png",
     planetData: planetData,
     enableBirthLagna: false,

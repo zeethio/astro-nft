@@ -1,0 +1,10 @@
+.OptionsMenu {
+    position: absolute;
+    left: 40px;
+    top: 40px;
+    width: 180px;
+    height: 80px;
+    display: flex;
+    align-items: flex-start;
+    justify-items: center;
+  }

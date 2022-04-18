@@ -63,3 +63,6 @@
     display: flex; 
   }
 
+  .Houses {
+    pointer-events: none;
+  }
