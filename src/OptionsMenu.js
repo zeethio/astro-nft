@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { BsChevronDown, BsChevronUp, BsCheckSquare, BsSquare } from "react-icons/bs"; 
 
 const StyledUl = styled.ul`
   list-style-type: none;
@@ -10,7 +11,7 @@ const StyledUl = styled.ul`
 `;
 
 const StyledLi = styled.li`
-  float: left;
+  //float: left;
 `;
 
 const Dropbtn = styled.div`
@@ -73,14 +74,17 @@ class OptionsMenu extends Component {
   };
 
   render = () => {
+    let showNavamsha = this.props.showNavamsha;
+    let showExaltation = true;
+
     return (
       <StyledUl>
         <StyledLi>
-          <StyledA onClick={() => this.handleClick("navamsha")}>Navamsha</StyledA>
+          <StyledA onClick={() => this.handleClick("navamsha")}>Navamsha { showNavamsha ? <BsCheckSquare />:<BsSquare />}</StyledA>
         </StyledLi>
         <DropDownLi>
           <Dropbtn onClick={() => this.handleClick("Exaltation")}>
-            Exaltations
+          Exaltations{showExaltation ? <BsChevronDown />:<BsChevronUp />}
           </Dropbtn>
           <DropDownContent>
             {" "}

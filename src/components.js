@@ -286,10 +286,10 @@ class Chart extends React.Component {
             </Space>
             <Asc {...this.state.ascProps}/>            
             <Houses handler = {this.handlerHouseDetail}  angle={180 + 15 - house_angle_adj} data = {housesProps} />
-            <div className="OptionsMenu">
             <BtnOptions onClick={(e) => {this.setState({showOptions: !showOptions}); e.stopPropagation();}}>Options{ showOptions ? <BsChevronUp>:</BsChevronUp> : <BsChevronDown />}</BtnOptions>
-            {showOptions ? <OptionsMenu handler={this.handlerOptionMenu}> </OptionsMenu> : <div></div>}  
-            </div>
+            
+            {showOptions ? <div className="OptionsMenu"><OptionsMenu handler={this.handlerOptionMenu} showNavamsha={this.state.enableNavamsha}> </OptionsMenu> </div> : <div></div>}  
+            
           </OverlapGroupChart>
         <div className="side-panel">
           { this.state.enableBirthLagna ? 
@@ -1038,9 +1038,9 @@ const FragHeading = styled.div`
 `;
 
 const BtnOptions = styled.button`
-//position: absolute;
-//top: 20px;
-//left: 20px;
+position: absolute;
+top: 20px;
+left: 20px;
 color: palevioletred;
 font-size: 16px;
 margin: 0.5em;
