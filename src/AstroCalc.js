@@ -944,6 +944,11 @@ export function getHouseData(planetData, sideralOffset) {
     return (signNum + 12) % 12;
   }
 
+  function angleToNavamshaSign(angle) {
+    var signNum = Math.floor(((angle + 360.0)%360)/(30.0/9));
+    return (signNum + 12) % 12;
+  }
+
 
   export function getPlanetPos(planetData, sideralOffset) {
     var planetsPos = {}
@@ -952,6 +957,18 @@ export function getHouseData(planetData, sideralOffset) {
             // Correct angle. ASC is moved negative 90deg w.r.t tropical aries reference
             var angle = planetData[PlanetsEnum[planet]] - sideralOffset;
             planetsPos[planet] = angleToSign(angle );
+        }
+    }
+    return planetsPos;
+  }
+
+  export function getPlanetNavamshaPos(planetData, sideralOffset) {
+    var planetsPos = {}
+    if(planetData.length >= 9) {
+        for (var planet in  PlanetsEnum) {
+            // Correct angle. ASC is moved negative 90deg w.r.t tropical aries reference
+            var angle = planetData[PlanetsEnum[planet]] - sideralOffset;
+            planetsPos[planet] = angleToNavamshaSign(angle );
         }
     }
     return planetsPos;

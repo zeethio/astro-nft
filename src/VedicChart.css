@@ -1,0 +1,26 @@
+.RasiChart{
+    position: absolute;
+    left: 20px;
+    top: 840px;
+    width: 160px;
+    height: 160px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    border: 2px solid palevioletred;
+    border-radius: 3px;    
+  }
+  
+.NavamshaChart{
+    position: absolute;
+    left: 800px;
+    top: 840px;
+    width: 160px;
+    height: 160px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    border: 2px solid palevioletred;
+    border-radius: 3px;    
+  }
+  

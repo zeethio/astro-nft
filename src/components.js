@@ -12,10 +12,11 @@ import {loadAstroNlg, loadRosaeNlg, renderHouseDetail} from "./AstroNlg"
 import { useParams } from "react-router-dom";
 
 import Minter from "./nft-minter/Minter";
-import {HousesNum, PlanetsEnum, getPlanetPos, getCloseConjuctions, getHouseData} from "./AstroCalc"
+import {HousesNum, PlanetsEnum, getPlanetPos, getPlanetNavamshaPos, getCloseConjuctions, getHouseData} from "./AstroCalc"
 import './OptionsMenu.css';
 import OptionsMenu from "./OptionsMenu"
-
+import './VedicChart.css';
+import VedicChart from "./VedicChart"
 
   /* global BigInt */
 const HOUSE_POS = "400px"
@@ -235,6 +236,7 @@ class Chart extends React.Component {
     var groups = getCloseConjuctions(this.state.planetData, this.state.sideralOffset);
     var planetOffsets = this.adjustPlanetPos(groups);
     planetsPos = getPlanetPos(this.state.planetData, this.state.sideralOffset);
+    let planetNavamshaPos = getPlanetNavamshaPos(this.state.planetData, this.state.sideralOffset);
     console.log(JSON.stringify(planetsPos));
     var house_angle_adj = this.adjustHousePos(this.state.planetData[PlanetsEnum["asc"]], planetsPos["asc"], this.state.sideralOffset);
     var housesProps = getHouseData(this.state.planetData, this.state.sideralOffset);
@@ -262,6 +264,7 @@ class Chart extends React.Component {
     </FragContainer>
   */
     const showOptions = this.state.showOptions;
+    let showVedicChart = true;
     return (
       <div className="container-main">
           <OverlapGroupChart>          
@@ -286,10 +289,11 @@ class Chart extends React.Component {
             </Space>
             <Asc {...this.state.ascProps}/>            
             <Houses handler = {this.handlerHouseDetail}  angle={180 + 15 - house_angle_adj} data = {housesProps} />
-            <BtnOptions onClick={(e) => {this.setState({showOptions: !showOptions}); e.stopPropagation();}}>Options{ showOptions ? <BsChevronUp>:</BsChevronUp> : <BsChevronDown />}</BtnOptions>
-            
+            <BtnOptions onClick={(e) => {this.setState({showOptions: !showOptions}); e.stopPropagation();}}>Options{ showOptions ? <BsChevronUp>:</BsChevronUp> : <BsChevronDown />}</BtnOptions>          
             {showOptions ? <div className="OptionsMenu"><OptionsMenu handler={this.handlerOptionMenu} showNavamsha={this.state.enableNavamsha}> </OptionsMenu> </div> : <div></div>}  
-            
+            {showVedicChart ? <div className="RasiChart"><VedicChart planetsPos={planetsPos} chartName="Rasi Chart"> </VedicChart> </div> : <div></div>}  
+            {showVedicChart ? <div className="NavamshaChart"><VedicChart planetsPos={planetNavamshaPos} chartName="Navamsa Chart"> </VedicChart> </div> : <div></div>}  
+
           </OverlapGroupChart>
         <div className="side-panel">
           { this.state.enableBirthLagna ? 
