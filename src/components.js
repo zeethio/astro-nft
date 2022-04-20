@@ -12,7 +12,7 @@ import {loadAstroNlg, loadRosaeNlg, renderHouseDetail} from "./AstroNlg"
 import { useParams } from "react-router-dom";
 
 import Minter from "./nft-minter/Minter";
-import {HousesNum, PlanetsEnum, getPlanetPos, getPlanetNavamshaPos, getCloseConjuctions, getHouseData} from "./AstroCalc"
+import {HousesNum, PlanetsEnum, getPlanetPos, getPlanetNavamshaPos, getPlanetDnPos, getCloseConjuctions, getHouseData} from "./AstroCalc"
 import './OptionsMenu.css';
 import OptionsMenu from "./OptionsMenu"
 import './VedicChart.css';
@@ -85,6 +85,7 @@ class Chart extends React.Component {
       enablePlanetLabel: true,    
       ExaltPlanet: "SaturnExalt.png", 
       showOptions: true,
+      ChartDn: 9,
     };
     this.handlerHouseDetail = this.handlerHouseDetail.bind(this);
     this.handlerBirthLagna = this.handlerBirthLagna.bind(this);
@@ -133,10 +134,12 @@ class Chart extends React.Component {
     })
   }
   
-  handlerOptionMenu(action) {
+  handlerOptionMenu(action, arg1) {
     if (action == "navamsha") {
       let isVisible = !this.state.enableNavamsha;
       this.setState({enableNavamsha: isVisible, enablePlanetLabel: !isVisible});
+    } else if (action == "chart") {
+      this.setState({ChartDn: parseInt(arg1)});
     } else {
       switch(action) {
         case "sun":
@@ -159,12 +162,10 @@ class Chart extends React.Component {
           break;
         case "saturn":
           this.setState({ ExaltPlanet: "SaturnExalt.png"});
-          break;
-      
+          break;      
         case "off":
           this.setState({ ExaltPlanet: null});
           break;
-  
       }
     }
   }
@@ -237,6 +238,7 @@ class Chart extends React.Component {
     var planetOffsets = this.adjustPlanetPos(groups);
     planetsPos = getPlanetPos(this.state.planetData, this.state.sideralOffset);
     let planetNavamshaPos = getPlanetNavamshaPos(this.state.planetData, this.state.sideralOffset);
+    let planetDnPos = getPlanetDnPos(this.state.planetData, this.state.sideralOffset, this.state.ChartDn);
     console.log(JSON.stringify(planetsPos));
     var house_angle_adj = this.adjustHousePos(this.state.planetData[PlanetsEnum["asc"]], planetsPos["asc"], this.state.sideralOffset);
     var housesProps = getHouseData(this.state.planetData, this.state.sideralOffset);
@@ -292,7 +294,8 @@ class Chart extends React.Component {
             <BtnOptions onClick={(e) => {this.setState({showOptions: !showOptions}); e.stopPropagation();}}>Options{ showOptions ? <BsChevronUp>:</BsChevronUp> : <BsChevronDown />}</BtnOptions>          
             {showOptions ? <div className="OptionsMenu"><OptionsMenu handler={this.handlerOptionMenu} showNavamsha={this.state.enableNavamsha}> </OptionsMenu> </div> : <div></div>}  
             {showVedicChart ? <div className="RasiChart"><VedicChart planetsPos={planetsPos} chartName="Rasi"> </VedicChart> </div> : <div></div>}  
-            {showVedicChart ? <div className="NavamshaChart"><VedicChart planetsPos={planetNavamshaPos} chartName="Navamsa"> </VedicChart> </div> : <div></div>}  
+            {/*{showVedicChart ? <div className="NavamshaChart"><VedicChart planetsPos={planetNavamshaPos} chartName="Navamsa"> </VedicChart> </div> : <div></div>}  */}
+           {showVedicChart ? <div className="NavamshaChart"><VedicChart planetsPos={planetDnPos} chartName="Navamsa"> </VedicChart> </div> : <div></div>}}
 
           </OverlapGroupChart>
         <div className="side-panel">

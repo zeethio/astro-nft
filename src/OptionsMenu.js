@@ -68,14 +68,15 @@ const SubA = styled.a`
 
 class OptionsMenu extends Component {
 
-  handleClick = action => {
+  handleClick = (action, arg1) => {
     if (!action) return;
-    if (this.props.handler) this.props.handler(action);
+    if (this.props.handler) this.props.handler(action, arg1);
   };
 
   render = () => {
     let showNavamsha = this.props.showNavamsha;
     let showExaltation = true;
+    let showCharts = true;
 
     return (
       <StyledUl>
@@ -83,20 +84,43 @@ class OptionsMenu extends Component {
           <StyledA onClick={() => this.handleClick("navamsha")}>Navamsha { showNavamsha ? <BsCheckSquare />:<BsSquare />}</StyledA>
         </StyledLi>
         <DropDownLi>
-          <Dropbtn onClick={() => this.handleClick("Exaltation")}>
+          <Dropbtn onClick={() => this.handleClick("Charts", null)}>
+          Charts{showCharts ? <BsChevronDown />:<BsChevronUp />}
+          </Dropbtn>
+          <DropDownContent>
+            {" "}
+            <SubA onClick={() => this.handleClick("chart", "2")}>D2 Hora</SubA>
+            <SubA onClick={() => this.handleClick("chart", "3")}>D3 Drekkana</SubA>
+            <SubA onClick={() => this.handleClick("chart", "4")}>D4 Chaturthamsa</SubA>
+            <SubA onClick={() => this.handleClick("chart", "7")}>D7 Sapthamsa</SubA>
+            <SubA onClick={() => this.handleClick("chart", "9")}>D9 Navamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "10")}>D10 Dasamamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "12")}>D12 Dvadasamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "16")}>D16 Shodasamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "18")}>D20 Vimsamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "24")}>D24 Chaturvimsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "27")}>D27 Saptavimsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "30")}>D30 Trimsamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "40")}>D40 Chatruvimsamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "45")}>D12 Akshavedamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "60")}>D30 Shashtimamsa</SubA>                                               
+          </DropDownContent>
+        </DropDownLi>        
+        <DropDownLi>
+          <Dropbtn onClick={() => this.handleClick("Exaltation", null)}>
           Exaltations{showExaltation ? <BsChevronDown />:<BsChevronUp />}
           </Dropbtn>
           <DropDownContent>
             {" "}
-            <SubA onClick={() => this.handleClick("sun")}>Sun</SubA>
-            <SubA onClick={() => this.handleClick("moon")}>Moon</SubA>
-            <SubA onClick={() => this.handleClick("mercury")}>Mercury</SubA>
-            <SubA onClick={() => this.handleClick("venus")}>Venus</SubA>
-            <SubA onClick={() => this.handleClick("mars")}>Mars</SubA>                                    
-            <SubA onClick={() => this.handleClick("jupiter")}>Jupiter</SubA>                                    
-            <SubA onClick={() => this.handleClick("saturn")}>Saturn</SubA>                                    
+            <SubA onClick={() => this.handleClick("sun", null)}>Sun</SubA>
+            <SubA onClick={() => this.handleClick("moon", null)}>Moon</SubA>
+            <SubA onClick={() => this.handleClick("mercury", null)}>Mercury</SubA>
+            <SubA onClick={() => this.handleClick("venus", null)}>Venus</SubA>
+            <SubA onClick={() => this.handleClick("mars", null)}>Mars</SubA>                                    
+            <SubA onClick={() => this.handleClick("jupiter", null)}>Jupiter</SubA>                                    
+            <SubA onClick={() => this.handleClick("saturn", null)}>Saturn</SubA>                                    
 
-            <SubA onClick={() => this.handleClick("off")}>Off</SubA>            
+            <SubA onClick={() => this.handleClick("off", null)}>Off</SubA>            
           </DropDownContent>
         </DropDownLi>
       </StyledUl>

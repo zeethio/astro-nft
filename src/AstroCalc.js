@@ -974,6 +974,23 @@ export function getHouseData(planetData, sideralOffset) {
     return planetsPos;
   }
 
+  function angleToDnSign(angle, dn) {
+    var signNum = Math.floor(((angle + 360.0)%360)/(30.0/dn));
+    return (signNum + 12) % 12;
+  }
+
+  export function getPlanetDnPos(planetData, sideralOffset, dn) {
+    var planetsPos = {}
+    if(planetData.length >= 9) {
+        for (var planet in  PlanetsEnum) {
+            // Correct angle. ASC is moved negative 90deg w.r.t tropical aries reference
+            var angle = planetData[PlanetsEnum[planet]] - sideralOffset;
+            planetsPos[planet] = angleToDnSign(angle, dn );
+        }
+    }
+    return planetsPos;
+  }
+
   export function getCloseConjuctions(planetData, sideralOffset) {
     let proximity = 3;
     let groups = [];
