@@ -291,8 +291,8 @@ class Chart extends React.Component {
             <Houses handler = {this.handlerHouseDetail}  angle={180 + 15 - house_angle_adj} data = {housesProps} />
             <BtnOptions onClick={(e) => {this.setState({showOptions: !showOptions}); e.stopPropagation();}}>Options{ showOptions ? <BsChevronUp>:</BsChevronUp> : <BsChevronDown />}</BtnOptions>          
             {showOptions ? <div className="OptionsMenu"><OptionsMenu handler={this.handlerOptionMenu} showNavamsha={this.state.enableNavamsha}> </OptionsMenu> </div> : <div></div>}  
-            {showVedicChart ? <div className="RasiChart"><VedicChart planetsPos={planetsPos} chartName="Rasi Chart"> </VedicChart> </div> : <div></div>}  
-            {showVedicChart ? <div className="NavamshaChart"><VedicChart planetsPos={planetNavamshaPos} chartName="Navamsa Chart"> </VedicChart> </div> : <div></div>}  
+            {showVedicChart ? <div className="RasiChart"><VedicChart planetsPos={planetsPos} chartName="Rasi"> </VedicChart> </div> : <div></div>}  
+            {showVedicChart ? <div className="NavamshaChart"><VedicChart planetsPos={planetNavamshaPos} chartName="Navamsa"> </VedicChart> </div> : <div></div>}  
 
           </OverlapGroupChart>
         <div className="side-panel">
