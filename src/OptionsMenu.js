@@ -68,9 +68,9 @@ const SubA = styled.a`
 
 class OptionsMenu extends Component {
 
-  handleClick = (action, arg1) => {
+  handleClick = (action, arg1, arg2) => {
     if (!action) return;
-    if (this.props.handler) this.props.handler(action, arg1);
+    if (this.props.handler) this.props.handler(action, arg1, arg2);
   };
 
   render = () => {
@@ -84,26 +84,26 @@ class OptionsMenu extends Component {
           <StyledA onClick={() => this.handleClick("navamsha")}>Navamsha { showNavamsha ? <BsCheckSquare />:<BsSquare />}</StyledA>
         </StyledLi>
         <DropDownLi>
-          <Dropbtn onClick={() => this.handleClick("Charts", null)}>
+          <Dropbtn onClick={() => this.handleClick("Charts", null, null)}>
           Charts{showCharts ? <BsChevronDown />:<BsChevronUp />}
           </Dropbtn>
           <DropDownContent>
             {" "}
-            <SubA onClick={() => this.handleClick("chart", "2")}>D2 Hora</SubA>
-            <SubA onClick={() => this.handleClick("chart", "3")}>D3 Drekkana</SubA>
-            <SubA onClick={() => this.handleClick("chart", "4")}>D4 Chaturthamsa</SubA>
-            <SubA onClick={() => this.handleClick("chart", "7")}>D7 Sapthamsa</SubA>
-            <SubA onClick={() => this.handleClick("chart", "9")}>D9 Navamsa</SubA>                                    
-            <SubA onClick={() => this.handleClick("chart", "10")}>D10 Dasamamsa</SubA>                                    
-            <SubA onClick={() => this.handleClick("chart", "12")}>D12 Dvadasamsa</SubA>                                    
-            <SubA onClick={() => this.handleClick("chart", "16")}>D16 Shodasamsa</SubA>                                    
-            <SubA onClick={() => this.handleClick("chart", "18")}>D20 Vimsamsa</SubA>                                    
-            <SubA onClick={() => this.handleClick("chart", "24")}>D24 Chaturvimsa</SubA>                                    
-            <SubA onClick={() => this.handleClick("chart", "27")}>D27 Saptavimsa</SubA>                                    
-            <SubA onClick={() => this.handleClick("chart", "30")}>D30 Trimsamsa</SubA>                                    
-            <SubA onClick={() => this.handleClick("chart", "40")}>D40 Chatruvimsamsa</SubA>                                    
-            <SubA onClick={() => this.handleClick("chart", "45")}>D12 Akshavedamsa</SubA>                                    
-            <SubA onClick={() => this.handleClick("chart", "60")}>D30 Shashtimamsa</SubA>                                               
+            <SubA onClick={() => this.handleClick("chart", "2", "D2 Hora")}>D2 Hora</SubA>
+            <SubA onClick={() => this.handleClick("chart", "3", "D3 Drekkana")}>D3 Drekkana</SubA>
+            <SubA onClick={() => this.handleClick("chart", "4", "D4 Chaturthamsa")}>D4 Chaturthamsa</SubA>
+            <SubA onClick={() => this.handleClick("chart", "7", "D7 Sapthamsa")}>D7 Sapthamsa</SubA>
+            <SubA onClick={() => this.handleClick("chart", "9", "D9 Navamsa")}>D9 Navamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "10", "D10 Dasamamsa")}>D10 Dasamamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "12", "D12 Dvadasamsa")}>D12 Dvadasamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "16", "D16 Shodasamsa")}>D16 Shodasamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "18", "D20 Vimsamsa")}>D20 Vimsamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "24", "D24 Chaturvimsa")}>D24 Chaturvimsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "27", "D27 Saptavimsa")}>D27 Saptavimsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "30", "D30 Trimsamsa")}>D30 Trimsamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "40", "D40 Chatruvimsamsa")}>D40 Chatruvimsamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "45", "D12 Akshavedamsa")}>D12 Akshavedamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "60", "D30 Shashtimamsa")}>D30 Shashtimamsa</SubA>                                               
           </DropDownContent>
         </DropDownLi>        
         <DropDownLi>

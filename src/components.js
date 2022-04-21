@@ -86,6 +86,7 @@ class Chart extends React.Component {
       ExaltPlanet: "SaturnExalt.png", 
       showOptions: true,
       ChartDn: 9,
+      DnChartName: "D9 Navamsa",
     };
     this.handlerHouseDetail = this.handlerHouseDetail.bind(this);
     this.handlerBirthLagna = this.handlerBirthLagna.bind(this);
@@ -134,12 +135,12 @@ class Chart extends React.Component {
     })
   }
   
-  handlerOptionMenu(action, arg1) {
+  handlerOptionMenu(action, arg1, arg2) {
     if (action == "navamsha") {
       let isVisible = !this.state.enableNavamsha;
       this.setState({enableNavamsha: isVisible, enablePlanetLabel: !isVisible});
     } else if (action == "chart") {
-      this.setState({ChartDn: parseInt(arg1)});
+      this.setState({ChartDn: parseInt(arg1), DnChartName: arg2});
     } else {
       switch(action) {
         case "sun":
@@ -293,9 +294,9 @@ class Chart extends React.Component {
             <Houses handler = {this.handlerHouseDetail}  angle={180 + 15 - house_angle_adj} data = {housesProps} />
             <BtnOptions onClick={(e) => {this.setState({showOptions: !showOptions}); e.stopPropagation();}}>Options{ showOptions ? <BsChevronUp>:</BsChevronUp> : <BsChevronDown />}</BtnOptions>          
             {showOptions ? <div className="OptionsMenu"><OptionsMenu handler={this.handlerOptionMenu} showNavamsha={this.state.enableNavamsha}> </OptionsMenu> </div> : <div></div>}  
-            {showVedicChart ? <div className="RasiChart"><VedicChart planetsPos={planetsPos} chartName="Rasi"> </VedicChart> </div> : <div></div>}  
+            {showVedicChart ? <div className="RasiChart"><VedicChart planetsPos={planetsPos} chartName="D1 Rasi"> </VedicChart> </div> : <div></div>}  
             {/*{showVedicChart ? <div className="NavamshaChart"><VedicChart planetsPos={planetNavamshaPos} chartName="Navamsa"> </VedicChart> </div> : <div></div>}  */}
-           {showVedicChart ? <div className="NavamshaChart"><VedicChart planetsPos={planetDnPos} chartName="Navamsa"> </VedicChart> </div> : <div></div>}}
+           {showVedicChart ? <div className="NavamshaChart"><VedicChart planetsPos={planetDnPos} chartName={this.state.DnChartName}> </VedicChart> </div> : <div></div>}}
 
           </OverlapGroupChart>
         <div className="side-panel">

@@ -59,7 +59,7 @@ export default function VedicChart(props) {
           <Grid item sm={3} style={{ borderRight: "1px solid grey"}}>
             <Paper className={classes.paper} >{getPlents(props.planetsPos,10)}</Paper>
           </Grid>
-          <Grid item  sm={6}  style={{ background: "yellow", color: "blue", fontSize: 14, padding: 10, borderLeft: "1px solid grey"}}>
+          <Grid item  sm={6}  style={{ background: "yellow", color: "blue", fontSize: 14, padding: 2, borderLeft: "1px solid grey"}}>
             {props.chartName}
           </Grid>
           <Grid item  sm={3} style={{ borderLeft: "1px solid grey"}}>
