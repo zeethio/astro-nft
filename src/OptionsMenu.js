@@ -102,8 +102,8 @@ class OptionsMenu extends Component {
             <SubA onClick={() => this.handleClick("chart", "27", "D27 Saptavimsa")}>D27 Saptavimsa</SubA>                                    
             <SubA onClick={() => this.handleClick("chart", "30", "D30 Trimsamsa")}>D30 Trimsamsa</SubA>                                    
             <SubA onClick={() => this.handleClick("chart", "40", "D40 Chatruvimsamsa")}>D40 Chatruvimsamsa</SubA>                                    
-            <SubA onClick={() => this.handleClick("chart", "45", "D12 Akshavedamsa")}>D12 Akshavedamsa</SubA>                                    
-            <SubA onClick={() => this.handleClick("chart", "60", "D30 Shashtimamsa")}>D30 Shashtimamsa</SubA>                                               
+            <SubA onClick={() => this.handleClick("chart", "45", "D45 Akshavedamsa")}>D45 Akshavedamsa</SubA>                                    
+            <SubA onClick={() => this.handleClick("chart", "60", "D60 Shashtimamsa")}>D60 Shashtimamsa</SubA>                                               
           </DropDownContent>
         </DropDownLi>        
         <DropDownLi>

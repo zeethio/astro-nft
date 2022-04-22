@@ -974,6 +974,90 @@ export function getHouseData(planetData, sideralOffset) {
     return planetsPos;
   }
 
+  function angleToD3Sign(angle) {
+    const drekkana = [1,  5,  9, 
+                      2,  6, 10, 
+                      3,  7, 11, 
+                      4,  8, 12, 
+                      5,  9,  1, 
+                      6, 10,  2, 
+                      7, 11,  3, 
+                      8, 12,  4, 
+                      9,  1,  5, 
+                      10, 2,  6,
+                      11, 3,  7,
+                      12, 4,  8];
+    var segment = Math.floor(((angle + 360.0)%360)/(30.0/3));
+    segment = segment % 36;
+    let signNum = drekkana[segment] - 1;
+    return signNum;
+  }
+
+  function angleToD4Sign(angle) {
+    const segmentList = [1,  4,  7, 10,  
+                      2,  5,  8, 11, 
+                      3,  6,  9, 12,
+                      4,  7, 10,  1,
+                      5,  8, 11,  2,
+                      6,  9, 12,  3,
+                      7, 10,  1,  4,
+                      8, 11,  2,  5,
+                      9, 12,  3,  6,
+                      10, 1,  4,  7,
+                      11, 2,  5,  8,
+                      12, 3,  6,  9];
+
+                      
+    var segment = Math.floor(((angle + 360.0)%360)/(30.0/4));
+    segment = segment % 48;
+    let signNum = segmentList[segment] - 1;
+    return signNum;
+  }
+
+  function angleToD10Sign(angle) {
+    const segmentList = 
+                     [ 1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  
+                      10, 11, 12,  1,  2,  3,  4,  5,  6,  7,
+                      3,   4,  5,  6,  7,  8,  9, 10,  11, 12,
+                      12,  1,  2,  3,  4,  5,  6,  7,   8,  9,
+                       5,  6,  7,  8,  9, 10,  11, 12,  1,  2,
+                       2,  3,  4,  5,  6,  7,   8,  9, 10, 11,
+                       7,  8,  9, 10, 11, 12,   1,  2,  3,  4,
+                       4,  5,  6,  7,  8,  9, 10,  11, 12,  1,
+                       9, 10, 11, 12,  1,  2,  3,   4,  5,  6,
+                       6,  7,  8,  9, 10,  11, 12,  1,  2,  3,
+                      11, 12,  1,  2,  3,  4,  5,  6,  7,   8,
+                       8, 9, 10, 11, 12,  1,  2,  3,   4,  5];
+
+                      
+    var segment = Math.floor(((angle + 360.0)%360)/(30.0/10));
+    segment = segment % 120;
+    let signNum = segmentList[segment] - 1;
+    return signNum;
+  }
+
+  function angleToD12Sign(angle) {
+    const segmentList = 
+                     [ 1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11, 12,
+                       2,  3,  4,  5,  6,  7,  8,  9,  10,  11, 12,  1,
+                       3,  4,  5,  6,  7,  8,  9,  10,  11, 12,  1,  2,
+                       4,  5,  6,  7,  8,  9,  10,  11, 12,  1,  2,  3,
+                       5,  6,  7,  8,  9,  10,  11, 12,  1,  2,  3,  4,
+                       6,  7,  8,  9,  10,  11, 12,  1,  2,  3,  4,  5,
+                       7,  8,  9,  10,  11, 12,  1,  2,  3,  4,  5,  6,
+                       8,  9,  10, 11, 12,   1,  2,  3,  4,  5,  6,  7,   
+                       9,  10,  11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  
+                       10,  11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9,  
+                       11,  12,  1,  2,  3,  4,  5,  6,  7, 8,  9,  10, 
+                       12,   1,  2,  3,  4,  5,  6,  7,  8, 9, 10, 11];
+
+                      
+    var segment = Math.floor(((angle + 360.0)%360)/(30.0/12));
+    segment = segment % 144;
+    let signNum = segmentList[segment] - 1;
+    return signNum;
+  }
+
   function angleToDnSign(angle, dn) {
     var signNum = Math.floor(((angle + 360.0)%360)/(30.0/dn));
     return (signNum + 12) % 12;
@@ -985,7 +1069,17 @@ export function getHouseData(planetData, sideralOffset) {
         for (var planet in  PlanetsEnum) {
             // Correct angle. ASC is moved negative 90deg w.r.t tropical aries reference
             var angle = planetData[PlanetsEnum[planet]] - sideralOffset;
-            planetsPos[planet] = angleToDnSign(angle, dn );
+            if(dn == 3) {
+              planetsPos[planet] = angleToD3Sign(angle);
+            } else if(dn == 4) {
+              planetsPos[planet] = angleToD4Sign(angle);
+            } else if(dn == 10) {
+              planetsPos[planet] = angleToD10Sign(angle); 
+            } else if(dn == 12) {
+              planetsPos[planet] = angleToD12Sign(angle);                                              
+            } else {
+              planetsPos[planet] = angleToDnSign(angle, dn );
+            }
         }
     }
     return planetsPos;

@@ -296,7 +296,7 @@ class Chart extends React.Component {
             {showOptions ? <div className="OptionsMenu"><OptionsMenu handler={this.handlerOptionMenu} showNavamsha={this.state.enableNavamsha}> </OptionsMenu> </div> : <div></div>}  
             {showVedicChart ? <div className="RasiChart"><VedicChart planetsPos={planetsPos} chartName="D1 Rasi"> </VedicChart> </div> : <div></div>}  
             {/*{showVedicChart ? <div className="NavamshaChart"><VedicChart planetsPos={planetNavamshaPos} chartName="Navamsa"> </VedicChart> </div> : <div></div>}  */}
-           {showVedicChart ? <div className="NavamshaChart"><VedicChart planetsPos={planetDnPos} chartName={this.state.DnChartName}> </VedicChart> </div> : <div></div>}}
+           {showVedicChart ? <div className="NavamshaChart"><VedicChart planetsPos={planetDnPos} chartName={this.state.DnChartName}> </VedicChart> </div> : <div></div>}
 
           </OverlapGroupChart>
         <div className="side-panel">
