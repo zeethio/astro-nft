@@ -974,6 +974,28 @@ export function getHouseData(planetData, sideralOffset) {
     return planetsPos;
   }
 
+  function angleToD2Sign(angle) {
+    const segmentList = 
+                    [ 5,  4,  
+                      4,  5, 
+                      5,  4,  
+                      4,  5,
+                      5,  4,  
+                      4,  5,
+                      5,  4,  
+                      4,  5,
+                      5,  4,  
+                      4,  5,
+                      5,  4,  
+                      4,  5];
+
+                      
+    var segment = Math.floor(((angle + 360.0)%360)/(30.0/2));
+    segment = segment % 24;
+    let signNum = segmentList[segment] - 1;
+    return signNum;
+  }
+
   function angleToD3Sign(angle) {
     const drekkana = [1,  5,  9, 
                       2,  6, 10, 
@@ -1058,6 +1080,98 @@ export function getHouseData(planetData, sideralOffset) {
     return signNum;
   }
 
+  function angleToD24Sign(angle) {
+    const segmentList = 
+                     [ 5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4, 
+                       4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,
+                       5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4, 
+                       4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,
+                       5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4, 
+                       4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,
+                       5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4, 
+                       4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,
+                       5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4, 
+                       4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,
+                       5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4, 
+                       4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11, 12, 1,  2,  3];
+
+                      
+    var segment = Math.floor(((angle + 360.0)%360)/(30.0/24));
+    segment = segment % 288;
+    let signNum = segmentList[segment] - 1;
+    return signNum;
+  }
+
+  function angleToD30Sign(angle) {
+    const angleRange  =  [ 5, 10, 18, 25, 30];  // Offsets 5,  5,  8,  7,  5
+    const oddSigns     = [ 1, 11,  9, 3,  7]; 
+    const evenSigns    = [ 2,  6, 12, 10, 8]; 
+
+    var mainSegment = Math.floor(((angle + 360.0)%360)/30.0);
+    var degOffset = Math.floor((angle + 360.0)%360) - mainSegment * 30;
+    let signNum = 0;
+    let i = 0;
+    for (i=0;  i <= 4; i++) {
+      if (degOffset < angleRange[i]) {
+        if(mainSegment % 2 == 0) // Odd sign. Base 0
+          signNum = oddSigns[i];
+        else 
+          signNum = evenSigns[i];
+        break;
+      }
+    }
+    if (signNum < 0) {
+      console.log("Error calculating angleToD30Sign angle=" + angle);
+      return signNum;
+    }
+    return signNum - 1;
+  }
+
+  function angleToD40Sign(angle) {
+    const segmentList = 
+                     [ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  
+                       7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
+                       1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  
+                       7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
+                       1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  
+                       7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
+                       1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  
+                       7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
+                       1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  
+                       7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
+                       1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  
+                       7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10];
+
+                      
+    var segment = Math.floor(((angle + 360.0)%360)/(30.0/24));
+    segment = segment % 288;
+    let signNum = segmentList[segment] - 1;
+    return signNum;
+  }
+
+  function angleToD45Sign(angle) {
+    const segmentList = 
+                     [ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9,  
+                       5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,
+                       9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5, 
+                       1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9,  
+                       5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,
+                       9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,
+                       1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9,  
+                       5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,
+                       9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5, 
+                       1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9,  
+                       5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,
+                       9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,  1,  2,  3,  4,  5];
+
+                      
+    var segment = Math.floor(((angle + 360.0)%360)/(30.0/45));
+    segment = segment % (12 * 45);
+    let signNum = segmentList[segment] - 1;
+    return signNum;
+  }
+
+  // This function can be used for D9, D12, D16, D20, D27 and D60 
   function angleToDnSign(angle, dn) {
     var signNum = Math.floor(((angle + 360.0)%360)/(30.0/dn));
     return (signNum + 12) % 12;
@@ -1069,14 +1183,24 @@ export function getHouseData(planetData, sideralOffset) {
         for (var planet in  PlanetsEnum) {
             // Correct angle. ASC is moved negative 90deg w.r.t tropical aries reference
             var angle = planetData[PlanetsEnum[planet]] - sideralOffset;
-            if(dn == 3) {
+            if(dn == 2) {
+              planetsPos[planet] = angleToD2Sign(angle);
+            } else if(dn == 3) {
               planetsPos[planet] = angleToD3Sign(angle);
             } else if(dn == 4) {
               planetsPos[planet] = angleToD4Sign(angle);
             } else if(dn == 10) {
               planetsPos[planet] = angleToD10Sign(angle); 
             } else if(dn == 12) {
-              planetsPos[planet] = angleToD12Sign(angle);                                              
+              planetsPos[planet] = angleToD12Sign(angle);    
+            } else if(dn == 24) {
+              planetsPos[planet] = angleToD24Sign(angle);  
+            } else if(dn == 30) {
+              planetsPos[planet] = angleToD30Sign(angle);        
+            } else if(dn == 40) {
+              planetsPos[planet] = angleToD40Sign(angle);    
+            } else if(dn == 45) {
+              planetsPos[planet] = angleToD45Sign(angle);                                                                                                     
             } else {
               planetsPos[planet] = angleToDnSign(angle, dn );
             }
