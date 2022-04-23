@@ -8,7 +8,8 @@ import {PlanetTable} from  "./PlanetTable.js";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs"; //react-icon
 
 import parse from "html-react-parser";
-import {loadAstroNlg, loadRosaeNlg, renderHouseDetail} from "./AstroNlg"
+import {loadAstroNlg, loadRosaeNlg, renderHouseDetail} from "./AstroNlg";
+import {renderDnChartDetail} from "./DnChartDetails";
 import { useParams } from "react-router-dom";
 
 import Minter from "./nft-minter/Minter";
@@ -70,7 +71,7 @@ class Chart extends React.Component {
     super(props);
     this.state = {
       date: new Date(), 
-      houseDetail: HousesIntro ,
+      detailPanel: HousesIntro ,
       planetData: props.planetData ? props.planetData : [],
       chartId: 0,
       astroNlgLoaded: false, 
@@ -130,9 +131,7 @@ class Chart extends React.Component {
     //console.log(houseDetail);
     console.log(`${className}: signNum: ${signNum} planetPos: ${JSON.stringify(planetsPos)}`);
 
-    this.setState({
-      houseDetail: houseDetail
-    })
+    this.setState({ detailPanel: houseDetail });
   }
   
   handlerOptionMenu(action, arg1, arg2) {
@@ -140,7 +139,11 @@ class Chart extends React.Component {
       let isVisible = !this.state.enableNavamsha;
       this.setState({enableNavamsha: isVisible, enablePlanetLabel: !isVisible});
     } else if (action == "chart") {
-      this.setState({ChartDn: parseInt(arg1), DnChartName: arg2});
+      let dn = parseInt(arg1);
+      let planetsPos = getPlanetPos(this.state.planetData, this.state.sideralOffset);
+      let chartDetail = renderDnChartDetail(planetsPos, dn);
+      this.setState({ChartDn: dn, DnChartName: arg2, detailPanel: chartDetail});
+      
     } else {
       switch(action) {
         case "sun":
@@ -308,7 +311,7 @@ class Chart extends React.Component {
           {planetTable}
           {vedicChart}
           */}
-          <HouseDetailContainer> {parse(this.state.houseDetail)}</HouseDetailContainer>
+          <HouseDetailContainer> {parse(this.state.detailPanel)}</HouseDetailContainer>
         </div>
       </div>
     );
