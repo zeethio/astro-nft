@@ -14,7 +14,15 @@ export const HousesNum = {
     "scorpio": 7, "capricorn": 8, "sagittarius": 9, "aquarius": 10, "pisces": 11
   }
 
-  var Planets = [
+  export function singnNumToStr(signNum) {
+    for (let sign in SignsEnum) {
+      if (SignsEnum[sign] == signNum)
+        return sign; 
+    }
+    return "";
+  }
+
+  export const Planets = [
     {
         name: "sun",
         governance: "soul",
@@ -95,7 +103,7 @@ export const HousesNum = {
     },
  ]
  
-  const Signs = [
+  export const Signs = [
      {
         name: "aries",
         planet: "mars",

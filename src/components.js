@@ -141,7 +141,8 @@ class Chart extends React.Component {
     } else if (action == "chart") {
       let dn = parseInt(arg1);
       let planetsPos = getPlanetPos(this.state.planetData, this.state.sideralOffset);
-      let chartDetail = renderDnChartDetail(planetsPos, dn);
+      let planetDnPos = getPlanetDnPos(this.state.planetData, this.state.sideralOffset, dn);
+      let chartDetail = renderDnChartDetail(planetDnPos, dn);
       this.setState({ChartDn: dn, DnChartName: arg2, detailPanel: chartDetail});
       
     } else {
