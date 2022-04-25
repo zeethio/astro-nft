@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import { css, createGlobalStyle } from "styled-components";
 import './components.css';
@@ -13,7 +14,7 @@ import {renderDnChartDetail} from "./DnChartDetails";
 import { useParams } from "react-router-dom";
 
 import Minter from "./nft-minter/Minter";
-import {HousesNum, PlanetsEnum, getPlanetPos, getPlanetNavamshaPos, getPlanetDnPos, getCloseConjuctions, getHouseData} from "./AstroCalc"
+import {HousesNum, PlanetsEnum, getPlanetPos, getPlanetNavamshaPos, getPlanetDnPos, getCloseConjuctions, getHouseData, singnNumToStr} from "./AstroCalc"
 import './OptionsMenu.css';
 import OptionsMenu from "./OptionsMenu"
 import './VedicChart.css';
@@ -86,8 +87,9 @@ class Chart extends React.Component {
       enablePlanetLabel: true,    
       ExaltPlanet: "SaturnExalt.png", 
       showOptions: true,
-      ChartDn: 9,
+      ChartDn: 0,
       DnChartName: "D9 Navamsa",
+      enableAI: false,
     };
     this.handlerHouseDetail = this.handlerHouseDetail.bind(this);
     this.handlerBirthLagna = this.handlerBirthLagna.bind(this);
@@ -112,6 +114,16 @@ class Chart extends React.Component {
     // 0.01eth
     return 1*10**16;
   }
+
+  getAnalysisQuery(houseNum, planetsPos) {
+    let query = `house=${houseNum + 1}`;  // change house from Base 0 to Base 1
+    for (let planet in planetsPos) {
+      let queryPlanet = `${planet}=${singnNumToStr(planetsPos[planet])}`;
+      query = query + "&" + queryPlanet;
+    }
+    return query;
+  }
+
   handlerHouseDetail(className) {
     var houseDetail = "";
     var houseNum = HousesNum[className];
@@ -125,26 +137,58 @@ class Chart extends React.Component {
       planetsPos: planetsPos,
     }
 
-    if(this.state.rosaeNlgLoaded && this.state.astroNlgLoaded) {
-      houseDetail = renderHouseDetail(inputData);
-    }
-    //console.log(houseDetail);
-    console.log(`${className}: signNum: ${signNum} planetPos: ${JSON.stringify(planetsPos)}`);
+    if(this.state.enableAI) {
+      this.setState({ detailPanel: "<h3>Fetching House Prediction. Please wait. It may take a minute...</h3>" });
+      let query = this.getAnalysisQuery(houseNum, planetsPos);
+      axios.get(`http://api.astronft.org:8000/analyse/?${query}`)
+      .then(res => {
+        if(res.status === 200) {
+          try {
+            this.setState({ detailPanel: res.data.text });
+          } catch(e) {
 
-    this.setState({ detailPanel: houseDetail });
+          }
+        }
+      }).catch( error => {
+        if (!error.response) {
+          // network error
+          this.setState({ detailPanel: "<p>Can not connect to AstroNFT-AI service. Try latter.</p>" });;
+        } else {
+          this.errorStatus = error.response.data.message;
+          this.setState({ detailPanel: `<p>Network error ${error.response.data.message}</p>` });
+        }
+      });
+    } else {
+      if(this.state.rosaeNlgLoaded && this.state.astroNlgLoaded) {
+        houseDetail = renderHouseDetail(inputData);
+      }
+      //console.log(houseDetail);
+      console.log(`${className}: signNum: ${signNum} planetPos: ${JSON.stringify(planetsPos)}`);
+      this.setState({ detailPanel: houseDetail });
+    }
   }
   
   handlerOptionMenu(action, arg1, arg2) {
     if (action == "navamsha") {
       let isVisible = !this.state.enableNavamsha;
       this.setState({enableNavamsha: isVisible, enablePlanetLabel: !isVisible});
+    } else if (action == "enableai") {
+      let isVisible = !this.state.enableAI;
+      this.setState({enableAI: isVisible});
     } else if (action == "chart") {
       let dn = parseInt(arg1);
-      let planetsPos = getPlanetPos(this.state.planetData, this.state.sideralOffset);
-      let planetDnPos = getPlanetDnPos(this.state.planetData, this.state.sideralOffset, dn);
-      let chartDetail = renderDnChartDetail(planetDnPos, dn);
-      this.setState({ChartDn: dn, DnChartName: arg2, detailPanel: chartDetail});
-      
+      let isD9Visible = false;
+      if(dn == 0) {
+        this.setState({ChartDn: dn, DnChartName: arg2, detailPanel: HousesIntro, enableNavamsha: isD9Visible});
+      } else {
+        if(dn == 9) {
+          isD9Visible = true;
+        }
+        let planetsPos = getPlanetPos(this.state.planetData, this.state.sideralOffset);
+        let planetDnPos = getPlanetDnPos(this.state.planetData, this.state.sideralOffset, dn);
+        let chartDetail = renderDnChartDetail(planetDnPos, dn);
+        this.setState({ChartDn: dn, DnChartName: arg2, detailPanel: chartDetail, enableNavamsha: isD9Visible});
+      }
     } else {
       switch(action) {
         case "sun":
@@ -271,7 +315,7 @@ class Chart extends React.Component {
     </FragContainer>
   */
     const showOptions = this.state.showOptions;
-    let showVedicChart = true;
+    let showVedicChart = this.state.ChartDn;
     return (
       <div className="container-main">
           <OverlapGroupChart>          
@@ -297,10 +341,10 @@ class Chart extends React.Component {
             <Asc {...this.state.ascProps}/>            
             <Houses handler = {this.handlerHouseDetail}  angle={180 + 15 - house_angle_adj} data = {housesProps} />
             <BtnOptions onClick={(e) => {this.setState({showOptions: !showOptions}); e.stopPropagation();}}>Options{ showOptions ? <BsChevronUp>:</BsChevronUp> : <BsChevronDown />}</BtnOptions>          
-            {showOptions ? <div className="OptionsMenu"><OptionsMenu handler={this.handlerOptionMenu} showNavamsha={this.state.enableNavamsha}> </OptionsMenu> </div> : <div></div>}  
+            {showOptions ? <div className="OptionsMenu"><OptionsMenu handler={this.handlerOptionMenu} showNavamsha={this.state.enableNavamsha} enableAI={this.state.enableAI}> </OptionsMenu> </div> : <div></div>}  
             {showVedicChart ? <div className="RasiChart"><VedicChart planetsPos={planetsPos} chartName="D1 Rasi"> </VedicChart> </div> : <div></div>}  
             {/*{showVedicChart ? <div className="NavamshaChart"><VedicChart planetsPos={planetNavamshaPos} chartName="Navamsa"> </VedicChart> </div> : <div></div>}  */}
-           {showVedicChart ? <div className="NavamshaChart"><VedicChart planetsPos={planetDnPos} chartName={this.state.DnChartName}> </VedicChart> </div> : <div></div>}
+            {showVedicChart ? <div className="NavamshaChart"><VedicChart planetsPos={planetDnPos} chartName={this.state.DnChartName}> </VedicChart> </div> : <div></div>}
 
           </OverlapGroupChart>
         <div className="side-panel">

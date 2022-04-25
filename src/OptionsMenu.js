@@ -75,14 +75,19 @@ class OptionsMenu extends Component {
 
   render = () => {
     let showNavamsha = this.props.showNavamsha;
+    let enableAI = this.props.enableAI;
+
     let showExaltation = true;
     let showCharts = true;
 
     return (
       <StyledUl>
         <StyledLi>
-          <StyledA onClick={() => this.handleClick("navamsha")}>Navamsha { showNavamsha ? <BsCheckSquare />:<BsSquare />}</StyledA>
+          <StyledA onClick={() => this.handleClick("enableai")}>Enable AI { enableAI ? <BsCheckSquare />:<BsSquare />}</StyledA>
         </StyledLi>
+        {/*<StyledLi>
+          <StyledA onClick={() => this.handleClick("navamsha")}>Show Navamsa { showNavamsha ? <BsCheckSquare />:<BsSquare />}</StyledA>
+        </StyledLi>*/}       
         <DropDownLi>
           <Dropbtn onClick={() => this.handleClick("Charts", null, null)}>
           Charts{showCharts ? <BsChevronDown />:<BsChevronUp />}
@@ -103,7 +108,9 @@ class OptionsMenu extends Component {
             <SubA onClick={() => this.handleClick("chart", "30", "D30 Trimsamsa")}>D30 Trimsamsa</SubA>                                    
             <SubA onClick={() => this.handleClick("chart", "40", "D40 Chatvarimsamsa")}>D40 Chatvarimsamsa</SubA>                                    
             <SubA onClick={() => this.handleClick("chart", "45", "D45 Akshavedamsa")}>D45 Akshavedamsa</SubA>                                    
-            <SubA onClick={() => this.handleClick("chart", "60", "D60 Shashtiamsa")}>D60 Shashtiamsa</SubA>                                               
+            <SubA onClick={() => this.handleClick("chart", "60", "D60 Shashtiamsa")}>D60 Shashtiamsa</SubA>
+            <SubA onClick={() => this.handleClick("chart", "0", "Off")}>Off</SubA>
+
           </DropDownContent>
         </DropDownLi>        
         <DropDownLi>
