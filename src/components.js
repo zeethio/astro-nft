@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import https from 'https';
 import styled from 'styled-components';
 import { css, createGlobalStyle } from "styled-components";
 import './components.css';
@@ -139,8 +140,16 @@ class Chart extends React.Component {
 
     if(this.state.enableAI) {
       this.setState({ detailPanel: "<h3>Fetching House Prediction. Please wait. It may take a minute...</h3>" });
+      
       let query = this.getAnalysisQuery(houseNum, planetsPos);
-      axios.get(`http://api.astronft.org:8000/analyse/?${query}`)
+      axios.get(`https://api.astronft.org/analyse/?${query}`, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',
+          'Access-Control-Allow-Headers':
+              'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
+        },
+      })
       .then(res => {
         if(res.status === 200) {
           try {
