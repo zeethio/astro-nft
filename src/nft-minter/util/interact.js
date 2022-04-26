@@ -4,9 +4,11 @@ const alchemyKey = process.env.REACT_APP_ALCHEMY_KEY;
 const contractABI = require("../contract-abi.json");
 const contractAddress = "0x996662181C7ed8B1e1AD16f128cd83B73E1E8999";
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
-const web3 = createAlchemyWeb3(alchemyKey);
+//const web3 = createAlchemyWeb3(alchemyKey);
 export const SupportedNetworkIds = ["4"];
 const SupportedNetworkStrings = ["Rinkeby"];
+
+let web3 = null;
 
 export const connectPolygon = async () => {
 try {
@@ -145,10 +147,15 @@ export const getCurrentWalletConnected = async () => {
 //export const mintNFT = async (url, name, description) => {
 export const mintNFT = async (tokenId, weiValue) => {
 
+  let transactionParameters = null;
+  try{
+    if(web3 === null) {
+      web3 = createAlchemyWeb3(alchemyKey);
+    }
     console.log("TokenId: " + tokenId + " weiValue: " + weiValue);
     window.contract = await new web3.eth.Contract(contractABI, contractAddress);
 
-    const transactionParameters = {
+    transactionParameters = {
         to: contractAddress, // Required except during contract publications.
         from: window.ethereum.selectedAddress, // must match user's active address.
         value: "0x"+(weiValue).toString(16),
@@ -156,6 +163,12 @@ export const mintNFT = async (tokenId, weiValue) => {
             .mint(window.ethereum.selectedAddress, tokenId, 1, [])
             .encodeABI(),
     };
+  }  catch (error) {
+    return {
+      success: false,
+      status: "😥 Something went wrong: " + error.message,
+    };
+  }
 
   try {
     const txHash = await window.ethereum.request({
