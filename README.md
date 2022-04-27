@@ -59,14 +59,36 @@ Pisces | Jupiter
 
 #### Planetary postitions 
 
-<p>Planetary Aspects</p>  
+#### Planetary Aspects  
 
-Aspect| Attributes
+Aspects are important and compex to interpret.
+There are two kinds of planetary aspects.
+* Aspects based on placement in a Sign (Sign Aspect)
+* Aspects based on nature of a planet
+
+A planet placed in a sign aspects planets in other signs as follows:
+
+sign (with planet) | aspecting signs
+-----------------|----------------
+Aries            | Leo, Scorpio, Aquarius 
+Taurus           | Cancer, Libra, Capricorn
+Gemini           | Virgo, Sagittarius, Pisces
+Cancer           | Scorpio, Aquarius, Taurus
+Leo              | Libra, Capricorn, Aries
+Virgo            | Sagittarius, Pisces, Gemini
+Libra            | Aquarius, Taurus, Leo
+Scorpio          | Capricorn, Aries, Cancer
+Sagittarious     | Pisces, Gemini, Virgo
+Capricorn        | Taurus, Leo, Scorpio
+Aquarious        | Aries, Cancer, Libra
+Pisces           | Gemini, Virgo, Virgo
+
+Planet| Aspecting House (Planets in it)
 ------|-----------
-Conjuction|  -TO DO-
-Opposition|
-Square|
-Trine|
+Sun, Moon, Mercury, Venus|  1/4th effect on 3,10. 1/2 effect on 5,9. 3/4 effect on 4,8. Full effect on 7
+Mars    | 1/4th effect on 4,9. 1/2 effect on 4,8. 3/4 effect on 7. Full effect on 3,10
+Jupiter | 1/4th effect on 4,8. 1/2 effect on 7. 3/4 effect on 3,10. Full effect on 5,9
+Saturn  | 1/4th effect on 7. 1/2 effect on 3,10. 3/4 effect on 5,9. Full effect on 4,8
 
 #### Planet Relationships  
 Planets have friend/enemy/neutral relationships that play a role while anayzing aspects such as conjuction and trines etc. Friendly planets will enahance the net influence and vice versa.
