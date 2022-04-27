@@ -22,6 +22,9 @@ Each house covers certain attributes of an individual. Some simplistic approache
  
 The application displays the following parameters used in Vedic House System. The information provided by the service provider can be corresponding to these elements.  
 #### Attributes related to a house
+The application allows user to interact with the chart. When user selects a house, the service provider API is called to fetch the details of the house and displayed in the side panel. The attributes covered by each house is tabulated below:
+
+
   House | Attributes
   ------| ----------  
   House1| Intellect, Health, Appearance, Beauty, Character, Purpose of Life, Behaviour, 
@@ -35,12 +38,27 @@ The application displays the following parameters used in Vedic House System. Th
   House9| Father, Luck, Higher Learning, Philosophy, Guru, Prosperity, Travel, Deeds of Virtue 
   House10| Profession, Status and Fame, Power, Father, Mother-in-law 
   House11| Friends, Hopes, Earnings, Social Activities, Elder Siblings 
-  House12| Expenses, Sleep, Spirituality,  Pilgrimage, Liberation, Foreign residency 
-  
+  House12| Expenses, Sleep, Spirituality,  Pilgrimage, Liberation, Foreign residency   
 #### Zodiac Signs
+The attributes of the house are influenced by the sign the house is located in. Each Zodiac sign is ruled by a planet. The characteristcs of the ruling planet and the house where it is currently located influences the attributes of the house under consideration. For example if the attributes of house1 such as intellect, character of the person is assessed: (1) Find the zodiac sign where house1 is located. Then find the ruling planet of the sign and then find which sign/house the ruling planet is currently in.
+
+Sign| Ruling Planet
+----|--------------
+Aries | Mars
+Taurus | Venus
+Gemini | Mercury
+Cancer | Moon
+Leo | Sun
+Virgo | Mercury
+Libra | Venus
+Scorpio | Mars
+Sagittarious | Jupiter
+Capricorn | Saturn
+Aquarious | Saturn
+Pisces | Jupiter
 
 #### Planetary postitions 
-The planets: Sun, Moon, Mars, Mercury, Venus, Jupiter, Saturn, Rahu and Ketu
+
 <p>Planetary Aspects</p>  
 
 Aspect| Attributes
@@ -50,54 +68,53 @@ Opposition|
 Square|
 Trine|
 
-Planet Relationships  
+#### Planet Relationships  
+Planets have friend/enemy/neutral relationships that play a role while anayzing aspects such as conjuction and trines etc. Friendly planets will enahance the net influence and vice versa.
 
-Planet| Friend|Enemy
-------|-------|-----
-Sun|   -TO DO-| -TO DO-
-Moon|
-Mars|
-Mercury|
-Venus|
-Jupiter|
-Saturn|
-Rahu|
-Ketu|
+Planet| Friend |Enemy| Neutrals
+-------|-------|-----|-------
+Sun    | Moon, Mars, Jupiter| Venus, Saturn | Mercury
+Moon   | Sun, Mercury       |               | Mars, Jupiter, Venus, Saturn
+Mars   | Sun Moon, Jupiter  | Mercury       | Venus, Saturn
+Mercury| Sun, Venus         | Moon          | Mars, Jupiter, Saturn
+Venus  | Mercury, Saturn    | Moon, Sun     |  Mars, Jupiter
+Jupiter| Sun, Moon, Mars    | Mercury, Venus | Saturn
+Saturn | Mercury, Venus     | Sun, Moon, Mars| Jupiter
 
-Planetary Exaltations and Debilations
-Planet| Exaltation| Debilation | Moola Trikona | House
-------|-----------|------------|---------------|---
-Sun| -TO DO-
-Moon|
-Mars|
-Mercury|
-Venus|
-Jupiter|
-Saturn|
-Rahu|
-Ketu|
+#### Planetary Exaltations and Debilations
+The planets exert their maximum influence when in exalted state and in debilated states the influence is mininal. These states coupled with aspecting of other planets decides the influence.
+Planet   | Exaltation Sign| Deep Exaltaton Degrees    |   Debilation | Deep Debilation | Moola Trikona
+---------|----------------|---------------------------|------------|-----------------|--------
+Sun      | Aries          | 10            | Libra     | 10  | Leo 0-20 
+Moon     | Taurus         | 3             | Scorpio   | 3   | Taurus 4-30
+Mars     | Capricorn      | 28            | Cancer    | 28  | Aries 0-12
+Mercury  | Virgo          | 15            | Pisces    | 15  | Virgo 15-20
+Venus    | Pisces         | 27            | Virgo     | 27  | Libra 0-15    
+Jupiter  | Cancer         | 5             | Capricorn | 5   | Sagittarius 0-10
+Saturn   | Libra          | 20            | Aries     | 20  | Aquarius 0-20
+
 #### Divisional charts 
 Chart| Attributes
 -----|-------
-D1| -TO DO-
-D3|
-D4| 
-D7|
-D9| 
-D10| 
-D12|
-D20| 
-D27| 
-D30| 
-D40| 
-D45| 
-D60|
+D1| The analysis of D2 gives clarity to identify the planets in horoscope that support income generation, wealth and asset building. Presence of Sun, Mars, Jupiter and Rahu in Leo will help to attain wealth. Presence of Moon, Venus and Saturn in Cancer will bring auspicious results with respect to wealth
+D3| The analysis of D3 provides a deep insight in to bravery, courage, and siblings. They can also represent the hidden personalities, inner nature, and behavior of an individual
+D4| This chart represents fortunes, fate, assets, shelter, inherited property, and place of living. The chart also shows the inheritance of assets, location and nature of house or residence, vehicle, and other material aspects of the possessions
+D7| Sapthamsha is an expanded view of the 5th house in a Rashi Chart. From this chart we can get information about the native’s happiness from his children, grandchildren as also the disappointments faced from them.
+D9|  It is usually used during predictions about marriage of the native, spouse, married life etc but is also useful to know characteristics of the native and also his/her spouse in much detail.
+D10| This chart indicates the career, power, position, name and fame, social status, and success. The D10 chart is an extension of the 10th house of the birth chart
+D12| Dwadasamsa chart is a tool to understand the childhood and the parental influence on the native. Ancestral lineage and legacies, upbringing can be traced in this chart
+D20|  Vimsamsa chart or D20 chart is analysed for spiritual inclination, philosophical nature, devotion quotient of an individual. A native’s religious beliefs, the magnitude of faith, devotion and worship towards their Ishtadevata can be examined
+D27| D27 chart represents the overall strength, stamina & weakness of a native. The general vitality of a person can be seen from this chart.
+D30| D30 chart is used to identify misfortunes, health mishaps, and enemies of a native. The source of misfortune or miseries can be natural disaster,from profession,accidents,from children,family problems or property disputes,etc.The Trimshamsha is the indicator of these sources
+D40| The D40 or khavedamsha chart suggest how much happiness we get from Professional activities. It gives insight in to career and karma areas
+D45| Akshavedamsa or D45 chart is used to analyze the paternal legacy, conduct, and nature of a native. Both material and physical aspects of these karmic patterns in a native, inherited through the father and his ancestors, are available in the D45 chart
+D60| Shastiamsa, or D60 Chart is used to study the accumulated Karma from past incarnations and the overall life of a native. D60 chart shows a very detailed picture of past life karma – Sanchita Karma. It can help us determine the time when karma comes into fruition. The Sashtiamsa chart can go deep into the very cause of a native’s re-birth reasons and lessons.
   
 
 ### Protocol for communication with Service Provider
 The API call to service provider includes an  API request that indicates the planetary positions either using Zodiac signs or offset in degrees from start of  Aries as following:
 
-
+### D1 Chart Analysis
 Example Queries:
 Query Based on planetary positions spefified using Zodiac signs
 ```
@@ -111,5 +128,26 @@ https://api.astronft.org/analyse/house=1&planets=000030060090120150160180250290
 
 The service returns the details of the house requested.
 
+### Dn (D2, D3...D60) Chart Analysis
+
+Example Query to get details of D2 Chart
+```
+https://api.astronft.org/analyse/dn=2&planets=000030060090120150160180250290
+```
 ### Protocol for communication with Blockchain
--- TODO--
+--TODO-
+#### Browse Service Providers
+Returns a list of Service Provides that contains (Specialization, Fee, Rating, Exp Delivery)  
+
+#### Request Service
+Request a service by sending (Escrow)  
+
+#### Poll for completon of pending service requests  
+Request a service by sending (Escrow)  
+
+#### Poll for completon of pending service requests  
+Request a service by sending (Escrow)  
+
+
+#### Retrieve completed service requests  
+
