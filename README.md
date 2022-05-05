@@ -132,7 +132,11 @@ D40| The D40 or khavedamsha chart suggest how much happiness we get from Profess
 D45| Akshavedamsa or D45 chart is used to analyze the paternal legacy, conduct, and nature of a native. Both material and physical aspects of these karmic patterns in a native, inherited through the father and his ancestors, are available in the D45 chart
 D60| Shastiamsa, or D60 Chart is used to study the accumulated Karma from past incarnations and the overall life of a native. D60 chart shows a very detailed picture of past life karma – Sanchita Karma. It can help us determine the time when karma comes into fruition. The Sashtiamsa chart can go deep into the very cause of a native’s re-birth reasons and lessons.
   
-
+## Algorithms
+### Fame and Happines (Raja Yogas Chapter 41)
+### Power and Position (CHapter 42)
+### Wealth & Poverty (Chapters 43 and 44)
+### Longevity Calculation (Chapter 45)
 ### Protocol for communication with Service Provider
 The API call to service provider includes an  API request that indicates the planetary positions either using Zodiac signs or offset in degrees from start of  Aries as following:
 

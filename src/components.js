@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 
 import Minter from "./nft-minter/Minter";
 import {HousesNum, PlanetsEnum, getPlanetPos, getPlanetNavamshaPos, getPlanetDnPos, getCloseConjuctions, getHouseData, singnNumToStr} from "./AstroCalc"
+import {renderShadbalaDetail} from './Shadbala.js';
 import './OptionsMenu.css';
 import OptionsMenu from "./OptionsMenu"
 import './VedicChart.css';
@@ -73,7 +74,7 @@ class Chart extends React.Component {
     super(props);
     this.state = {
       date: new Date(), 
-      detailPanel: HousesIntro ,
+      detailPanel: HousesIntro,
       planetData: props.planetData ? props.planetData : [],
       chartId: 0,
       astroNlgLoaded: false, 
@@ -220,7 +221,9 @@ class Chart extends React.Component {
           break;
         case "saturn":
           this.setState({ ExaltPlanet: "SaturnExalt.png"});
-          break;      
+          break;
+          case "shadbala":
+          this.setState({detailPanel: renderShadbalaDetail()});     
         case "off":
           this.setState({ ExaltPlanet: null});
           break;

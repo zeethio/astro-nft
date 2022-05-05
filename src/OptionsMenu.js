@@ -126,7 +126,7 @@ class OptionsMenu extends Component {
             <SubA onClick={() => this.handleClick("mars", null)}>Mars</SubA>                                    
             <SubA onClick={() => this.handleClick("jupiter", null)}>Jupiter</SubA>                                    
             <SubA onClick={() => this.handleClick("saturn", null)}>Saturn</SubA>                                    
-
+            <SubA onClick={() => this.handleClick("shadbala", null)}>Shadbala</SubA>                                    
             <SubA onClick={() => this.handleClick("off", null)}>Off</SubA>            
           </DropDownContent>
         </DropDownLi>
