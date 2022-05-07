@@ -925,7 +925,7 @@ const housesData = [
     house12Data,
 ];
 
-export function getHouseData(planetData, sideralOffset) {
+export function getHouseData(planetData, sideralOffset) { 
   try {
     let planetsPos = getPlanetPos(planetData, sideralOffset);
       housesData[0] = getHouse1Data(planetsPos, planetData, sideralOffset);
@@ -968,6 +968,18 @@ export function getHouseData(planetData, sideralOffset) {
         }
     }
     return planetsPos;
+  }
+
+  export function getPlanetPosLong(planetData, sideralOffset) {
+    var planetsPosLong = {}
+    if(planetData.length >= 9) {
+        for (var planet in  PlanetsEnum) {
+            // Correct angle. ASC is moved negative 90deg w.r.t tropical aries reference
+            var angle = planetData[PlanetsEnum[planet]] - sideralOffset;
+            planetsPosLong[planet] = angle;
+        }
+    }
+    return planetsPosLong;
   }
 
   export function getPlanetNavamshaPos(planetData, sideralOffset) {

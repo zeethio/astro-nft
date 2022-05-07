@@ -81,11 +81,11 @@ const BalaHeader = `<tr>
                     <th style="text-align: center">Jupiter</th>
                     <th style="text-align: center">Saturn</th></tr>`;
 
-var renderShadbalaDetail = function (planetPos) {
+var renderShadbalaDetail = function (planetPos, jd) {
     let shadBala = {"name": "ShadBala", "sun": 1, "moon": 1, "mars": 1, "venus": 1, "mercury": 1, "jupiter": 1, "saturn": 1, };
 
     let [sthanaBalaTotal, sthanaBalaTable] = SthanaBalaTable(planetPos);
-    let [kalaBalaTotal, kalaBalaTable] = KalaBalaTable(planetPos);
+    let [kalaBalaTotal, kalaBalaTable] = KalaBalaTable(planetPos, jd);
 
     let Total = SumTable("Total", [sthanaBalaTotal, DigBala(planetPos), kalaBalaTotal, Cheshta(planetPos), Naisargika(planetPos), DrikBala(planetPos)]);
     let rowTotal = TableRow(Total);
@@ -178,31 +178,73 @@ function TribhagaBala(planetPos) {
     let bala = {"name":"TribhagaBala", "sun": 1, "moon": 1, "mars": 1, "venus": 1, "mercury": 1, "jupiter": 1, "saturn": 1, };
     return bala
 }
-//-----------------
+//-------------------------------------------------------
+const kali_jd_offset = 588465.5;
+const sidereal_year = 365.25636;
+
+const dayToPlanet = ["saturn", "sun", "moon", "mars", "mercury", "jupiter", "venus"];
+const hourToPlanet = ["saturn", "jupiter", "mars", "sun", "venus", "mercury", "moon"];
+
+function ahargana(jd) {
+    return jd - kali_jd_offset;
+}
+
 // Varsha, Masa, Dina and Hora
-function VarshaBala(planetPos) {
-    let bala = {"name":"VarshaBala", "sun": 1, "moon": 1, "mars": 1, "venus": 1, "mercury": 1, "jupiter": 1, "saturn": 1, };
-    return bala
+function VarshaBala(planetPos, jd) {
+    let bala = {"name":"VarshaBala", "sun": 0, "moon": 0, "mars": 0, "venus": 0, "mercury": 0, "jupiter": 0, "saturn": 0, };
+    let kali_year = Math.floor(ahargana(jd) / 360);
+    let rem = (kali_year * 3 + 1) % 7;
+    let planet = dayToPlanet[rem];
+    bala[planet] = 1;
+    return bala;
 }
 
-function MasaBala(planetPos) {
-    let bala = {"name":"Temporal", "sun": 1, "moon": 1, "mars": 1, "venus": 1, "mercury": 1, "jupiter": 1, "saturn": 1, };
-    return bala
+function MasaBala(planetPos, jd) {
+    let bala = {"name":"VarshaBala", "sun": 0, "moon": 0, "mars": 0, "venus": 0, "mercury": 0, "jupiter": 0, "saturn": 0, };
+    let kali_month = Math.floor(ahargana(jd) / 30);
+    let rem = (kali_month * 2 + 1) % 7;
+    let planet = dayToPlanet[rem];
+    bala[planet] = 1;
+    return bala;
 }
 
-function DinaBala(planetPos) {
-    let bala = {"name":"Temporal", "sun": 1, "moon": 1, "mars": 1, "venus": 1, "mercury": 1, "jupiter": 1, "saturn": 1, };
-    return bala
+function DinaBala(planetPos, jd) {
+    let bala = {"name":"VarshaBala", "sun": 0, "moon": 0, "mars": 0, "venus": 0, "mercury": 0, "jupiter": 0, "saturn": 0, };
+    let kali_day = Math.floor(ahargana(jd));
+    let rem = kali_day  % 7;
+    let planet = dayToPlanet[rem];
+    bala[planet] = 1;
+    return bala;
 }
 
-function HoraBala(planetPos) {
-    let bala = {"name":"Temporal", "sun": 1, "moon": 1, "mars": 1, "venus": 1, "mercury": 1, "jupiter": 1, "saturn": 1, };
-    return bala
+function HoraBala(planetPos, jd) {
+    let bala = {"name":"HoraBala", "sun": 0, "moon": 0, "mars": 0, "venus": 0, "mercury": 0, "jupiter": 0, "saturn": 0, };
+    let kali_hour = Math.floor((ahargana(jd) - Math.floor(ahargana(jd))) * 24);
+    let rem = kali_hour % 7;
+    let planet = hourToPlanet[rem];
+    bala[planet] = 1;
+    return bala;
 }
 
-function VarshaMasaDinaBala(planetPos) {
-    let bala = {"name":"VarshaMasaDinaBala", "sun": 1, "moon": 1, "mars": 1, "venus": 1, "mercury": 1, "jupiter": 1, "saturn": 1, };
-    return bala
+
+function AharganaBalaTable(planetPos, jd) {
+    const intro = "<p>Varsha, Masa, Dina and Hora Balas</p>";
+
+    let total = SumTable("Total", [VarshaBala(planetPos, jd), MasaBala(planetPos, jd), DinaBala(planetPos, jd), HoraBala(planetPos, jd), ]);
+    let rowTotal = TableRow(total);
+
+    let rendered = `${intro}
+                    <table style="width:100%; border:2px solid white">
+                    ${BalaHeader} 
+                    ${TableRow(VarshaBala(planetPos, jd))} 
+                    ${TableRow(MasaBala(planetPos, jd))}
+                    ${TableRow(DinaBala(planetPos, jd))} 
+                    ${TableRow(HoraBala(planetPos, jd))} 
+                    ${rowTotal} 
+                    </table>`;
+
+    total["name"] = "VarshaMasaDinaBala"                       
+    return [total, rendered];
 }
 //-----------------------
 function AyanaBala(planetPos) {
@@ -215,10 +257,11 @@ function YudhaBala(planetPos) {
     return bala
 }
 
-function KalaBalaTable(planetPos) {
+function KalaBalaTable(planetPos, jd) {
     const intro = "<p>Kala Bala Components Table</p>";
 
-    let total = SumTable("Total", [NatonnataBala(planetPos), PrakashaBala(planetPos), TribhagaBala(planetPos), VarshaMasaDinaBala(planetPos), AyanaBala(planetPos), YudhaBala(planetPos)]);
+    let [aharganaBala, aharganaBalaTable] = AharganaBalaTable(planetPos, jd);     
+    let total = SumTable("Total", [NatonnataBala(planetPos), PrakashaBala(planetPos), TribhagaBala(planetPos), aharganaBala, AyanaBala(planetPos), YudhaBala(planetPos)]);
     let rowTotal = TableRow(total);
 
     let rendered = `${intro}
@@ -227,11 +270,12 @@ function KalaBalaTable(planetPos) {
                     ${TableRow(NatonnataBala(planetPos))} 
                     ${TableRow(PrakashaBala(planetPos))}
                     ${TableRow(TribhagaBala(planetPos))} 
-                    ${TableRow(VarshaMasaDinaBala(planetPos))} 
+                    ${TableRow(aharganaBala)} 
                     ${TableRow(AyanaBala(planetPos))} 
                     ${TableRow(YudhaBala(planetPos))} 
                     ${rowTotal} 
-                    </table>`;
+                    </table>
+                    ${aharganaBalaTable}`;
 
     total["name"] = "KalaBala"                       
     return [total, rendered];

@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 
 import Minter from "./nft-minter/Minter";
 import {HousesNum, PlanetsEnum, getPlanetPos, getPlanetNavamshaPos, getPlanetDnPos, getCloseConjuctions, getHouseData, singnNumToStr} from "./AstroCalc"
+import { getPlanetPosLong } from "./AstroCalc";
 import {renderShadbalaDetail} from './Shadbala.js';
 import './OptionsMenu.css';
 import OptionsMenu from "./OptionsMenu"
@@ -74,6 +75,7 @@ class Chart extends React.Component {
     super(props);
     this.state = {
       date: new Date(), 
+      julianDate: 0.0,
       detailPanel: HousesIntro,
       planetData: props.planetData ? props.planetData : [],
       chartId: 0,
@@ -222,8 +224,10 @@ class Chart extends React.Component {
         case "saturn":
           this.setState({ ExaltPlanet: "SaturnExalt.png"});
           break;
-          case "shadbala":
-          this.setState({detailPanel: renderShadbalaDetail()});     
+          case "shadbala": {
+            let planetPosLong = getPlanetPosLong(this.state.planetData, this.state.sideralOffset);
+            this.setState({detailPanel: renderShadbalaDetail(planetPosLong, this.state.julianDate)});     
+          }
         case "off":
           this.setState({ ExaltPlanet: null});
           break;
@@ -248,6 +252,7 @@ class Chart extends React.Component {
 
       this.setState({
           date: date,
+          julianDate: _planetData[0],
           planetData: planetData,
           chartId: chartId,
       })
