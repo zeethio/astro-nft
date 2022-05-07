@@ -1,5 +1,7 @@
 import {HousesNum, PlanetsEnum, SignsEnum, Planets, Signs, singnNumToStr, PlanetEffect} from "./AstroCalc.js"
 
+const planets = ["sun", "moon", "mars", "venus", "mercury", "jupiter", "saturn"];
+
 // Chapter 29. Evaluation of Strengths
 function SthanaBala(planetPos) {
     let bala = {"name":"Postional", "sun": 1, "moon": 1, "mars": 1, "venus": 1, "mercury": 1, "jupiter": 1, "saturn": 1, };
@@ -33,13 +35,8 @@ function DrikBala(planetPos) {
 
 function TableRow(sb) {
     let tableRow = `<tr><td>${sb["name"]}
-                    <td style="text-align: center">${sb["sun"]}</td>
-                    <td style="text-align: center">${sb["moon"]}</td>
-                    <td style="text-align: center">${sb["mars"]}</td>
-                    <td style="text-align: center">${sb["venus"]}</td>
-                    <td style="text-align: center">${sb["mercury"]}</td>
-                    <td style="text-align: center">${sb["jupiter"]}</td>
-                    <td style="text-align: center">${sb["saturn"]}</td></tr>`;
+                    ${planets.map(planet => `<td style="text-align: center">${sb[planet]}</td>`).join("")}
+                    `;
     return tableRow;
 }
 
@@ -57,7 +54,7 @@ function SumTable(name, table) {
     return total;
 }
 
-const introShadbala = `<h2>Strengths of Planets</h2>
+const introShadbala = `<h2>Strengths of Planets<br/>(Under Construction)</h2>
                <p>
                Aspects (of planets) and strengths are to be known in deciding the effect.
                Planet's strength consists of six component strengths. These are (1) Positional strength (Sthana Bala), 
@@ -73,13 +70,8 @@ const introShadbala = `<h2>Strengths of Planets</h2>
 
 const BalaHeader = `<tr>
                     <th>Strengths</th>
-                    <th style="text-align: center">Sun</th>
-                    <th style="text-align: center">Moon</th>
-                    <th style="text-align: center">Mars</th>
-                    <th style="text-align: center">Venus</th>
-                    <th style="text-align: center">Mercury</th>
-                    <th style="text-align: center">Jupiter</th>
-                    <th style="text-align: center">Saturn</th></tr>`;
+                    ${planets.map(planet => `<th style="text-align: center">${planet}</th>`).join("")}
+                    </tr>`;
 
 var renderShadbalaDetail = function (planetPos, jd) {
     let shadBala = {"name": "ShadBala", "sun": 1, "moon": 1, "mars": 1, "venus": 1, "mercury": 1, "jupiter": 1, "saturn": 1, };
@@ -195,7 +187,7 @@ function VarshaBala(planetPos, jd) {
     let kali_year = Math.floor(ahargana(jd) / 360);
     let rem = (kali_year * 3 + 1) % 7;
     let planet = dayToPlanet[rem];
-    bala[planet] = 1;
+    bala[planet] = 15.0/60.0;
     return bala;
 }
 
@@ -204,7 +196,7 @@ function MasaBala(planetPos, jd) {
     let kali_month = Math.floor(ahargana(jd) / 30);
     let rem = (kali_month * 2 + 1) % 7;
     let planet = dayToPlanet[rem];
-    bala[planet] = 1;
+    bala[planet] = 30.0/60.0;
     return bala;
 }
 
@@ -213,7 +205,7 @@ function DinaBala(planetPos, jd) {
     let kali_day = Math.floor(ahargana(jd));
     let rem = kali_day  % 7;
     let planet = dayToPlanet[rem];
-    bala[planet] = 1;
+    bala[planet] = 45.0/60.0;
     return bala;
 }
 
@@ -222,7 +214,7 @@ function HoraBala(planetPos, jd) {
     let kali_hour = Math.floor((ahargana(jd) - Math.floor(ahargana(jd))) * 24);
     let rem = kali_hour % 7;
     let planet = hourToPlanet[rem];
-    bala[planet] = 1;
+    bala[planet] = 1.0;
     return bala;
 }
 

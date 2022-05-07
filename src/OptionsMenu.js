@@ -119,15 +119,19 @@ class OptionsMenu extends Component {
           </Dropbtn>
           <DropDownContent>
             {" "}
+            {/*
             <SubA onClick={() => this.handleClick("sun", null)}>Sun</SubA>
             <SubA onClick={() => this.handleClick("moon", null)}>Moon</SubA>
             <SubA onClick={() => this.handleClick("mercury", null)}>Mercury</SubA>
             <SubA onClick={() => this.handleClick("venus", null)}>Venus</SubA>
             <SubA onClick={() => this.handleClick("mars", null)}>Mars</SubA>                                    
             <SubA onClick={() => this.handleClick("jupiter", null)}>Jupiter</SubA>                                    
-            <SubA onClick={() => this.handleClick("saturn", null)}>Saturn</SubA>                                    
-            <SubA onClick={() => this.handleClick("shadbala", null)}>Shadbala</SubA>                                    
-            <SubA onClick={() => this.handleClick("off", null)}>Off</SubA>            
+            <SubA onClick={() => this.handleClick("saturn", null)}>Saturn</SubA> 
+            */}                                    
+            <SubA onClick={() => this.handleClick("shadbala", null)}>Shadbala</SubA>
+            <SubA onClick={() => this.handleClick("longevity", null)}>Longevity</SubA> 
+            <SubA onClick={() => this.handleClick("karakatwas", null)}>Karakatwas</SubA>                                       
+            {/*<SubA onClick={() => this.handleClick("off", null)}>Off</SubA> */}           
           </DropDownContent>
         </DropDownLi>
       </StyledUl>

@@ -947,9 +947,14 @@ export function getHouseData(planetData, sideralOffset) {
   return housesData;
 }
 
-  function angleToSign(angle) {
+  export function angleToSign(angle) {
     var signNum = Math.floor(((angle + 360)%360)/30);
     return (signNum + 12) % 12;
+  }
+
+  export function angleToSignOffset(angle) {
+    var signNum = Math.floor(((angle + 360)%360)/30);
+    return (angle - signNum * 30 );
   }
 
   function angleToNavamshaSign(angle) {
@@ -976,6 +981,7 @@ export function getHouseData(planetData, sideralOffset) {
         for (var planet in  PlanetsEnum) {
             // Correct angle. ASC is moved negative 90deg w.r.t tropical aries reference
             var angle = planetData[PlanetsEnum[planet]] - sideralOffset;
+            angle = (angle + 360)%360;
             planetsPosLong[planet] = angle;
         }
     }

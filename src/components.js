@@ -18,6 +18,10 @@ import Minter from "./nft-minter/Minter";
 import {HousesNum, PlanetsEnum, getPlanetPos, getPlanetNavamshaPos, getPlanetDnPos, getCloseConjuctions, getHouseData, singnNumToStr} from "./AstroCalc"
 import { getPlanetPosLong } from "./AstroCalc";
 import {renderShadbalaDetail} from './Shadbala.js';
+import {renderLongevityDetail} from './Longevity.js';
+import {renderKarakatwaDetail} from './Karakatwa.js';
+
+
 import './OptionsMenu.css';
 import OptionsMenu from "./OptionsMenu"
 import './VedicChart.css';
@@ -228,6 +232,17 @@ class Chart extends React.Component {
             let planetPosLong = getPlanetPosLong(this.state.planetData, this.state.sideralOffset);
             this.setState({detailPanel: renderShadbalaDetail(planetPosLong, this.state.julianDate)});     
           }
+          break;
+          case "longevity": {
+            let planetPosLong = getPlanetPosLong(this.state.planetData, this.state.sideralOffset);
+            this.setState({detailPanel: renderLongevityDetail(planetPosLong, this.state.julianDate)});     
+          }
+          break; 
+          case "karakatwas": {
+            let planetPosLong = getPlanetPosLong(this.state.planetData, this.state.sideralOffset);
+            this.setState({detailPanel: renderKarakatwaDetail(planetPosLong)});     
+          }
+          break;                      
         case "off":
           this.setState({ ExaltPlanet: null});
           break;
