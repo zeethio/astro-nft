@@ -14,6 +14,12 @@ export const HousesNum = {
     "scorpio": 7, "capricorn": 8, "sagittarius": 9, "aquarius": 10, "pisces": 11
   }
 
+  export const StarAngle = 360.0/27.0;
+  
+  export const Stars = ["aswini", "bharani", "krittika", "rohini", "mrigasira", "arudra", "punarvas", "pusbyam", "aslesha",
+                        "makha",  "poorvaphalguni", "uttaraphalgun", "hastha", "chitta", "swati", "visakha", "anuradha", "jyesha",
+                        "moola",  "poorvashadha", "uttarashadha", "sravana", "dhanishta", "sathabisha", "poorvabhadra", "uttarabhadra", "revati"];
+  
   export function singnNumToStr(signNum) {
     for (let sign in SignsEnum) {
       if (SignsEnum[sign] == signNum)
@@ -1233,6 +1239,12 @@ export function getHouseData(planetData, sideralOffset) {
         }
     }
     return planetsPos;
+  }
+
+  export function getStarAndOffset(long) {
+    let star = Math.floor(long / StarAngle);
+    let offset = long - star * StarAngle;
+    return [star, offset];
   }
 
   export function getCloseConjuctions(planetData, sideralOffset) {

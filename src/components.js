@@ -16,11 +16,11 @@ import { useParams } from "react-router-dom";
 
 import Minter from "./nft-minter/Minter";
 import {HousesNum, PlanetsEnum, getPlanetPos, getPlanetNavamshaPos, getPlanetDnPos, getCloseConjuctions, getHouseData, singnNumToStr} from "./AstroCalc"
-import { getPlanetPosLong } from "./AstroCalc";
+import { getPlanetPosLong, getStarAndOffset } from "./AstroCalc";
 import {renderShadbalaDetail} from './Shadbala.js';
 import {renderLongevityDetail} from './Longevity.js';
 import {renderKarakatwaDetail} from './Karakatwa.js';
-
+import {vimshottariDetail} from './Vimshottari'
 
 import './OptionsMenu.css';
 import OptionsMenu from "./OptionsMenu"
@@ -242,7 +242,15 @@ class Chart extends React.Component {
             let planetPosLong = getPlanetPosLong(this.state.planetData, this.state.sideralOffset);
             this.setState({detailPanel: renderKarakatwaDetail(planetPosLong)});     
           }
-          break;                      
+          break;        
+          case "vimshottari": {
+            let planetPosLong = getPlanetPosLong(this.state.planetData, this.state.sideralOffset);
+            let moonLong = planetPosLong["moon"];
+            let [star, offset] = getStarAndOffset(moonLong);
+            this.setState({detailPanel: vimshottariDetail(this.state.date, star, offset)});     
+          }
+          break;        
+          
         case "off":
           this.setState({ ExaltPlanet: null});
           break;

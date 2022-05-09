@@ -130,7 +130,8 @@ class OptionsMenu extends Component {
             */}                                    
             <SubA onClick={() => this.handleClick("shadbala", null)}>Shadbala</SubA>
             <SubA onClick={() => this.handleClick("longevity", null)}>Longevity</SubA> 
-            <SubA onClick={() => this.handleClick("karakatwas", null)}>Karakatwas</SubA>                                       
+            <SubA onClick={() => this.handleClick("karakatwas", null)}>Karakatwas</SubA>   
+            <SubA onClick={() => this.handleClick("vimshottari", null)}>Vimshottari</SubA>                                                    
             {/*<SubA onClick={() => this.handleClick("off", null)}>Off</SubA> */}           
           </DropDownContent>
         </DropDownLi>
